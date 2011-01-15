@@ -29,11 +29,11 @@
 //	[menu release];
 	
 	
-//	listener = [VIListener new];
-//	[listener listen];
+	listener = [VIListener new];
+	[listener listen];
 	
-	KeyInterceptor * interceptor = [KeyInterceptor new];
-	[interceptor listen];
+//	VILi * interceptor = [KeyInterceptor new];
+//	[interceptor listen];
 }
 
 - (void)dealloc {

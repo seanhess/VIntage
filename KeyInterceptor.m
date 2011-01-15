@@ -69,6 +69,28 @@ OSStatus keyHandler(EventHandlerCallRef nextHandler,EventRef theEvent, void *use
 
 
 - (void)broadcast:(KeyCode)code {
+	[self broadcast:code modifiers:0];	
+}
+
+- (void)broadcast:(KeyCode)code modifiers:(NSUInteger)modifiers {
+	
+	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)code, YES);
+
+	if (modifiers) {
+		NSLog(@"SETTING MODIFIERS %i", modifiers);
+		CGEventSetFlags(keyDownPress, (CGEventFlags)modifiers);
+	}
+	
+	//	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
+	//	CGEventSetFlags(keyUpPress, (CGEventFlags)flags);	
+
+	CGEventPost(kCGAnnotatedSessionEventTap, keyDownPress);
+	//	CGEventPost(kCGAnnotatedSessionEventTap, keyUpPress);
+	
+	CFRelease(keyDownPress);
+	CFRelease(source);
+	//	CFRelease(keyUpPress);
 	
 }
 

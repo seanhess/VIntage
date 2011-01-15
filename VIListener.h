@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DDHotKeyCenter.h"
 
+@class KeyInterceptor;
 
 @interface VIListener : NSObject {
-	DDHotKeyCenter * center;
+	KeyInterceptor * keys;
+	BOOL commandMode;
+	BOOL insertMode;
 }
 
 -(void)listen;

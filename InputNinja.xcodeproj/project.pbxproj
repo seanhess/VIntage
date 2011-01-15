@@ -13,6 +13,7 @@
 		7823E6DF12DFB4AC002EF159 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7823E6DE12DFB4AC002EF159 /* Carbon.framework */; };
 		7823E7C012DFBF8B002EF159 /* KeyInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */; };
 		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
+		7861119E12E17BA3009B30A4 /* VIListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E6DC12DFB40C002EF159 /* VIListener.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -208,6 +209,7 @@
 				256AC3DA0F4B6AC300CF3369 /* InputNinjaAppDelegate.m in Sources */,
 				7823E7C012DFBF8B002EF159 /* KeyInterceptor.m in Sources */,
 				7861109A12E16D50009B30A4 /* HotKey.m in Sources */,
+				7861119E12E17BA3009B30A4 /* VIListener.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

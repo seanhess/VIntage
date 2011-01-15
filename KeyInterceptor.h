@@ -68,6 +68,10 @@ typedef UInt32 KeyCode;
 #define KeyCodePeriod 47
 #define KeyCodeSlash 44
 
+#define KeyCodeArrowUp 126
+#define KeyCodeArrowDown 125
+#define KeyCodeArrowLeft 123
+#define KeyCodeArrowRight 124
 
 
 
@@ -83,6 +87,7 @@ typedef UInt32 KeyCode;
 - (void)onPress:(KeyCode)code block:(void(^)(void))block;
 - (void)onPress:(KeyCode)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block;
 - (void)broadcast:(KeyCode)code;
+- (void)broadcast:(KeyCode)code modifiers:(NSUInteger)modifiers;
 
 
 - (void)unlisten;

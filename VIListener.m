@@ -7,69 +7,97 @@
 //
 
 #import "VIListener.h"
-#import "DDHotKeyCenter.h"
+#import "KeyInterceptor.h"
 
-// http://stackoverflow.com/questions/399616/how-to-capture-post-system-wide-keyboard-mouse-events-under-mac-os-x
+// NEXT 
+// √ broadcasts
+// repeated presses
+// dd
+// only work in some applications
 
 @implementation VIListener
 
 -(void)listen {
-	center = [[DDHotKeyCenter alloc] init];
+	keys = [KeyInterceptor new];
+	[keys listen];
 	
-	[center registerHotKeyWithKeyCode:9 modifierFlags:0 task:^(NSEvent *event) {
-		NSLog(@"WOOT :: %i", [event windowNumber]);
-		
-//		NSEvent * newEvent = [NSEvent 
-//							  keyEventWithType:[event type] 
-//							  location:[event locationInWindow]
-//							  modifierFlags:[event modifierFlags]
-//							  timestamp:[event timestamp]
-//							  windowNumber:[event windowNumber]
-//							  context:[event context]
-//							  characters:[event characters]
-//							  charactersIgnoringModifiers:[event charactersIgnoringModifiers]
-//							  isARepeat:[event isARepeat]
-//							  keyCode:[event keyCode]];
-//
-////		[[NSApplication sharedApplication] postEvent:newEvent atStart:YES];							  
-//		CGEventPost(kCGSessionEventTap, [newEvent CGEvent]);
-////		NSLog(@"HMMM %@", [NSApplication sharedApplication]);
-		
-		
-//		CGEventRef eventRef;
-		
-//		eventRef = CGEventCreateKeyboardEvent(NULL, 8, NO);
-		//Apparently, a bug in xcode requires this next line
-//		CGEventSetType(eventRef, kCGEventKeyUp);
-//		CGEventPost(kCGSessionEventTap, eventRef);
-//		CFRelease(eventRef);
-
-		
-//		CGEventRef eventRef = CGEventCreateKeyboardEvent(NULL, (CGKeyCode)28, false);
-//		CGEventSetType(eventRef, kCGEventKeyUp);
-//		CGEventPost(kCGSessionEventTap, eventRef);
-		
-		CGKeyCode keyCode = 40; // #8
-		CGEventFlags flags = 0;
-		
-		CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-		CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, YES);
-		CGEventSetFlags(keyDownPress, (CGEventFlags)flags);
-		CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
-		
-		CGEventPost(kCGAnnotatedSessionEventTap, keyDownPress);
-		CGEventPost(kCGAnnotatedSessionEventTap, keyUpPress);
-		
-		CFRelease(keyDownPress);
-		CFRelease(keyUpPress);
-		CFRelease(source);
-		
-		return;
+	commandMode = true;
+	insertMode = false;
+	
+	__block char lastAction = ' ';
+	
+	[keys onPress:KeyCodeJ block:^{
+		if (commandMode) [keys broadcast:KeyCodeArrowDown];	
+		else [keys broadcast:KeyCodeJ];
+	}];
+	
+	[keys onPress:KeyCodeK block:^{
+		if (commandMode) [keys broadcast:KeyCodeArrowUp];		
+		else [keys broadcast:KeyCodeK];		
+	}];
+	
+	[keys onPress:KeyCodeH block:^{
+		if (commandMode) [keys broadcast:KeyCodeArrowLeft];		
+		else [keys broadcast:KeyCodeH];		
+	}];
+	
+	[keys onPress:KeyCodeL block:^{
+		if (commandMode) [keys broadcast:KeyCodeArrowRight];		
+		else [keys broadcast:KeyCodeL];		
+	}];	
+	
+	[keys onPress:KeyCodeEscape block:^{
+		if (insertMode) {
+			commandMode = true;
+			insertMode = false;
+		}
+		else [keys broadcast:KeyCodeEscape];
+	}];
+	
+	[keys onPress:KeyCodeC modifiers:controlKey block:^{
+		if (insertMode) {
+			commandMode = true;
+			insertMode = false;
+		}
+		else [keys broadcast:KeyCodeC modifiers:controlKey];
+	}];	
+	
+	[keys onPress:KeyCodeI block:^{
+		if (commandMode) {
+			insertMode = true;
+			commandMode = false;
+		}
+		else [keys broadcast:KeyCodeI];
+	}];
+	
+	[keys onPress:KeyCodeI block:^{
+		if (commandMode) {
+			insertMode = true;
+			commandMode = false;
+		}
+		else [keys broadcast:KeyCodeI];
+	}];
+	
+	[keys onPress:KeyCodeD block:^{
+		if (commandMode) {
+			// this should be a part of keys. I just ask it what the last one was?
+			if (lastAction == 'd') {
+				[keys broadcast:KeyCodeArrowLeft modifiers:kCGEventFlagMaskCommand];
+				[keys broadcast:KeyCodeArrowDown modifiers:kCGEventFlagMaskShift];				
+				[keys broadcast:KeyCodeX modifiers:kCGEventFlagMaskCommand];
+			}
+			
+			else {
+				lastAction = 'd';
+			}
+			
+		}
+		else [keys broadcast:KeyCodeD];
 	}];
 }
 	 
 - (void)dealloc {
-	[center release];
+	[keys release];
 	[super dealloc];
 }
 
