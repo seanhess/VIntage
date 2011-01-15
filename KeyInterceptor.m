@@ -38,10 +38,6 @@ OSStatus keyHandler(EventHandlerCallRef nextHandler,EventRef theEvent, void *use
 	// method, modifiers?, eventType, object, ???
 	InstallApplicationEventHandler(&keyHandler, 1, &eventType, self, NULL);	
 	
-	[self onPress:49 block:^{
-		NSLog(@"Go Go 49");
-	}];
-	
 }
 
 - (void)onPress:(KeyCode)code block:(void(^)(void))block {	
