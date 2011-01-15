@@ -12,8 +12,19 @@
 // NEXT 
 // √ broadcasts
 // repeated presses
-// dd
+// √ dd
 // only work in some applications
+// better handling of lastAction (need a queue or something... easy way to match sequences)
+// o, O
+// u
+// VISUAL INDICATOR -- big need -- 
+// '/'
+
+// LATER
+// Different things in different applications
+// GUI
+// Then take over the world!!!
+// Simple parsing format?? (Hard to do vi mode that way) but you could set simple states and switches
 
 @implementation VIListener
 
@@ -59,7 +70,7 @@
 			commandMode = true;
 			insertMode = false;
 		}
-		else [keys broadcast:KeyCodeC modifiers:controlKey];
+		else [keys broadcast:KeyCodeC modifiers:kCGEventFlagMaskControl];
 	}];	
 	
 	[keys onPress:KeyCodeI block:^{
