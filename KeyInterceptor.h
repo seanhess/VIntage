@@ -10,14 +10,35 @@
 #import <Carbon/Carbon.h>
 #import <objc/runtime.h>
 
+@class HotKey;
+
+typedef UInt32 KeyCode;
+
+#define KeyCode8 8
+#define KeyCode9 9
+#define KeyCode1 1
+
+#define noKey 1
+
 @interface KeyInterceptor : NSObject {
-	EventHotKeyRef hotKeyRef;
-	EventHotKeyID hotKeyID;
-	EventTypeSpec eventType;
+	NSMutableDictionary * listeners;
 }
 
-- (void)unlisten;
 
--(void)listen;
+- (HotKey*)keyForId:(EventHotKeyID)keyId;
+// Let's assume ALWAYS key presses for now
+- (void)onPress:(KeyCode)code block:(void(^)(void))block;
+- (void)onPress:(KeyCode)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block;
+- (void)broadcast:(KeyCode)code;
+
+
+- (void)unlisten;
+- (void)listen;
+
+
+
 
 @end
+
+
+

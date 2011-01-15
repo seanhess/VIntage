@@ -12,6 +12,7 @@
 		7823E6D112DFB3CB002EF159 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7823E6D012DFB3CB002EF159 /* icon.png */; };
 		7823E6DF12DFB4AC002EF159 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7823E6DE12DFB4AC002EF159 /* Carbon.framework */; };
 		7823E7C012DFBF8B002EF159 /* KeyInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */; };
+		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -36,6 +37,8 @@
 		7823E6FF12DFB5A6002EF159 /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
 		7823E7BE12DFBF8B002EF159 /* KeyInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyInterceptor.h; sourceTree = "<group>"; };
 		7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyInterceptor.m; sourceTree = "<group>"; };
+		7861109812E16D50009B30A4 /* HotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKey.h; sourceTree = "<group>"; };
+		7861109912E16D50009B30A4 /* HotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKey.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InputNinja-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InputNinja-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InputNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InputNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -60,6 +63,8 @@
 				256AC3D90F4B6AC300CF3369 /* InputNinjaAppDelegate.m */,
 				7823E7BE12DFBF8B002EF159 /* KeyInterceptor.h */,
 				7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */,
+				7861109812E16D50009B30A4 /* HotKey.h */,
+				7861109912E16D50009B30A4 /* HotKey.m */,
 				7823E6DB12DFB40C002EF159 /* VIListener.h */,
 				7823E6DC12DFB40C002EF159 /* VIListener.m */,
 				7823E6FE12DFB5A6002EF159 /* DDHotKeyCenter.h */,
@@ -202,6 +207,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* InputNinjaAppDelegate.m in Sources */,
 				7823E7C012DFBF8B002EF159 /* KeyInterceptor.m in Sources */,
+				7861109A12E16D50009B30A4 /* HotKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +270,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -277,6 +284,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
