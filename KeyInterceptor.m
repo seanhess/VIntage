@@ -32,10 +32,10 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	info.code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
 	info.flags = CGEventGetFlags(event);
 
-	info.cmdDown = ((flags & KeyCmd) != 0);
-	info.altDown = ((flags & KeyAlt) != 0);
-	info.shiftDown = ((flags & KeyShift) != 0);
-	info.ctlDown = ((flags & KeyCtl) != 0);
+	info.cmd = ((flags & KeyCmd) != 0);
+	info.alt = ((flags & KeyAlt) != 0);
+	info.shift = ((flags & KeyShift) != 0);
+	info.ctl = ((flags & KeyCtl) != 0);
 	
 	NSLog(@"DOWN %@", info.keyId);
 	
@@ -114,17 +114,17 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 	CFRelease(upSourceRef);
 }
 
-+ (NSString*)keyId:(KeyCode)code cmdDown:(BOOL)cmdDown altDown:(BOOL)altDown ctlDown:(BOOL)ctlDown shiftDown:(BOOL)shiftDown {
++ (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
 	NSString * string = [KeyInterceptor stringForCode:code];
-	if (cmdDown) string = [CmdChar stringByAppendingString:string];
-	if (shiftDown) string = [ShiftChar stringByAppendingString:string];
-	if (altDown) string = [AltChar stringByAppendingString:string];
-	if (ctlDown) string = [CtlChar stringByAppendingString:string];
+	if (cmd) string = [CmdChar stringByAppendingString:string];
+	if (shift) string = [ShiftChar stringByAppendingString:string];
+	if (alt) string = [AltChar stringByAppendingString:string];
+	if (ctl) string = [CtlChar stringByAppendingString:string];
 	return string;
 }
 
 +(NSString*)keyId:(KeyCode)code {
-	return [self keyId:code cmdDown:NO altDown:NO ctlDown:NO shiftDown:NO];
+	return [self keyId:code cmd:NO alt:NO ctl:NO shift:NO];
 }
 
 + (NSString*)keyIdLastTwo:(NSArray*)presses {
@@ -150,17 +150,24 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 	[groups removeObject:group];
 }
 
-- (void)broadcast:(KeyCode)code {
-	[self broadcast:code modifiers:0];	
+- (void)send:(KeyCode)code {
+	[self send:code cmd:NO alt:NO ctl:NO shift:NO];	
 }
 
-- (void)broadcast:(KeyCode)code modifiers:(KeyFlags)modifiers {
+- (void)send:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
+	
+	CGEventFlags flags = 0;
+	
+	if (cmd) flags = flags | KeyCmd;
+	if (alt) flags = flags | KeyAlt;
+	if (ctl) flags = flags | KeyCtl;
+	if (shift) flags = flags | KeyShift;	
 	
 	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
 	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)code, YES);
 
-	if (modifiers) {
-		CGEventSetFlags(keyDownPress, (CGEventFlags)modifiers);
+	if (flags) {
+		CGEventSetFlags(keyDownPress, flags);
 	}
 	
 	//	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
@@ -231,10 +238,10 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 		case KeyPeriod: return @".";
 		case KeySlash: return @"/";
 			
-		case KeyArrowUp: return @"Up";
-		case KeyArrowDown: return @"Down";
-		case KeyArrowLeft: return @"Left";
-		case KeyArrowRight: return @"Right";
+		case KeyUp: return @"Up";
+		case KeyDown: return @"Down";
+		case KeyLeft: return @"Left";
+		case KeyRight: return @"Right";
 		default: return @"";
 	}
 }

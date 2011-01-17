@@ -15,7 +15,7 @@ typedef CGKeyCode KeyCode;
 typedef CGEventFlags KeyFlags;
 
 // cmdKey, controlKey, and optionKey are already defined
-//#define noKey 1
+#define noKey 1
 
 #define KeyEscape 53
 #define KeyBacktick 50
@@ -71,10 +71,10 @@ typedef CGEventFlags KeyFlags;
 #define KeyPeriod 47
 #define KeySlash 44
 
-#define KeyArrowUp 126
-#define KeyArrowDown 125
-#define KeyArrowLeft 123
-#define KeyArrowRight 124
+#define KeyUp 126
+#define KeyDown 125
+#define KeyLeft 123
+#define KeyRight 124
 
 enum {
 	KeyNone = 1, // not sure what the correct value is
@@ -95,14 +95,15 @@ enum {
 
 // the unique id for that key press
 + (NSString*)keyId:(KeyCode)code;
-+ (NSString*)keyId:(KeyCode)code cmdDown:(BOOL)cmdDown altDown:(BOOL)altDown ctlDown:(BOOL)ctlDown shiftDown:(BOOL)shiftDown;
++ (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
 + (NSString*)keyIdLastTwo:(NSArray*)presses;
 + (NSString*)keyIdLastThree:(NSArray*)presses;
 
 + (NSString*)stringForCode:(KeyCode)code;
 
-- (void)broadcast:(KeyCode)code;
-- (void)broadcast:(KeyCode)code modifiers:(KeyFlags)modifiers;
+- (void)send:(KeyCode)code;
+- (void)send:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
+// - (void)send:(KeyCode)code modifiers:(KeyFlags)modifiers;
 
 
 - (void)add:(HotKeyGroup*)group;

@@ -11,10 +11,10 @@
 
 @implementation KeyPress
 @synthesize code, flags, event;
-@synthesize cmdDown, altDown, shiftDown, ctlDown;
+@synthesize cmd, alt, shift, ctl;
 
 -(NSString*)keyId {
-	return [KeyInterceptor keyId:code cmdDown:cmdDown altDown:altDown ctlDown:ctlDown shiftDown:shiftDown];
+	return [KeyInterceptor keyId:code cmd:cmd alt:alt ctl:ctl shift:shift];
 }
 
 -(void)stopEvent {

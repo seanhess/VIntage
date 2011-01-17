@@ -17,20 +17,20 @@
 	KeyFlags flags;
 	CGEventRef event;
 	
-	BOOL cmdDown;
-	BOOL altDown;
-	BOOL shiftDown;
-	BOOL ctlDown;
+	BOOL cmd;
+	BOOL alt;
+	BOOL shift;
+	BOOL ctl;
 }
 
 @property (nonatomic) KeyCode code;
 @property (nonatomic) KeyFlags flags;
 @property (nonatomic) CGEventRef event;
 
-@property (nonatomic) BOOL cmdDown;
-@property (nonatomic) BOOL altDown;
-@property (nonatomic) BOOL shiftDown;
-@property (nonatomic) BOOL ctlDown;
+@property (nonatomic) BOOL cmd;
+@property (nonatomic) BOOL alt;
+@property (nonatomic) BOOL shift;
+@property (nonatomic) BOOL ctl;
 
 -(void)stopEvent;
 

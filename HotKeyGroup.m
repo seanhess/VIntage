@@ -29,6 +29,12 @@
 	[keys removeObjectForKey:[key keyId]];
 }
 
+-(HotKey*)add:(NSString*)keyId block:(BOOL(^)(void))block {
+	HotKey * key = [HotKey keyWithId:keyId block:block];
+	[self add:key];
+	return key;
+}
+
 -(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses {
 	
 	HotKey * key;
