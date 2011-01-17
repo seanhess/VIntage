@@ -240,6 +240,27 @@
 		
 		
 		
+		// DEAD KEYS
+		[commandMode stop:@"Q"];
+		[commandMode stop:@"R"];
+		[commandMode stop:@"T"];
+		[commandMode stop:@"S"];
+		[commandMode stop:@"F"];		
+		
+		[commandMode stop:@"G"];				
+		[commandMode stop:@";"];						
+		[commandMode stop:@"'"];								
+		
+		[commandMode stop:@"Z"];
+		[commandMode stop:@"C"];		
+		[commandMode stop:@"M"];				
+		[commandMode stop:@","];						
+		[commandMode stop:@"."];								
+		
+		
+		
+		
+		
 		
 		// VISUAL MODE 
 		[visualMode inherit:commandMode]; 	 // you have to do this before adding your own, and after adding theirs	

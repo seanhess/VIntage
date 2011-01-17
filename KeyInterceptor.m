@@ -39,9 +39,9 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	info.ctl = ((flags & KeyCtl) != 0);
 	
 	// HISTORY
-	[keys.presses insertObject:info atIndex:0];
+	[keys.presses addObject:info];
 	if (keys.presses.count > 3) {
-		[keys.presses removeObjectAtIndex:3];
+		[keys.presses removeObjectAtIndex:0];
 	}
 
 //	NSLog(@"DOWN (%@)", info.keyId);
