@@ -56,60 +56,67 @@
 		[keys add:findMode];
 
 		
-//		e - end of word
+//	√	e - end of word
 //		E - end of whitespace-delimited word
-//		b - beginning of a word
+//	√	b - beginning of a word
 //		B - beginning of whitespace word
-//		0	To the beginning of a line.
+//	√	0	To the beginning of a line.
 //		^	To the first non-whitespace character of a line.
-//		$	To the end of a line.
+//	√	$	To the end of a line.
 //		H	To the first line of the screen.
 //		M	To the middle line of the screen.
 //		L	To the the last line of the screen.
 		
 		
-//		i	Insert before cursor.
-//		I	Insert to the start of the current line.
-//		a	Append after cursor.
-//		A	Append to the end of the current line.
-//		o	Open a new line below and insert.
-//		O	Open a new line above and insert.
+//	√	i	Insert before cursor.
+//	√	I	Insert to the start of the current line.
+//	√	a	Append after cursor.
+//	√	A	Append to the end of the current line.
+//	√	o	Open a new line below and insert.
+//	√	O	Open a new line above and insert.
 //		C	Change the rest of the current line.
 //		r	Overwrite one character. After overwriting the single character, go back to command mode.
 //		R	Enter insert mode but replace characters rather than inserting.
-//		The ESC key	Exit insert/overwrite mode and go back to command mode.
+//	√	The ESC key	Exit insert/overwrite mode and go back to command mode.
 		
-//		x	Delete characters under the cursor.
-//		X	Delete characters before the cursor.
-//		dd or :d	Delete the current line.
+//	√	x	Delete characters under the cursor.
+//	√	X	Delete characters before the cursor.
+//	√	dd or :d	Delete the current line.
 		
-//		v	Start highlighting characters. Use the normal movement keys and commands to select text for highlighting.
-//		V	Start highlighting lines.
-//		ESC Exit visual mode and return to command mode.
+//	√	v	Start highlighting characters. Use the normal movement keys and commands to select text for highlighting.
+//	~	V	Start highlighting lines.
+//	√	ESC Exit visual mode and return to command mode.
 		
 		
 //		~	Change the case of characters. This works both in visual and command mode. In visual mode, change the case of highlighted characters. In command mode, change the case of the character uder cursor.
-//		> (V)	Shift right (indent).
-//		< (V)	Shift left (de-indent).
-//		c (V)	Change the highlighted text.
-//		y (V)	Yank the highlighted text. In Windows terms, "copy the selected text to clipboard."
-//		d (V)	Delete the highlighted text. In Windows terms, "cut the selected text to clipboard."
-//		yy or :y or Y	Yank the current line. You don't need to highlight it first.
-//		dd or :d	Delete the current line. Again, you don't need to highlight it first.
-//		p	Put the text you yanked or deleted. In Windows terms, "paste the contents of the clipboard". Put characters after the cursor. Put lines below the current line.
-//		P	Put characters before the cursor. Put lines above the current line.		
+//	√	> (V)	Shift right (indent).
+//	√	< (V)	Shift left (de-indent).
+//	√	c (V)	Change the highlighted text.
+//	√	y (V)	Yank the highlighted text. In Windows terms, "copy the selected text to clipboard."
+//	√	d (V)	Delete the highlighted text. In Windows terms, "cut the selected text to clipboard."
+//	√	yy or :y or Y	Yank the current line. You don't need to highlight it first.
+//	√	dd or :d	Delete the current line. Again, you don't need to highlight it first.
+//	√	p	Put the text you yanked or deleted. In Windows terms, "paste the contents of the clipboard". Put characters after the cursor. Put lines below the current line.
+//	~	P	Put characters before the cursor. Put lines above the current line.		
 		
 		
-//		u	Undo the last action.
-//		U	Undo all the latest changes that were made to the current line.
-//		Ctrl + r	Redo.		
+//	√	u	Undo the last action.
+//	X	U	Undo all the latest changes that were made to the current line. -
+//	√	Ctrl + r	Redo.		
 		
 		// Proposed: -Visual +Command, etc. Lets you turn them on and off. 
 		
-		[commandMode add:@"J" send:@"Down"];
+		[commandMode add:@"J" send:@"Down"];     
 		[commandMode add:@"K" send:@"Up"];
 		[commandMode add:@"H" send:@"Left"];
 		[commandMode add:@"L" send:@"Right"];		
+		
+		[commandMode add:@"E" send:@"aRight"];
+		[commandMode add:@"B" send:@"aLeft"];		
+		[commandMode add:@"W" send:@"aRight Right"];		
+		
+		[commandMode add:@"0" send:@"mLeft"];
+		[commandMode add:@"$" send:@"mRight"];		
 		
 		[commandMode add:@"I" block:^{
 			[self useInsert];
@@ -144,8 +151,48 @@
 		}];
 		
 		[commandMode add:@"U" send:@"mZ"];
+		[commandMode add:@"cR" send:@"smZ"];		
 		[commandMode add:@"P" send:@"mV"];
 		[commandMode add:@"sP" send:@"mV"];		// need to fix		
+		
+		
+//		[commandMode add:@"R" send:@""]; // don't know how to get back to command mode when finished
+
+		[commandMode add:@"sC" block:^{
+			[keys sendString:@"smRight Delete"];
+			[self useInsert];
+		}];
+		
+		[commandMode add:@"C C" block:^{
+			[keys sendString:@"smRight Delete"];
+			[self useInsert];
+		}];
+		
+		
+		[commandMode add:@"C E" block:^{
+			[keys sendString:@"saRight Delete"];
+			[self useInsert];
+		}];	
+		
+		[commandMode add:@"C W" block:^{
+			[keys sendString:@"saRight Delete"];
+			[self useInsert];
+		}];			
+		
+		[commandMode add:@"C $" block:^{
+			[keys sendString:@"smRight Delete"];
+			[self useInsert];
+		}];			
+		
+		[commandMode add:@"C B" block:^{
+			[keys sendString:@"amLeft Delete"];
+			[self useInsert];
+		}];				
+		
+		[commandMode add:@"C I W" block:^{
+			[keys sendString:@"aRight asLeft Delete"];
+			[self useInsert];
+		}];						
 		
 		
 		// FIND
@@ -169,12 +216,10 @@
 		
 		[commandMode add:@"X" send:@"cD"];
 		
-		[commandMode add:@"Escape" block:^{
-			[self useCommand];
-		}];
-
-		// [commandMode add:@"Enter" block:^{}];		// need to dismiss dialogs etc
-		// [commandMode add:@"Tab" block:^{}];			// same as above
+		// Need these to dismiss dialogs, and interact with the system
+		// [commandMode add:@"Escape" block:^{
+		// [commandMode add:@"Enter" block:^{}];		
+		// [commandMode add:@"Tab" block:^{}];			
 		[commandMode stop:@"Delete"];		
 		
 		[commandMode stop:@"G"];				
@@ -189,7 +234,7 @@
 		}];		
 		
 		[commandMode add:@"sV" block:^{
-			[keys sendString:@"mLeft"];
+			[keys sendString:@"mLeft sDown"];
 			[self useVisual];
 		}];
 		
@@ -217,18 +262,21 @@
 		[visualMode stop:@"sV"];
 				
 		[visualMode add:@"Escape" block:^{
+			[keys sendString:@"Left Right"]; // to deselect
 			[self useCommand];
 		}];		
 		
 		[visualMode add:@"cC" block:^{
+			[keys sendString:@"Left Right"]; // to deselect
 			[self useCommand];
 		}];		
 		
 		[visualMode add:@"Y" block:^{
 			[keys sendString:@"mC"];
+			[keys sendString:@"Left Right"]; // to deselect			
 			[self useCommand];
 		}];
-		
+
 		[visualMode add:@"X" block:^{
 			[keys sendString:@"mX"];
 			[self useCommand];
@@ -239,8 +287,13 @@
 			[self useCommand];
 		}];		
 
-		[visualMode add:@"s," send:@"m{"];	
-		[visualMode add:@"s." send:@"m}"];			
+		[visualMode add:@"s," send:@"m["];	
+		[visualMode add:@"s." send:@"m]"];	
+		
+		[visualMode add:@"C" block:^{
+			[keys sendString:@"mX"];
+			[self useInsert];
+		}];				
 		
 
 		

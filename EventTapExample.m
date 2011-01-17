@@ -73,7 +73,7 @@ CGEventRef keyUpCallback (CGEventTapProxy proxy, CGEventType type, CGEventRef ev
     NSLog(@"KeyUp event tapped!");
 	
 	
-	// CGEventType = uint32_t
+	// CGEventType = uint32_t    
 	
 
 	// CGIntegerValueField !!! Lots of good stuff in there

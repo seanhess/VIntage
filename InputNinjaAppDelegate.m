@@ -21,24 +21,25 @@
 //	self.statusItem.highlightMode = YES;
 //	[statusItem setHighlightMode:YES];
 //	[statusItem setTitle:@"Input Ninja"];
-	[statusItem setImage:[NSImage imageNamed:@"icon.png"]];
+	[statusItem setImage:[NSImage imageNamed:@"Ninja-Small.png"]];
 	
 //	NSMenu * menu = [[NSMenu alloc] initWithTitle:@""];
-//	[menu addItemWithTitle:@"Hi" action:NULL keyEquivalent:@""];
+//	[menu addItemWithTitle:@"Quit Input Ninja" action:@selector(quit:) keyEquivalent:@""];
 //	[statusItem setMenu:menu];
 	
 //	[menu release];
 	
-	VIListener * listener = [VIListener new];
+	listener = [VIListener new];
 	listener.statusItem = statusItem;
 	[listener listen];
 	
-//	NSLog(@"KEYS: %@", [[KeyInterceptor shared] parseKeyIds:@"H aJ msJ cJ"]);
+//	NSLog(@"KEYS: %@", [[KeyInterceptor shared] parseKeyIds:@"H aJ msJ cJ m[ s, cm."]);
 	
 }
 
 - (void)dealloc {
 	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+	[listener release];
 	[statusItem release];
 	[super dealloc];
 }

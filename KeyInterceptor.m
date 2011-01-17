@@ -225,7 +225,7 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 
 - (KeyPress*)parseKeyId:(NSString*)keyId {
 	
-	NSArray * components = [keyId arrayOfCaptureComponentsMatchedByRegex:@"([casm]?)([casm]?)([casm]?)([casm]?)(\\w+)"];
+	NSArray * components = [keyId arrayOfCaptureComponentsMatchedByRegex:@"([casm]?)([casm]?)([casm]?)([casm]?)([^casm]+)"];
 	if (!components) return nil;
 	components = [components objectAtIndex:0];
 

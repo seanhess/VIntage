@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* InputNinjaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* InputNinjaAppDelegate.m */; };
-		7823E6D112DFB3CB002EF159 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7823E6D012DFB3CB002EF159 /* icon.png */; };
 		7823E6DF12DFB4AC002EF159 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7823E6DE12DFB4AC002EF159 /* Carbon.framework */; };
 		7823E7C012DFBF8B002EF159 /* KeyInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */; };
 		785707D212E3CCEA0033EB74 /* HotKeyGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 785707D112E3CCEA0033EB74 /* HotKeyGroup.m */; };
@@ -18,6 +17,8 @@
 		7861119E12E17BA3009B30A4 /* VIListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E6DC12DFB40C002EF159 /* VIListener.m */; };
 		78BFAD7D12E436DF00C1FA5C /* KeyPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* KeyPress.m */; };
 		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
+		78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D47FF412E4E37E00BB510A /* Ninja-Small.png */; };
+		78D4800912E4E3F700BB510A /* Ninja.icns in Resources */ = {isa = PBXBuildFile; fileRef = 78D4800812E4E3F700BB510A /* Ninja.icns */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -34,7 +35,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		7823E6D012DFB3CB002EF159 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		7823E6DB12DFB40C002EF159 /* VIListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIListener.h; sourceTree = "<group>"; };
 		7823E6DC12DFB40C002EF159 /* VIListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIListener.m; sourceTree = "<group>"; };
 		7823E6DE12DFB4AC002EF159 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -53,6 +53,8 @@
 		78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		78CEB64412E4CDF1004C51D0 /* KeyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyTypes.h; sourceTree = "<group>"; };
+		78D47FF412E4E37E00BB510A /* Ninja-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Ninja-Small.png"; sourceTree = "<group>"; };
+		78D4800812E4E3F700BB510A /* Ninja.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Ninja.icns; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InputNinja-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InputNinja-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InputNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InputNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -147,7 +149,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7823E6D012DFB3CB002EF159 /* icon.png */,
+				78D47FF412E4E37E00BB510A /* Ninja-Small.png */,
+				78D4800812E4E3F700BB510A /* Ninja.icns */,
 				8D1107310486CEB800E47090 /* InputNinja-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -216,7 +219,8 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				7823E6D112DFB3CB002EF159 /* icon.png in Resources */,
+				78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */,
+				78D4800912E4E3F700BB510A /* Ninja.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
