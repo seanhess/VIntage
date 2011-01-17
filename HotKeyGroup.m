@@ -9,16 +9,37 @@
 #import "HotKeyGroup.h"
 #import "KeyPress.h"
 #import "HotKey.h"
+#import "KeyInterceptor.h"
 
 @implementation HotKeyGroup
-@synthesize enabled, keys;
+@synthesize enabled, keys, name;
 
--(id)init {
+-(id)initWithName:(NSString*)n {
 	if (self = [super init]) {
 		enabled = YES;
 		self.keys = [NSMutableDictionary dictionary];
+		self.name = n;
+		ki = [KeyInterceptor shared]; // don't retain
 	}
-	return self;
+	return self;	
+}
+
+// copy the parent's keys. 
+// Make sure you call this after its been configured
+-(void)inherit:(HotKeyGroup*)parent {
+	self.keys = [NSMutableDictionary dictionaryWithDictionary:parent.keys];
+}
+
+-(HotKey*)stop:(NSString*)keyId {
+	HotKey * key = [self add:keyId block:^{}];
+	key.resetHistory = NO;
+	return key;
+}
+
+-(HotKey*)add:(NSString*)keyId send:(NSString*)command {
+	return [self add:keyId block:^{
+		[ki sendString:command];
+	}];
 }
 
 -(void)add:(HotKey*)key {
@@ -38,24 +59,26 @@
 -(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses {
 	
 	HotKey * key;
-	BOOL passEvent = YES;
 	
-	if ((key = [keys objectForKey:[KeyInterceptor keyIdLastThree:presses]])) {
+	if (presses.count > 2 && (key = [keys objectForKey:[ki keyIdLastThree]])) {
+		NSLog(@"Matched (3) %@ %@", [self name], [ki keyIdLastThree]);
 		key.block();
-		passEvent = NO;
 	}	
 	
-	else if ((key = [keys objectForKey:[KeyInterceptor keyIdLastTwo:presses]])) {
+	else if (presses.count > 1 && (key = [keys objectForKey:[ki keyIdLastTwo]])) {
+		NSLog(@"Matched (2) %@ %@", [self name], [ki keyIdLastTwo]);		
 		key.block();
-		passEvent = NO;		
 	}	
 	
-	else if ((key = [keys objectForKey:info.keyId])) {
-		key.block();
-		passEvent = NO;		
+	else if (presses.count > 0 && (key = [keys objectForKey:info.keyId])) {
+		NSLog(@"Matched (1) %@ %@", [self name], info.keyId);				
+		key.block();	
 	}
-		
-	if (!passEvent) [info stopEvent];
+	
+	if (key) {
+		if (key.resetHistory) [ki resetHistory];
+		[info stopEvent];
+	}
 }
 
 -(void)dealloc {

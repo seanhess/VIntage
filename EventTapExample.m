@@ -11,6 +11,60 @@
 // http://developer.apple.com/library/mac/#documentation/Carbon/Reference/QuartzEventServicesRef/Reference/reference.html
 // http://stackoverflow.com/questions/4512106/how-to-create-virtual-keyboard-in-osx
 
+
+// EMACS keybindings
+// http://www.gnufoo.org/macosx/index.html#emacs
+/*
+
+// ~/Library/KeyBindings/DefaultKeyBinding.dict 
+{
+	"~f"="moveWordForward:";
+	"~b"="moveWordBackward:";
+	"~<"="moveToBeginningOfDocument:";
+	"~>"="moveToEndOfDocument:";
+	"~v"="pageUp:";
+	"~d"="deleteWordForward:";
+	"~^h"="deleteWordBackward:";
+	"~\010"="deleteWordBackward:"; // Alt-backspace
+	"~\177"="deleteWordBackward:"; // Alt-delete 
+	
+	// Escape should really be complete.
+	"\033"="complete:"; 
+}
+ 
+// Other // http://lifehacker.com/5083249/a-few-handy-hidden-os-x-shortcuts
+ 
+ Ctrl+A: Beginning of line (like Home)
+ Ctrl+B: Backward one character (like hitting the left arrow)
+ Ctrl+D: Forward delete (like the Forward Delete button on Macs)
+ Ctrl+E: End of line (like End)
+ Ctrl+F: Forward one character (like hitting the right arrow)
+ Ctrl+H: I'm not entirely sure on this one, but it looks like it just does a right-to-left delete (like the regular delete key on Macs).
+ Ctrl+K: Kill/remove text between cursor and the end of the line.
+ Ctrl+N: Next line (like down arrow)
+ Ctrl+P: Previous line (like up arrow)
+ Ctrl+U: Remove/delete current line
+ Ctrl+V: Page down
+ 
+ 
+// EMacs Keys // http://allhotkeys.com/emacs_hotkeys.html
+ 
+Delete Line - Ctl+K
+Delete Selection - Ctl+W
+
+ 
+ */
+
+// Keymap Remap
+// http://pqrs.org/macosx/keyremap4macbook/index.html
+// Woah, it has a VI mode that does almost everything
+// it's already behind where I am though :(
+
+
+// OS X STrokes
+// http://support.apple.com/kb/ht1343
+
+
 #import "EventTapExample.h"
 #import <Carbon/Carbon.h>
 #import <objc/runtime.h>

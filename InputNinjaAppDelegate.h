@@ -13,7 +13,6 @@
 @interface InputNinjaAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
 	NSStatusItem * statusItem;
-	VIListener * listener;
 }
 
 @property (assign) IBOutlet NSWindow *window;

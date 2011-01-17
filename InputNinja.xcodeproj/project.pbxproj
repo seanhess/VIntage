@@ -52,6 +52,7 @@
 		78BFAD7C12E436DF00C1FA5C /* KeyPress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyPress.m; sourceTree = "<group>"; };
 		78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		78CEB64412E4CDF1004C51D0 /* KeyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyTypes.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InputNinja-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InputNinja-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InputNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InputNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +91,7 @@
 				7823E6FF12DFB5A6002EF159 /* DDHotKeyCenter.m */,
 				78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */,
 				78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */,
+				78CEB64412E4CDF1004C51D0 /* KeyTypes.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

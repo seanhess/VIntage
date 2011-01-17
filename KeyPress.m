@@ -14,7 +14,7 @@
 @synthesize cmd, alt, shift, ctl;
 
 -(NSString*)keyId {
-	return [KeyInterceptor keyId:code cmd:cmd alt:alt ctl:ctl shift:shift];
+	return [[KeyInterceptor shared] keyId:code cmd:cmd alt:alt ctl:ctl shift:shift];
 }
 
 -(void)stopEvent {

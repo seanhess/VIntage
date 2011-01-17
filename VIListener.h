@@ -11,12 +11,12 @@
 @class KeyInterceptor, HotKeyGroup;
 
 @interface VIListener : NSObject {
-	KeyInterceptor * keys;
 	HotKeyGroup * commandMode;
 	HotKeyGroup * insertMode;
+	HotKeyGroup * visualMode;
+	HotKeyGroup * findMode;
 	
 	NSStatusItem * statusItem;
-	
 	NSString * lastSend;
 }
 
@@ -24,7 +24,8 @@
 
 //-(void)send:(NSString*)command;
 
-
+-(void)useFind;
+-(void)useVisual;
 -(void)useCommand;
 -(void)useInsert;
 -(void)listen;
