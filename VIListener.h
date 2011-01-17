@@ -16,9 +16,13 @@
 	HotKeyGroup * insertMode;
 	
 	NSStatusItem * statusItem;
+	
+	NSString * lastSend;
 }
 
 @property (nonatomic, retain) NSStatusItem * statusItem;
+
+//-(void)send:(NSString*)command;
 
 
 -(void)useCommand;

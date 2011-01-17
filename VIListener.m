@@ -16,13 +16,14 @@
 // √ Switch to event taps
 // √ repeats
 // application-filtering
-// visual indicator
-// o, O
-// u
+// √ visual indicator
+// √ o, O
+// √ u
+// '.' command
 
 // NEXT BIG STEP
-// handling of sequences
-// simple input format
+// √ handling of sequences
+// √ simple input format
 
 // NEXT 
 // √ broadcasts
@@ -195,6 +196,14 @@
 	insertMode.enabled = YES;	
 	[statusItem setTitle:@""];		
 }
+
+// This won't work, because we need to keep track of inserts & whatnot
+// I REALLY need to be tracking the last block called
+
+//-(void)send:(NSString*)command {
+//	lastSend = command;
+//	[keys sendString:command];
+//}
 
 -(void)listen {
 	[keys listen];	
