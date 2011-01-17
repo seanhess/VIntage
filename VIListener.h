@@ -14,8 +14,15 @@
 	KeyInterceptor * keys;
 	HotKeyGroup * commandMode;
 	HotKeyGroup * insertMode;
+	
+	NSStatusItem * statusItem;
 }
 
+@property (nonatomic, retain) NSStatusItem * statusItem;
+
+
+-(void)useCommand;
+-(void)useInsert;
 -(void)listen;
 
 @end

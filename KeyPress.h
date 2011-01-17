@@ -14,7 +14,6 @@
 	// I probably need to "retain" them somehow? Yikes!
 	
 	KeyCode code;
-	KeyFlags flags;
 	CGEventRef event;
 	
 	BOOL cmd;
@@ -24,7 +23,6 @@
 }
 
 @property (nonatomic) KeyCode code;
-@property (nonatomic) KeyFlags flags;
 @property (nonatomic) CGEventRef event;
 
 @property (nonatomic) BOOL cmd;

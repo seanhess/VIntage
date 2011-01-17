@@ -25,7 +25,7 @@
 
 -(void)add:(HotKey*)hotKey;
 -(void)remove:(HotKey*)hotKey;
--(HotKey*)add:(NSString*)keyId block:(BOOL(^)(void))block;
+-(HotKey*)add:(NSString*)keyId block:(void(^)(void))block;
 
 // presses already contains info
 -(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses;

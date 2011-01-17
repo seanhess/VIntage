@@ -10,7 +10,7 @@
 
 
 @implementation KeyPress
-@synthesize code, flags, event;
+@synthesize code, event;
 @synthesize cmd, alt, shift, ctl;
 
 -(NSString*)keyId {
@@ -19,6 +19,10 @@
 
 -(void)stopEvent {
 	self.event = CGEventCreate(NULL);
+}
+
+-(NSString*)description {
+	return [self keyId];
 }
 
 -(void)dealloc {

@@ -30,7 +30,13 @@
 //	[menu release];
 	
 	VIListener * listener = [VIListener new];
+	listener.statusItem = statusItem;
 	[listener listen];
+//	
+	
+	
+//	[KeyInterceptor parseKeyId:@"J"];
+//	NSLog(@"PARSED %@", [KeyInterceptor parseKeyIds:@"cJ K casM mEsc"]);		
 	
 //	EventTapExample * example = [EventTapExample new];
 	

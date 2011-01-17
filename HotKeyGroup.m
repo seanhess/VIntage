@@ -29,7 +29,7 @@
 	[keys removeObjectForKey:[key keyId]];
 }
 
--(HotKey*)add:(NSString*)keyId block:(BOOL(^)(void))block {
+-(HotKey*)add:(NSString*)keyId block:(void(^)(void))block {
 	HotKey * key = [HotKey keyWithId:keyId block:block];
 	[self add:key];
 	return key;
@@ -41,15 +41,18 @@
 	BOOL passEvent = YES;
 	
 	if ((key = [keys objectForKey:[KeyInterceptor keyIdLastThree:presses]])) {
-		passEvent = key.block();
+		key.block();
+		passEvent = NO;
 	}	
 	
 	else if ((key = [keys objectForKey:[KeyInterceptor keyIdLastTwo:presses]])) {
-		passEvent = key.block();
+		key.block();
+		passEvent = NO;		
 	}	
 	
 	else if ((key = [keys objectForKey:info.keyId])) {
-		passEvent = key.block();
+		key.block();
+		passEvent = NO;		
 	}
 		
 	if (!passEvent) [info stopEvent];

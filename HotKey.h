@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface HotKey : NSObject {
-	BOOL(^block)(void);
+	void(^block)(void);
 	NSString * keyId;
 }
 
--(id)initWithKeyId:(NSString*)keyId block:(BOOL(^)(void))block;
-+(HotKey*)keyWithId:(NSString*)keyId block:(BOOL(^)(void))block;
+-(id)initWithKeyId:(NSString*)keyId block:(void(^)(void))block;
++(HotKey*)keyWithId:(NSString*)keyId block:(void(^)(void))block;
 
 @property (nonatomic, retain) NSString * keyId;
-@property (nonatomic, copy) BOOL(^block)(void);
+@property (nonatomic, copy) void(^block)(void);
 
 @end

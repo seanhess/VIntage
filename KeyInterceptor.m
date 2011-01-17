@@ -10,11 +10,14 @@
 
 #import "KeyInterceptor.h"
 #import "KeyPress.h"
+#import "RegexKitLite.h"
 
 #define CmdChar @"m" // @"⌘"
 #define CtlChar @"c" // @"⌃"
 #define AltChar @"a" // @"⌥"
 #define ShiftChar @"s" // @"⇧"
+
+static NSMutableDictionary * codesForStrings = nil;
 
 
 // THE HANDLER FUNCTION
@@ -30,7 +33,6 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	info.event = event;
 	
 	info.code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
-	info.flags = CGEventGetFlags(event);
 
 	info.cmd = ((flags & KeyCmd) != 0);
 	info.alt = ((flags & KeyAlt) != 0);
@@ -140,6 +142,37 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 		keyId = [keyId stringByAppendingFormat:@" %@", [[presses objectAtIndex:2] keyId]];
 	return keyId;
 }
+
++ (NSArray*)parseKeyIds:(NSString *)keyId {
+	NSMutableArray * presses = [NSMutableArray array];
+	NSArray * keys = [keyId componentsSeparatedByRegex:@" "];
+	
+	for (NSString * subKeyId in keys) {		
+		KeyPress * press = [KeyInterceptor parseKeyId:subKeyId];
+		if (press) [presses addObject:press];
+	}
+	
+	return presses;
+}
+
++ (KeyPress*)parseKeyId:(NSString*)keyId {
+	
+	NSArray * components = [keyId arrayOfCaptureComponentsMatchedByRegex:@"(c?)(a?)(s?)(m?)(\\w+)"];
+	if (!components) return nil;
+	components = [components objectAtIndex:0];
+
+	NSString * key = [components objectAtIndex:5];
+	
+	KeyPress * press = [[KeyPress new] autorelease];
+	press.code = [KeyInterceptor codeForString:key];
+
+	press.ctl = ([[components objectAtIndex:1] length] > 0);
+	press.alt = ([[components objectAtIndex:2] length] > 0);
+	press.shift = ([[components objectAtIndex:3] length] > 0);
+	press.cmd = ([[components objectAtIndex:4] length] > 0);	
+
+	return press;
+}
 			 
 - (void)add:(HotKeyGroup*)group {
 	NSLog(@"Adding Group");
@@ -150,11 +183,19 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 	[groups removeObject:group];
 }
 
-- (void)send:(KeyCode)code {
-	[self send:code cmd:NO alt:NO ctl:NO shift:NO];	
+- (void)sendString:(NSString*)string {
+	NSArray * parsed = [KeyInterceptor parseKeyIds:string];
+	
+	for (KeyPress * press in parsed) {
+		[self sendKey:press.code cmd:press.cmd alt:press.alt ctl:press.ctl shift:press.shift];
+	}
 }
 
-- (void)send:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
+- (void)sendKey:(KeyCode)code {
+	[self sendKey:code cmd:NO alt:NO ctl:NO shift:NO];	
+}
+
+- (void)sendKey:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
 	
 	CGEventFlags flags = 0;
 	
@@ -184,7 +225,7 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 
 + (NSString*)stringForCode:(KeyCode)code {
 	switch (code) {
-		case KeyEscape: return @"Esc";
+		case KeyEscape: return @"Escape";
 		case KeyBacktick: return @"`";
 		case Key1: return @"1";
 		case Key2: return @"2";
@@ -198,6 +239,7 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 		case Key0: return @"10";
 		case KeyMinus: return @"-";
 		case KeyEquals: return @"=";
+		case KeyDelete: return @"Delete";
 			
 		case KeyTab: return @"Tab";
 		case KeyQ: return @"Q";
@@ -244,6 +286,75 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 		case KeyRight: return @"Right";
 		default: return @"";
 	}
+}
+
++ (KeyCode)codeForString:(NSString*)string {
+	if (!codesForStrings) {
+		codesForStrings = [NSMutableDictionary dictionary];
+		
+		
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyEscape] forKey:@"Escape"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyBacktick] forKey:@"`"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key1] forKey:@"1"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key2] forKey:@"2"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key3] forKey:@"3"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key4] forKey:@"4"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key5] forKey:@"5"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key6] forKey:@"6"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key7] forKey:@"7"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key8] forKey:@"8"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key9] forKey:@"9"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key0] forKey:@"10"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyMinus] forKey:@"-"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyEquals] forKey:@"="];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyDelete] forKey:@"Delete"];		
+		
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyTab] forKey:@"Tab"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyQ] forKey:@"Q"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyW] forKey:@"W"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyE] forKey:@"E"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyR] forKey:@"R"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyT] forKey:@"T"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyY] forKey:@"Y"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyU] forKey:@"U"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyI] forKey:@"I"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyO] forKey:@"O"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyP] forKey:@"P"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyLBracket] forKey:@"["];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyRBracket] forKey:@"]"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyBackslash] forKey:@"\\"];
+		
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyA] forKey:@"A"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyS] forKey:@"S"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyD] forKey:@"D"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyF] forKey:@"F"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyG] forKey:@"G"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyH] forKey:@"H"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyJ] forKey:@"J"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyK] forKey:@"K"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyL] forKey:@"L"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeySemicolon] forKey:@";"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyApostrophe] forKey:@"'"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyEnter] forKey:@"Enter"];
+		
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyZ] forKey:@"Z"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyX] forKey:@"X"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyC] forKey:@"C"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyV] forKey:@"V"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyB] forKey:@"B"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyN] forKey:@"N"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyM] forKey:@"M"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyComma] forKey:@","];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyPeriod] forKey:@"."];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeySlash] forKey:@"/"];
+		
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyUp] forKey:@"Up"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyDown] forKey:@"Down"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyLeft] forKey:@"Left"];
+		[codesForStrings setObject:[NSNumber numberWithInt:KeyRight] forKey:@"Right"];
+	}
+	
+	return [[codesForStrings objectForKey:string] intValue];
 }
 
 

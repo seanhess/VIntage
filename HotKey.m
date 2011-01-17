@@ -11,7 +11,7 @@
 @implementation HotKey
 @synthesize keyId, block;
 
--(id)initWithKeyId:(NSString*)k block:(BOOL(^)(void))b {
+-(id)initWithKeyId:(NSString*)k block:(void(^)(void))b {
 	if (self = [super init]) {
 		self.keyId = k;
 		self.block = b;
@@ -19,7 +19,7 @@
 	return self;
 }
 
-+(HotKey*)keyWithId:(NSString*)keyId block:(BOOL(^)(void))block {
++(HotKey*)keyWithId:(NSString*)keyId block:(void(^)(void))block {
 	return [[[HotKey alloc] initWithKeyId:keyId block:block] autorelease];
 }
 

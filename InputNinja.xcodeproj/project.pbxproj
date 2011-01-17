@@ -17,6 +17,7 @@
 		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
 		7861119E12E17BA3009B30A4 /* VIListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E6DC12DFB40C002EF159 /* VIListener.m */; };
 		78BFAD7D12E436DF00C1FA5C /* KeyPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* KeyPress.m */; };
+		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -49,6 +50,8 @@
 		7861109912E16D50009B30A4 /* HotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKey.m; sourceTree = "<group>"; };
 		78BFAD7B12E436DF00C1FA5C /* KeyPress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyPress.h; sourceTree = "<group>"; };
 		78BFAD7C12E436DF00C1FA5C /* KeyPress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyPress.m; sourceTree = "<group>"; };
+		78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InputNinja-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InputNinja-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InputNinja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InputNinja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -85,6 +88,8 @@
 				7823E6DC12DFB40C002EF159 /* VIListener.m */,
 				7823E6FE12DFB5A6002EF159 /* DDHotKeyCenter.h */,
 				7823E6FF12DFB5A6002EF159 /* DDHotKeyCenter.m */,
+				78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */,
+				78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				785707D212E3CCEA0033EB74 /* HotKeyGroup.m in Sources */,
 				7857082912E3D1BA0033EB74 /* EventTapExample.m in Sources */,
 				78BFAD7D12E436DF00C1FA5C /* KeyPress.m in Sources */,
+				78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +272,7 @@
 				GCC_PREFIX_HEADER = InputNinja_Prefix.pch;
 				INFOPLIST_FILE = "InputNinja-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = InputNinja;
 			};
 			name = Debug;
@@ -280,6 +287,7 @@
 				GCC_PREFIX_HEADER = InputNinja_Prefix.pch;
 				INFOPLIST_FILE = "InputNinja-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = InputNinja;
 			};
 			name = Release;

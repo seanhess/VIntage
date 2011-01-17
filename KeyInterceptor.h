@@ -31,6 +31,7 @@ typedef CGEventFlags KeyFlags;
 #define Key0 29
 #define KeyMinus 27
 #define KeyEquals 24
+#define KeyDelete 51
 
 #define KeyTab 48
 #define KeyQ 12
@@ -100,9 +101,15 @@ enum {
 + (NSString*)keyIdLastThree:(NSArray*)presses;
 
 + (NSString*)stringForCode:(KeyCode)code;
++ (KeyCode)codeForString:(NSString*)string;
 
-- (void)send:(KeyCode)code;
-- (void)send:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
+// Can also parse with spaces!
++ (KeyPress*)parseKeyId:(NSString*)keyId;
++ (NSArray*)parseKeyIds:(NSString*)keyId;
+
+- (void)sendString:(NSString*)string;
+- (void)sendKey:(KeyCode)code;
+- (void)sendKey:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
 // - (void)send:(KeyCode)code modifiers:(KeyFlags)modifiers;
 
 
