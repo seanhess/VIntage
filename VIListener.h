@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class KeyInterceptor;
+@class KeyInterceptor, HotKeyGroup;
 
 @interface VIListener : NSObject {
 	KeyInterceptor * keys;
-	BOOL commandMode;
-	BOOL insertMode;
+	HotKeyGroup * commandMode;
+	HotKeyGroup * insertMode;
 }
 
 -(void)listen;

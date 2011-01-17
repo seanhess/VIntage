@@ -6,79 +6,160 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-// TUTORIAL http://dbachrach.com/blog/2005/11/program-global-hotkeys-in-cocoa-easily/
-// -- http://wafflesoftware.net/shortcut/
-// YAY http://manytricks.com/keycodes/
+// See EventTapExample
 
 #import "KeyInterceptor.h"
-#import "HotKey.h"
+#import "KeyPress.h"
+
+#define CmdChar @"m" // @"⌘"
+#define CtlChar @"c" // @"⌃"
+#define AltChar @"a" // @"⌥"
+#define ShiftChar @"s" // @"⇧"
 
 
+// THE HANDLER FUNCTION
 
+CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+	
+	KeyInterceptor * keys = (KeyInterceptor*)refcon;
 
-OSStatus keyHandler(EventHandlerCallRef nextHandler,EventRef theEvent, void *userData);
+	KeyFlags flags = CGEventGetFlags(event);	
+	
+	KeyPress * info = [[KeyPress new] autorelease];
+	
+	info.event = event;
+	
+	info.code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+	info.flags = CGEventGetFlags(event);
 
-@interface KeyInterceptor()
-@property (nonatomic, retain) NSMutableDictionary * listeners;
-@end
+	info.cmdDown = ((flags & KeyCmd) != 0);
+	info.altDown = ((flags & KeyAlt) != 0);
+	info.shiftDown = ((flags & KeyShift) != 0);
+	info.ctlDown = ((flags & KeyCtl) != 0);
+	
+	NSLog(@"DOWN %@", info.keyId);
+	
+	// HISTORY
+	[keys.presses insertObject:info atIndex:0];
+	if (keys.presses.count > 3) {
+		[keys.presses removeObjectAtIndex:3];
+	}
+	
+//	NSLog(@"L1: (%@)", info.keyId);
+//	NSLog(@"L2: (%@)", [KeyInterceptor keyIdLastTwo:keys.presses]);
+//	NSLog(@"L3: (%@)", [KeyInterceptor keyIdLastThree:keys.presses]);	
+
+	for (HotKeyGroup * group in keys.groups) {
+		if (group.enabled) {
+			[group onKeyDown:info presses:keys.presses];
+		}
+	}
+	
+	// a group can modify the event
+	return info.event;
+}
+
+CGEventRef onKeyUp(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+	
+//	KeyCode code = CGEventGetIntegerValueField(event, kCGKeybsssssssssssssssssoardEventKeycode);
+//	CGEventFlags flags = CGEventGetFlags(event);
+//	
+//	NSLog(@"KEY UP %i 0x%llX", code, flags);
+	
+	return event;
+}
+
+CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+	
+//	KeyCode code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+//	CGEventFlags flags = CGEventGetFlags(event);
+//	
+//	NSLog(@"FLAGS CHANGED %i 0x%llX", code, flags);
+	
+	return event;
+}
+
 
 
 @implementation KeyInterceptor
-@synthesize listeners;
+@synthesize groups, presses;
+
+-(id)init {
+	if (self = [super init]) {
+		self.groups = [NSMutableSet set];
+		self.presses = [NSMutableArray array];		
+	}
+	return self;
+}
 
 -(void)listen {
-
-	self.listeners = [NSMutableDictionary dictionary];
-
-	// set up the main listener
-	EventTypeSpec eventType;
-	eventType.eventClass = kEventClassKeyboard;
-	eventType.eventKind = kEventHotKeyPressed; //kEventHotKeyReleased;
 	
-	// method, modifiers?, eventType, object, ???
-	InstallApplicationEventHandler(&keyHandler, 1, &eventType, self, NULL);	
+	CFMachPortRef downEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventKeyDown),&onKeyDown,self);		
+	CFRunLoopSourceRef downSourceRef = CFMachPortCreateRunLoopSource(NULL, downEventTap, 0);
+	CFRelease(downEventTap);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
+	CFRelease(downSourceRef);	
 	
+	
+	CFMachPortRef flagsEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onFlagsChanged,self);		
+	CFRunLoopSourceRef flagsSourceRef = CFMachPortCreateRunLoopSource(NULL, flagsEventTap, 0);
+	CFRelease(flagsEventTap);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), flagsSourceRef, kCFRunLoopDefaultMode);
+	CFRelease(flagsSourceRef);
+
+	CFMachPortRef upEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onKeyUp,self);		
+	CFRunLoopSourceRef upSourceRef = CFMachPortCreateRunLoopSource(NULL, upEventTap, 0);
+	CFRelease(upEventTap);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), upSourceRef, kCFRunLoopDefaultMode);
+	CFRelease(upSourceRef);
 }
 
-- (void)onPress:(KeyCode)code block:(void(^)(void))block {	
-	
-	[self onPress:code modifiers:noKey block:block];
-	
++ (NSString*)keyId:(KeyCode)code cmdDown:(BOOL)cmdDown altDown:(BOOL)altDown ctlDown:(BOOL)ctlDown shiftDown:(BOOL)shiftDown {
+	NSString * string = [KeyInterceptor stringForCode:code];
+	if (cmdDown) string = [CmdChar stringByAppendingString:string];
+	if (shiftDown) string = [ShiftChar stringByAppendingString:string];
+	if (altDown) string = [AltChar stringByAppendingString:string];
+	if (ctlDown) string = [CtlChar stringByAppendingString:string];
+	return string;
 }
 
-- (void)onPress:(KeyCode)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block {
-	
-	// cmdKey, optionKey, shiftKey, controlKey
-	// 49=space bar, flags, hotKeyID, 
-
-	HotKey * key = [HotKey keyWithCode:code modifiers:modifiers block:block];	
-	
-	if (![listeners objectForKey:key.dictionaryKey])
-		[listeners setObject:key forKey:key.dictionaryKey];
-	
-	// forget the keyRef for now, we don't need to unregister anything
-	EventHotKeyRef keyRef;
-	RegisterEventHotKey(key.code, key.modifiers, key.keyId, GetApplicationEventTarget(), 0, &keyRef);	
++(NSString*)keyId:(KeyCode)code {
+	return [self keyId:code cmdDown:NO altDown:NO ctlDown:NO shiftDown:NO];
 }
 
-- (HotKey*)keyForId:(EventHotKeyID)keyId {
-	NSString * dictionaryKey = [HotKey dictionaryKeyFromKeyId:keyId];
-	return [listeners objectForKey:dictionaryKey];
++ (NSString*)keyIdLastTwo:(NSArray*)presses {
+	NSString * keyId = @"";
+	if (presses.count > 0) keyId = [[presses objectAtIndex:0] keyId];
+	if (presses.count > 1) keyId = [keyId stringByAppendingFormat:@" %@", [[presses objectAtIndex:1] keyId]];
+	return keyId;
 }
 
-
++ (NSString*)keyIdLastThree:(NSArray*)presses {
+	NSString * keyId = [KeyInterceptor keyIdLastTwo:presses];
+	if (presses.count > 2) 
+		keyId = [keyId stringByAppendingFormat:@" %@", [[presses objectAtIndex:2] keyId]];
+	return keyId;
+}
+			 
+- (void)add:(HotKeyGroup*)group {
+	NSLog(@"Adding Group");
+	[groups addObject:group];
+}
+			 
+- (void)remove:(HotKeyGroup*)group {
+	[groups removeObject:group];
+}
 
 - (void)broadcast:(KeyCode)code {
 	[self broadcast:code modifiers:0];	
 }
 
-- (void)broadcast:(KeyCode)code modifiers:(NSUInteger)modifiers {
+- (void)broadcast:(KeyCode)code modifiers:(KeyFlags)modifiers {
 	
 	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
 	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)code, YES);
 
 	if (modifiers) {
-		NSLog(@"SETTING MODIFIERS %i", modifiers);
 		CGEventSetFlags(keyDownPress, (CGEventFlags)modifiers);
 	}
 	
@@ -94,52 +175,79 @@ OSStatus keyHandler(EventHandlerCallRef nextHandler,EventRef theEvent, void *use
 	
 }
 
-- (void)unlisten {
-//	EventHotKeyRef carbonHotKey = (EventHotKeyRef)[hotKeyRef pointerValue];
-//	UnregisterEventHotKey(carbonHotKey);
++ (NSString*)stringForCode:(KeyCode)code {
+	switch (code) {
+		case KeyEscape: return @"Esc";
+		case KeyBacktick: return @"`";
+		case Key1: return @"1";
+		case Key2: return @"2";
+		case Key3: return @"3";
+		case Key4: return @"4";
+		case Key5: return @"5";
+		case Key6: return @"6";
+		case Key7: return @"7";
+		case Key8: return @"8";
+		case Key9: return @"9";
+		case Key0: return @"10";
+		case KeyMinus: return @"-";
+		case KeyEquals: return @"=";
+			
+		case KeyTab: return @"Tab";
+		case KeyQ: return @"Q";
+		case KeyW: return @"W";
+		case KeyE: return @"E";
+		case KeyR: return @"R";
+		case KeyT: return @"T";
+		case KeyY: return @"Y";
+		case KeyU: return @"U";
+		case KeyI: return @"I";
+		case KeyO: return @"O";
+		case KeyP: return @"P";
+		case KeyLBracket: return @"[";
+		case KeyRBracket: return @"]";
+		case KeyBackslash: return @"\\";
+			
+		case KeyA: return @"A";
+		case KeyS: return @"S";
+		case KeyD: return @"D";
+		case KeyF: return @"F";
+		case KeyG: return @"G";
+		case KeyH: return @"H";
+		case KeyJ: return @"J";
+		case KeyK: return @"K";
+		case KeyL: return @"L";
+		case KeySemicolon: return @";";
+		case KeyApostrophe: return @"'";
+		case KeyEnter: return @"Enter";
+			
+		case KeyZ: return @"Z";
+		case KeyX: return @"X";
+		case KeyC: return @"C";
+		case KeyV: return @"V";
+		case KeyB: return @"B";
+		case KeyN: return @"N";
+		case KeyM: return @"M";
+		case KeyComma: return @",";
+		case KeyPeriod: return @".";
+		case KeySlash: return @"/";
+			
+		case KeyArrowUp: return @"Up";
+		case KeyArrowDown: return @"Down";
+		case KeyArrowLeft: return @"Left";
+		case KeyArrowRight: return @"Right";
+		default: return @"";
+	}
 }
 
-OSStatus keyHandler(EventHandlerCallRef nextHandler,EventRef theEvent, void *userData)
-{
-	//Do something once the key is pressed
-	
-	KeyInterceptor * keys = (KeyInterceptor*)userData;
 
-	EventHotKeyID hotKeyID;
-	GetEventParameter(theEvent, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(hotKeyID),NULL,&hotKeyID);
-	
-	HotKey * key = [keys keyForId:hotKeyID];
-	key.block();
-	
-	// So, now this is happening on press
-	
-//	CGKeyCode keyCode = 40; // #8
-//	CGEventFlags flags = 0;
-//	
-//	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-//	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, YES);
-//	CGEventSetFlags(keyDownPress, (CGEventFlags)flags);
-//	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
-//	CGEventSetFlags(keyUpPress, (CGEventFlags)flags);	
-//	
-//	CGEventPost(kCGAnnotatedSessionEventTap, keyDownPress);
-//	CGEventPost(kCGAnnotatedSessionEventTap, keyUpPress);
-//	
-//	CFRelease(keyDownPress);
-//	CFRelease(keyUpPress);
-//	CFRelease(source);
-	
-	
-	
-	
-	// ALSO // Not sure what this does
-	CallNextEventHandler(nextHandler, theEvent);
-	
-	return noErr;
+- (void)resetHistory {
+	self.presses = [NSMutableArray array];
 }
+
 
 - (void)dealloc {
-	[self unlisten];
+	[presses release];
+	[groups release];
 	[super dealloc];
 }
 

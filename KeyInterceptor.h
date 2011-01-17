@@ -9,91 +9,107 @@
 #import <Foundation/Foundation.h>
 #import <Carbon/Carbon.h>
 #import <objc/runtime.h>
+#import "HotKeyGroup.h"
 
-typedef UInt32 KeyCode;
+typedef CGKeyCode KeyCode;
+typedef CGEventFlags KeyFlags;
 
-#define noKey 1
+// cmdKey, controlKey, and optionKey are already defined
+//#define noKey 1
 
-#define KeyCodeEscape 53
-#define KeyCodeBacktick 50
-#define KeyCode1 18
-#define KeyCode2 19
-#define KeyCode3 20
-#define KeyCode4 21
-#define KeyCode5 23
-#define KeyCode6 22
-#define KeyCode7 26
-#define KeyCode8 28
-#define KeyCode9 25
-#define KeyCode0 29
-#define KeyCodeMinus 27
-#define KeyCodeEquals 24
+#define KeyEscape 53
+#define KeyBacktick 50
+#define Key1 18
+#define Key2 19
+#define Key3 20
+#define Key4 21
+#define Key5 23
+#define Key6 22
+#define Key7 26
+#define Key8 28
+#define Key9 25
+#define Key0 29
+#define KeyMinus 27
+#define KeyEquals 24
 
-#define KeyCodeTab 48
-#define KeyCodeQ 12
-#define KeyCodeW 13
-#define KeyCodeE 14
-#define KeyCodeR 15
-#define KeyCodeT 17
-#define KeyCodeY 16
-#define KeyCodeU 32
-#define KeyCodeI 34
-#define KeyCodeO 31
-#define KeyCodeP 35
-#define KeyCodeLBracket 33
-#define KeyCodeRBracket 30
-#define KeyCodeBackslash 42
+#define KeyTab 48
+#define KeyQ 12
+#define KeyW 13
+#define KeyE 14
+#define KeyR 15
+#define KeyT 17
+#define KeyY 16
+#define KeyU 32
+#define KeyI 34
+#define KeyO 31
+#define KeyP 35
+#define KeyLBracket 33
+#define KeyRBracket 30
+#define KeyBackslash 42
 
-#define KeyCodeA 0
-#define KeyCodeS 1
-#define KeyCodeD 2
-#define KeyCodeF 3
-#define KeyCodeG 5
-#define KeyCodeH 4
-#define KeyCodeJ 38
-#define KeyCodeK 40
-#define KeyCodeL 37
-#define KeyCodeSemicolon 41
-#define KeyCodeApostrophe 39
-#define KeyCodeEnter 36
+#define KeyA 0
+#define KeyS 1
+#define KeyD 2
+#define KeyF 3
+#define KeyG 5
+#define KeyH 4
+#define KeyJ 38
+#define KeyK 40
+#define KeyL 37
+#define KeySemicolon 41
+#define KeyApostrophe 39
+#define KeyEnter 36
 
-#define KeyCodeZ 6
-#define KeyCodeX 7
-#define KeyCodeC 8
-#define KeyCodeV 9
-#define KeyCodeB 11
-#define KeyCodeN 45
-#define KeyCodeM 46
-#define KeyCodeComma 43
-#define KeyCodePeriod 47
-#define KeyCodeSlash 44
+#define KeyZ 6
+#define KeyX 7
+#define KeyC 8
+#define KeyV 9
+#define KeyB 11
+#define KeyN 45
+#define KeyM 46
+#define KeyComma 43
+#define KeyPeriod 47
+#define KeySlash 44
 
-#define KeyCodeArrowUp 126
-#define KeyCodeArrowDown 125
-#define KeyCodeArrowLeft 123
-#define KeyCodeArrowRight 124
+#define KeyArrowUp 126
+#define KeyArrowDown 125
+#define KeyArrowLeft 123
+#define KeyArrowRight 124
 
-
-
-@class HotKey;
+enum {
+	KeyNone = 1, // not sure what the correct value is
+	KeyCmd = kCGEventFlagMaskCommand,
+	KeyShift = kCGEventFlagMaskShift,
+	KeyAlt = kCGEventFlagMaskAlternate,
+	KeyCtl = kCGEventFlagMaskControl
+};
 
 @interface KeyInterceptor : NSObject {
-	NSMutableDictionary * listeners;
+	NSMutableSet * groups;
+	NSMutableArray * presses;
 }
 
+@property (nonatomic, retain) NSMutableSet * groups;
+@property (nonatomic, retain) NSMutableArray * presses;
 
-- (HotKey*)keyForId:(EventHotKeyID)keyId;
-// Let's assume ALWAYS key presses for now
-- (void)onPress:(KeyCode)code block:(void(^)(void))block;
-- (void)onPress:(KeyCode)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block;
+
+// the unique id for that key press
++ (NSString*)keyId:(KeyCode)code;
++ (NSString*)keyId:(KeyCode)code cmdDown:(BOOL)cmdDown altDown:(BOOL)altDown ctlDown:(BOOL)ctlDown shiftDown:(BOOL)shiftDown;
++ (NSString*)keyIdLastTwo:(NSArray*)presses;
++ (NSString*)keyIdLastThree:(NSArray*)presses;
+
++ (NSString*)stringForCode:(KeyCode)code;
+
 - (void)broadcast:(KeyCode)code;
-- (void)broadcast:(KeyCode)code modifiers:(NSUInteger)modifiers;
+- (void)broadcast:(KeyCode)code modifiers:(KeyFlags)modifiers;
 
 
-- (void)unlisten;
+- (void)add:(HotKeyGroup*)group;
+- (void)remove:(HotKeyGroup*)group;
+
 - (void)listen;
-
-
+- (void)resetHistory;
 
 
 @end

@@ -8,16 +8,25 @@
 
 #import "VIListener.h"
 #import "KeyInterceptor.h"
+#import "HotKeyGroup.h"
+#import "HotKey.h"
+
+// MAKE IT USABLE
+// test: disable entire thing?
+// repeats
+// application-filtering
+// visual indicator
+// o, O
+// u
+
+// NEXT BIG STEP
+// handling of sequences
+// simple input format
 
 // NEXT 
 // √ broadcasts
-// repeated presses
 // √ dd
-// only work in some applications
 // better handling of lastAction (need a queue or something... easy way to match sequences)
-// o, O
-// u
-// VISUAL INDICATOR -- big need -- 
 // '/'
 
 // LATER
@@ -30,85 +39,89 @@
 
 -(void)listen {
 	keys = [KeyInterceptor new];
+	commandMode = [HotKeyGroup new];	
+	insertMode = [HotKeyGroup new];
+	
 	[keys listen];
+	[keys add:commandMode];		
 	
-	commandMode = true;
-	insertMode = false;
+	commandMode.enabled = YES;
+	insertMode.enabled = NO;
 	
-	__block char lastAction = ' ';
+	// Block D
+	[commandMode add:[HotKey keyWithId:@"D" block:^{
+		return NO;
+	}]];	
 	
-	[keys onPress:KeyCodeJ block:^{
-		if (commandMode) [keys broadcast:KeyCodeArrowDown];	
-		else [keys broadcast:KeyCodeJ];
-	}];
+	[commandMode add:[HotKey keyWithId:@"D D" block:^{
+		NSLog(@"DOUBLE D!");
+		[keys resetHistory];
+		return NO;
+	}]];
 	
-	[keys onPress:KeyCodeK block:^{
-		if (commandMode) [keys broadcast:KeyCodeArrowUp];		
-		else [keys broadcast:KeyCodeK];		
-	}];
+
 	
-	[keys onPress:KeyCodeH block:^{
-		if (commandMode) [keys broadcast:KeyCodeArrowLeft];		
-		else [keys broadcast:KeyCodeH];		
-	}];
 	
-	[keys onPress:KeyCodeL block:^{
-		if (commandMode) [keys broadcast:KeyCodeArrowRight];		
-		else [keys broadcast:KeyCodeL];		
-	}];	
+	// I shouldn't have to re-broadcast them. 
+	// if it's disabled, do that automatically. 
 	
-	[keys onPress:KeyCodeEscape block:^{
-		if (insertMode) {
-			commandMode = true;
-			insertMode = false;
-		}
-		else [keys broadcast:KeyCodeEscape];
-	}];
-	
-	[keys onPress:KeyCodeC modifiers:controlKey block:^{
-		if (insertMode) {
-			commandMode = true;
-			insertMode = false;
-		}
-		else [keys broadcast:KeyCodeC modifiers:kCGEventFlagMaskControl];
-	}];	
-	
-	[keys onPress:KeyCodeI block:^{
-		if (commandMode) {
-			insertMode = true;
-			commandMode = false;
-		}
-		else [keys broadcast:KeyCodeI];
-	}];
-	
-	[keys onPress:KeyCodeI block:^{
-		if (commandMode) {
-			insertMode = true;
-			commandMode = false;
-		}
-		else [keys broadcast:KeyCodeI];
-	}];
-	
-	[keys onPress:KeyCodeD block:^{
-		if (commandMode) {
-			// this should be a part of keys. I just ask it what the last one was?
-			if (lastAction == 'd') {
-				[keys broadcast:KeyCodeArrowLeft modifiers:kCGEventFlagMaskCommand];
-				[keys broadcast:KeyCodeArrowDown modifiers:kCGEventFlagMaskShift];				
-				[keys broadcast:KeyCodeX modifiers:kCGEventFlagMaskCommand];
-			}
-			
-			else {
-				lastAction = 'd';
-			}
-			
-		}
-		else [keys broadcast:KeyCodeD];
-	}];
+//	[keys onPress:KeyJ block:^{
+//		[keys broadcast:KeyArrowDown];	
+//	}];
+//	
+//	[commandMode onPress:KeyCodeK block:^{
+//		[commandMode broadcast:KeyCodeArrowUp];		
+//	}];
+//	
+//	[commandMode onPress:KeyCodeH block:^{
+//		[commandMode broadcast:KeyCodeArrowLeft];		
+//	}];
+//	
+//	[commandMode onPress:KeyCodeL block:^{
+//		[commandMode broadcast:KeyCodeArrowRight];	
+//	}];	
+//	
+//	[insertMode onPress:KeyCodeEscape block:^{
+//		NSLog(@"Enabling Command Mode");		
+//		commandMode.enabled = YES;
+//		insertMode.enabled = NO;
+//	}];
+//	
+////	[keys onPress:KeyCodeC modifiers:controlKey block:^{
+////		if (insertMode) {
+////			commandMode = true;
+////			insertMode = false;
+////		}
+////		else [keys broadcast:KeyCodeC modifiers:kCGEventFlagMaskControl];
+////	}];	
+//	
+//	[commandMode onPress:KeyCodeI block:^{
+//		NSLog(@"Enabling Insert Mode");
+//		commandMode.enabled = NO;
+//		insertMode.enabled = YES;
+//	}];
+//	
+////	[keys onPress:KeyCodeD block:^{
+////		if (commandMode) {
+////			// this should be a part of keys. I just ask it what the last one was?
+////			if (lastAction == 'd') {
+////				[keys broadcast:KeyCodeArrowLeft modifiers:kCGEventFlagMaskCommand];
+////				[keys broadcast:KeyCodeArrowDown modifiers:kCGEventFlagMaskShift];				
+////				[keys broadcast:KeyCodeX modifiers:kCGEventFlagMaskCommand];
+////			}
+////			
+////			else {
+////				lastAction = 'd';
+////			}
+////			
+////		}
+////		else [keys broadcast:KeyCodeD];
+////	}];
 }
 	 
 - (void)dealloc {
-	[keys release];
+	[commandMode release];
+	[insertMode release];
 	[super dealloc];
 }
 

@@ -8,43 +8,23 @@
 
 #import "HotKey.h"
 
-static UInt32 nextHotKeyId = 1;
-
 @implementation HotKey
-@synthesize modifiers, code, block, keyId;
+@synthesize keyId, block;
 
-+(HotKey*)keyWithCode:(KeyCode)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block {
-	return [[[HotKey alloc] initWithCode:code modifiers:modifiers block:block] autorelease]; 
-}
-
--(id)initWithCode:(KeyCode)c modifiers:(NSUInteger)m block:(void(^)(void))b {
-	if (self = [super init]) {		
-		code = c;
-		modifiers = m;
-		block = [b copy];
-		
-		keyId.signature = 'htk1';
-		keyId.id = nextHotKeyId++;		
-		
-		dictionaryKey = [[HotKey dictionaryKeyFromKeyId:keyId] retain]; 
+-(id)initWithKeyId:(NSString*)k block:(BOOL(^)(void))b {
+	if (self = [super init]) {
+		self.keyId = k;
+		self.block = b;
 	}
-	return self;	
+	return self;
 }
 
--(EventHotKeyRef*)keyRef {
-	return &keyRef;
-}
-
--(NSString*)dictionaryKey {
-	return dictionaryKey;
-}
-
-+(NSString*)dictionaryKeyFromKeyId:(EventHotKeyID)keyId {
-	return [NSString stringWithFormat:@"%i", keyId.id];
++(HotKey*)keyWithId:(NSString*)keyId block:(BOOL(^)(void))block {
+	return [[[HotKey alloc] initWithKeyId:keyId block:block] autorelease];
 }
 
 -(void)dealloc {
-	[dictionaryKey release];
+	[keyId release];
 	[block release];
 	[super dealloc];
 }

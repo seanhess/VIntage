@@ -8,6 +8,7 @@
 
 #import "InputNinjaAppDelegate.h"
 #import "KeyInterceptor.h"
+#import "EventTapExample.h"
 
 @implementation InputNinjaAppDelegate
 
@@ -28,11 +29,12 @@
 	
 //	[menu release];
 	
-	
-	listener = [VIListener new];
+	VIListener * listener = [VIListener new];
 	[listener listen];
 	
-//	VILi * interceptor = [KeyInterceptor new];
+//	EventTapExample * example = [EventTapExample new];
+	
+//	KeyInterceptor * interceptor = [KeyInterceptor new];
 //	[interceptor listen];
 }
 

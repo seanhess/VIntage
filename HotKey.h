@@ -7,32 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Carbon/Carbon.h>
-#import <objc/runtime.h>
-#import "KeyInterceptor.h"
 
 @interface HotKey : NSObject {
-	EventHotKeyID keyId;
-	EventHotKeyRef keyRef;
-	
-	NSUInteger modifiers;
-	UInt32 code;
-	void(^block)(void);
-	
-	NSString * dictionaryKey;
+	BOOL(^block)(void);
+	NSString * keyId;
 }
 
--(id)initWithCode:(UInt32)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block;
-+(HotKey*)keyWithCode:(UInt32)code modifiers:(NSUInteger)modifiers block:(void(^)(void))block;
+-(id)initWithKeyId:(NSString*)keyId block:(BOOL(^)(void))block;
++(HotKey*)keyWithId:(NSString*)keyId block:(BOOL(^)(void))block;
 
-@property (readonly) NSUInteger modifiers;
-@property (readonly) UInt32 code;
-@property (readonly) void(^block)(void);
-@property (readonly) EventHotKeyRef * keyRef;
-@property (readonly) EventHotKeyID keyId;
-
-@property (readonly) NSString * dictionaryKey;
-
-+(NSString*)dictionaryKeyFromKeyId:(EventHotKeyID)keyId;
+@property (nonatomic, retain) NSString * keyId;
+@property (nonatomic, copy) BOOL(^block)(void);
 
 @end
