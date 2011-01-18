@@ -100,7 +100,7 @@
 		[commandMode add:@"W" send:@"aRight Right"];		
 		
 		[commandMode add:@"0" send:@"mLeft"];
-		[commandMode add:@"$" send:@"mRight"];		
+		[commandMode add:@"s4" send:@"mRight"];		
 		
 		HotKey * key = [commandMode add:@"I" block:^{
 			NSString * keyIds2 = [keys keyIds:2];

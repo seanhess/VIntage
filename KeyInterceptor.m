@@ -100,7 +100,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 		[codesForStrings setObject:[NSNumber numberWithInt:Key7] forKey:@"7"];
 		[codesForStrings setObject:[NSNumber numberWithInt:Key8] forKey:@"8"];
 		[codesForStrings setObject:[NSNumber numberWithInt:Key9] forKey:@"9"];
-		[codesForStrings setObject:[NSNumber numberWithInt:Key0] forKey:@"10"];
+		[codesForStrings setObject:[NSNumber numberWithInt:Key0] forKey:@"0"];
 		[codesForStrings setObject:[NSNumber numberWithInt:KeyMinus] forKey:@"-"];
 		[codesForStrings setObject:[NSNumber numberWithInt:KeyEquals] forKey:@"="];
 		[codesForStrings setObject:[NSNumber numberWithInt:KeyDelete] forKey:@"Delete"];		
@@ -317,7 +317,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 		case Key7: return @"7";
 		case Key8: return @"8";
 		case Key9: return @"9";
-		case Key0: return @"10";
+		case Key0: return @"0";
 		case KeyMinus: return @"-";
 		case KeyEquals: return @"=";
 		case KeyDelete: return @"Delete";
