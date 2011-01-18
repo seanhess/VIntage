@@ -11,42 +11,25 @@
 #import "HotKeyGroup.h"
 #import "HotKey.h"
 
-// MAKE IT USABLE
-// √ test: disable entire thing?
-// √ Switch to event taps
-// √ repeats
-// application-filtering
-// √ visual indicator
-// √ o, O
-// √ u
-// '.' command
-
-// NEXT BIG STEP
-// √ handling of sequences
-// √ simple input format
-
-// NEXT 
-// √ broadcasts
-// √ dd
-// better handling of lastAction (need a queue or something... easy way to match sequences)
-// '/'
-
-// LATER
-// Different things in different applications
-// GUI
-// Then take over the world!!!
-// Simple parsing format?? (Hard to do vi mode that way) but you could set simple states and switches
-
 @implementation VIListener
 @synthesize statusItem;
 
 -(id)init {
 	if (self = [super init]) {
 		
+		NSMutableArray * applications = [NSMutableArray array];
+		[applications addObject:@"com.apple.Xcode"];
+		[applications addObject:@"com.macromates.textmate"];
+		
 		commandMode = [[HotKeyGroup alloc] initWithName:@"Command"];
 		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
 		visualMode = [[HotKeyGroup alloc] initWithName:@"Visual"];
 		findMode = [[HotKeyGroup alloc] initWithName:@"Find"];
+		
+		commandMode.applications = applications;
+		insertMode.applications = applications;
+		visualMode.applications = applications;
+		findMode.applications = applications;	
 		
 		KeyInterceptor * keys = [KeyInterceptor shared];
 
@@ -401,6 +384,30 @@
 	[statusItem setTitle:@"Insert"];
 }
 
+- (void) appFrontSwitched {
+//    NSLog(@"%@", [[NSWorkspace sharedWorkspace] activeApplication]);
+	// USE THIS TO turn the whole thing on/off
+}
+
+static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData)
+{
+    [(id)inUserData appFrontSwitched];
+    return 0;
+}
+
+
+- (void)setupAppFrontSwitchedHandler
+{
+    EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
+    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (void*)self, NULL);
+	
+    if (err)
+        NSLog(@"Could not install event handler");
+}
+
+
+
+
 // This won't work, because we need to keep track of inserts & whatnot
 // I REALLY need to be tracking the last block called
 
@@ -411,6 +418,7 @@
 
 -(void)listen {
 	[[KeyInterceptor shared] listen];	
+	[self setupAppFrontSwitchedHandler];
 	[self useCommand];
 }
 	 

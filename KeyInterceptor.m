@@ -57,25 +57,25 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	return info.event;
 }
 
-CGEventRef onKeyUp(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
-	
-//	KeyCode code = CGEventGetIntegerValueField(event, kCGKeybsssssssssssssssssoardEventKeycode);
-//	CGEventFlags flags = CGEventGetFlags(event);
+//CGEventRef onKeyUp(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
 //	
-//	NSLog(@"KEY UP %i 0x%llX", code, flags);
-	
-	return event;
-}
-
-CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
-	
-//	KeyCode code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
-//	CGEventFlags flags = CGEventGetFlags(event);
+////	KeyCode code = CGEventGetIntegerValueField(event, kCGKeybsssssssssssssssssoardEventKeycode);
+////	CGEventFlags flags = CGEventGetFlags(event);
+////	
+////	NSLog(@"KEY UP %i 0x%llX", code, flags);
 //	
-//	NSLog(@"FLAGS CHANGED %i 0x%llX", code, flags);
-	
-	return event;
-}
+//	return event;
+//}
+//
+//CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+//	
+////	KeyCode code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+////	CGEventFlags flags = CGEventGetFlags(event);
+////	
+////	NSLog(@"FLAGS CHANGED %i 0x%llX", code, flags);
+//	
+//	return event;
+//}
 
 
 
@@ -165,23 +165,28 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 -(void)listen {
 	
 	CFMachPortRef downEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventKeyDown),&onKeyDown,self);		
-	CFRunLoopSourceRef downSourceRef = CFMachPortCreateRunLoopSource(NULL, downEventTap, 0);
+	downSourceRef = CFMachPortCreateRunLoopSource(NULL, downEventTap, 0);
 	CFRelease(downEventTap);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
-	CFRelease(downSourceRef);	
+//	CFRelease(downSourceRef);	
 	
 	
-	CFMachPortRef flagsEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onFlagsChanged,self);		
-	CFRunLoopSourceRef flagsSourceRef = CFMachPortCreateRunLoopSource(NULL, flagsEventTap, 0);
-	CFRelease(flagsEventTap);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), flagsSourceRef, kCFRunLoopDefaultMode);
-	CFRelease(flagsSourceRef);
+//	CFMachPortRef flagsEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onFlagsChanged,self);		
+//	CFRunLoopSourceRef flagsSourceRef = CFMachPortCreateRunLoopSource(NULL, flagsEventTap, 0);
+//	CFRelease(flagsEventTap);
+//	CFRunLoopAddSource(CFRunLoopGetCurrent(), flagsSourceRef, kCFRunLoopDefaultMode);
+//	CFRelease(flagsSourceRef);
+//
+//	CFMachPortRef upEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onKeyUp,self);		
+//	CFRunLoopSourceRef upSourceRef = CFMachPortCreateRunLoopSource(NULL, upEventTap, 0);
+//	CFRelease(upEventTap);
+//	CFRunLoopAddSource(CFRunLoopGetCurrent(), upSourceRef, kCFRunLoopDefaultMode);
+//	CFRelease(upSourceRef);
+}
 
-	CFMachPortRef upEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onKeyUp,self);		
-	CFRunLoopSourceRef upSourceRef = CFMachPortCreateRunLoopSource(NULL, upEventTap, 0);
-	CFRelease(upEventTap);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), upSourceRef, kCFRunLoopDefaultMode);
-	CFRelease(upSourceRef);
+-(void)unlisten {
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
+	CFRelease(downSourceRef);
 }
 
 - (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
@@ -376,6 +381,7 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 	[presses release];
 	[groups release];
 	[codesForStrings release];
+	if (downSourceRef) CFRelease(downSourceRef);
 	[super dealloc];
 }
 

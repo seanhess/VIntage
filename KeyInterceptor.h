@@ -15,6 +15,8 @@
 	NSMutableSet * groups;
 	NSMutableArray * presses;
 	NSMutableDictionary * codesForStrings;
+	
+	CFRunLoopSourceRef downSourceRef;
 }
 
 @property (nonatomic, retain) NSMutableSet * groups;

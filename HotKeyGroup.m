@@ -12,7 +12,7 @@
 #import "KeyInterceptor.h"
 
 @implementation HotKeyGroup
-@synthesize enabled, keys, name;
+@synthesize enabled, keys, name, applications;
 
 -(id)initWithName:(NSString*)n {
 	if (self = [super init]) {
@@ -58,6 +58,19 @@
 
 -(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses {
 	
+//	NSLog(@"WOOT %@", [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"]);
+	
+	if (applications) {
+		NSString * activeAppId = [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"];
+		BOOL pass = NO;
+		for (NSString * bundleId in applications) {
+			if ([activeAppId isEqualToString:bundleId])
+				pass = YES;
+		}
+		
+		if (!pass) return;
+	}
+	
 	HotKey * key;
 	
 	if (presses.count > 2 && (key = [keys objectForKey:[ki keyIds:3]])) {
@@ -79,6 +92,7 @@
 }
 
 -(void)dealloc {
+	[applications release];
 	[keys release];
 	[super dealloc];
 }

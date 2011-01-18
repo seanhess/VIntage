@@ -16,6 +16,8 @@
 	NSMutableDictionary * keys;
 	KeyInterceptor * ki;
 	NSString * name;
+	
+	NSMutableArray * applications;
 }
 
 -(void)inherit:(HotKeyGroup*)parent;
@@ -23,6 +25,7 @@
 @property (nonatomic) BOOL enabled;
 @property (nonatomic, retain) NSMutableDictionary * keys;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSMutableArray * applications;
 
 -(void)add:(HotKey*)hotKey;
 -(void)remove:(HotKey*)hotKey;
