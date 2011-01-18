@@ -9,12 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "KeyTypes.h"
 
-
 @class KeyPress, HotKey, KeyInterceptor;
 @interface HotKeyGroup : NSObject {
 	BOOL enabled;
 	NSMutableDictionary * keys;
-	KeyInterceptor * ki;
 	NSString * name;
 	
 	NSMutableArray * applications;
@@ -34,6 +32,6 @@
 -(HotKey*)stop:(NSString*)keyId;
 
 // presses already contains info
--(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses;
+-(void)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)keys;
 
 @end

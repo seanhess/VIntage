@@ -13,10 +13,7 @@
 #import "RegexKitLite.h"
 #import "HotKeyGroup.h"
 
-#define CmdChar @"m" // @"⌘"
-#define CtlChar @"c" // @"⌃"
-#define AltChar @"a" // @"⌥"
-#define ShiftChar @"s" // @"⇧"
+
 
 
 // THE HANDLER FUNCTION
@@ -39,17 +36,13 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	info.ctl = ((flags & KeyCtl) != 0);
 	
 	// HISTORY
-	[keys.presses addObject:info];
-	if (keys.presses.count > 3) {
-		[keys.presses removeObjectAtIndex:0];
-	}
+	[keys addKeyToHistory:info];
 
-//	NSLog(@"DOWN (%@)", info.kasdfassasdeyId);
-	NSLog(@"HISTORY (%@) (%@) (%@)", [keys keyIds:1], [keys keyIds:2], [keys keyIds:3]);		
+	NSLog(@"HISTORY (%@)", keys.last3Id);
 
 	for (HotKeyGroup * group in keys.groups) {
 		if (group.enabled) {
-			[group onKeyDown:info presses:keys.presses];
+			[group onKeyDown:info keys:keys];
 		}
 	}
 	
@@ -80,7 +73,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 
 @implementation KeyInterceptor
-@synthesize groups, presses, codesForStrings;
+@synthesize groups, presses, codesForStrings, lastId, last2Id, last3Id;
 
 -(id)init {
 	if (self = [super init]) {
@@ -168,6 +161,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	downSourceRef = CFMachPortCreateRunLoopSource(NULL, downEventTap, 0);
 	CFRelease(downEventTap);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
+		
 //	CFRelease(downSourceRef);	
 	
 	
@@ -187,30 +181,6 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 -(void)unlisten {
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
 	CFRelease(downSourceRef);
-}
-
-- (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
-	NSString * string = [self stringForCode:code];
-	if (cmd) string = [CmdChar stringByAppendingString:string];
-	if (shift) string = [ShiftChar stringByAppendingString:string];
-	if (alt) string = [AltChar stringByAppendingString:string];
-	if (ctl) string = [CtlChar stringByAppendingString:string];
-	return string;
-}
-
-- (NSString*)keyId:(KeyCode)code {
-	return [self keyId:code cmd:NO alt:NO ctl:NO shift:NO];
-}
-
-- (NSString*)keyIds:(NSInteger)num {
-	
-	NSMutableArray * array = [NSMutableArray array];
-	
-	for (int i = (presses.count - num); i < presses.count; i++) {
-		[array addObject:[[presses objectAtIndex:i] keyId]];
-	}
-
-	return [array componentsJoinedByString:@" "];
 }
 
 - (NSArray*)parseKeyIds:(NSString *)keyId {
@@ -248,13 +218,8 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 }
 
 
-
-
-
-
-			 
 - (void)add:(HotKeyGroup*)group {
-	NSLog(@"Adding Group");
+	NSLog(@"Adding %@", group.name);
 	[groups addObject:group];
 }
 			 
@@ -373,13 +338,47 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	return [[codesForStrings objectForKey:string] intValue];
 }
 
+- (NSString*)lastId:(NSInteger)num {
+	if (num <= 1) return self.lastId;
+	else if (num == 2) return self.last2Id;
+	else return self.last3Id;
+}
 
-- (void)resetHistory {
-	self.presses = [NSMutableArray array];
+- (void) updateLastKeyIds {
+	self.lastId = [presses objectAtIndex:presses.count-1];
+	
+	NSInteger twoStart = presses.count-2;
+	if (twoStart < 0) twoStart = 0;
+	NSInteger twoLength = presses.count - twoStart;
+	
+	self.last2Id = [[presses subarrayWithRange:NSMakeRange(twoStart, twoLength)] componentsJoinedByString:@" "];
+	self.last3Id = [presses componentsJoinedByString:@" "];
+}
+
+- (void)resetHistory:(NSArray*)history {
+	// ALWAYS must be 3-long
+	self.presses = [NSMutableArray arrayWithArray:history];
+	[self updateLastKeyIds];	
+}
+
+- (void)addKeyToHistory:(KeyPress*)key {
+	[presses addObject:key.keyId];
+	if (presses.count > 3) {
+		[presses removeObjectAtIndex:0];
+	}	
+	[self updateLastKeyIds];
+}
+
+- (CGEventRef)nullEvent {
+	if (!nullEvent) nullEvent = CGEventCreate(NULL);
+	return nullEvent;
 }
 
 
 - (void)dealloc {
+	[lastId release];
+	[last2Id release];
+	[last3Id release];
 	[presses release];
 	[groups release];
 	[codesForStrings release];

@@ -102,13 +102,11 @@
 		[commandMode add:@"0" send:@"mLeft"];
 		[commandMode add:@"s4" send:@"mRight"];		
 		
-		HotKey * key = [commandMode add:@"I" block:^{
-			NSString * keyIds2 = [keys keyIds:2];
-			if (![keyIds2 isEqualToString:@"C I"] && ![keyIds2 isEqualToString:@"D I"]) {
+		[commandMode add:@"I" block:^{
+			if (!([keys.last2Id isEqualToString:@"C I"] || [keys.last2Id isEqualToString:@"D I"])) {
 				[self useInsert];
 			}
-		}];	
-		key.resetHistory = NO;
+		}];
 		
 		[commandMode add:@"A" block:^{
 			[self useInsert];
@@ -134,14 +132,12 @@
 		[commandMode add:@"D I W" send:@"aRight asLeft mX"];
 		[commandMode add:@"D O W" send:@"aRight Right asLeft sLeft mX"];		
 		
-		HotKey * oKey = [commandMode add:@"O" block:^{			
-			NSString * keyIds2 = [keys keyIds:2];
-			if (![keyIds2 isEqualToString:@"C O"] && ![keyIds2 isEqualToString:@"D O"]) {
-				[keys sendString:@"mRight Enter"];
+		[commandMode add:@"O" block:^{		
+			if (!([keys.last2Id isEqualToString:@"C O"] || [keys.last2Id isEqualToString:@"D O"])) {
+				[keys sendString:@"mRight Enter"];				
 				[self useInsert];
-			}
+			}			
 		}];
-		oKey.resetHistory = NO;
 
 		[commandMode add:@"sO" block:^{
 			[keys sendString:@"Up mRight Enter"];			
@@ -274,8 +270,8 @@
 		[visualMode add:@"L" send:@"sRight"];		
 		
 		[visualMode stop:@"I"];
-		[visualMode stop:@"A"];
-		[visualMode stop:@"sA"];
+//		[visualMode stop:@"A"];
+//		[visualMode stop:@"sA"];
 		[visualMode stop:@"sI"];	
 		
 		[visualMode stop:@"D D"];

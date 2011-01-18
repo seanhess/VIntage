@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KeyInterceptor.h"
+#import "KeyTypes.h"
 
 @interface KeyPress : NSObject {
 	
@@ -15,6 +15,8 @@
 	
 	KeyCode code;
 	CGEventRef event;
+	
+	NSString * keyId;
 	
 	BOOL cmd;
 	BOOL alt;

@@ -17,19 +17,28 @@
 	NSMutableDictionary * codesForStrings;
 	
 	CFRunLoopSourceRef downSourceRef;
+	
+	CGEventRef nullEvent;
+	
+	NSString * lastId;
+	NSString * last2Id;
+	NSString * last3Id;
 }
 
 @property (nonatomic, retain) NSMutableSet * groups;
 @property (nonatomic, retain) NSMutableArray * presses;
 @property (nonatomic, retain) NSMutableDictionary * codesForStrings;
 
+@property (nonatomic, retain) NSString * lastId;
+@property (nonatomic, retain) NSString * last2Id;
+@property (nonatomic, retain) NSString * last3Id;
+
+- (NSString*)lastId:(NSInteger)num;
+
+- (CGEventRef)nullEvent;
+
 // You probably shouldn't have more than one
 + (KeyInterceptor*)shared;
-
-// the unique id for that key press
-- (NSString*)keyId:(KeyCode)code;
-- (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
-- (NSString*)keyIds:(NSInteger)num;
 
 - (NSString*)stringForCode:(KeyCode)code;
 - (KeyCode)codeForString:(NSString*)string;
@@ -37,6 +46,9 @@
 // Can also parse with spaces!
 - (KeyPress*)parseKeyId:(NSString*)keyId;
 - (NSArray*)parseKeyIds:(NSString*)keyId;
+
+- (void)addKeyToHistory:(KeyPress*)key;
+- (void)resetHistory:(NSArray*)history;
 
 // KeySender
 //- (void)sendString:(NSString*)string;
@@ -48,7 +60,6 @@
 - (void)remove:(HotKeyGroup*)group;
 
 - (void)listen;
-//- (void)resetHistory;
 
 
 @end

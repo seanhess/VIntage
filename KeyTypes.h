@@ -94,6 +94,4 @@ enum {
 - (void)sendKey:(KeyCode)code;
 - (void)sendKey:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
 
-- (void)resetHistory;
-
 @end

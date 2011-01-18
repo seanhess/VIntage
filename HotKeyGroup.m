@@ -19,7 +19,6 @@
 		enabled = YES;
 		self.keys = [NSMutableDictionary dictionary];
 		self.name = n;
-		ki = [KeyInterceptor shared]; // don't retain
 	}
 	return self;	
 }
@@ -32,13 +31,12 @@
 
 -(HotKey*)stop:(NSString*)keyId {
 	HotKey * key = [self add:keyId block:^{}];
-	key.resetHistory = NO;
 	return key;
 }
 
 -(HotKey*)add:(NSString*)keyId send:(NSString*)command {
 	return [self add:keyId block:^{
-		[ki sendString:command];
+		[[KeyInterceptor shared] sendString:command];
 	}];
 }
 
@@ -56,10 +54,11 @@
 	return key;
 }
 
--(void)onKeyDown:(KeyPress*)info presses:(NSArray*)presses {
+-(void)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)ki {
 	
 //	NSLog(@"WOOT %@", [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"]);
 	
+	// Check for application matchs
 	if (applications) {
 		NSString * activeAppId = [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"];
 		BOOL pass = NO;
@@ -71,22 +70,22 @@
 		if (!pass) return;
 	}
 	
-	HotKey * key;
 	
-	if (presses.count > 2 && (key = [keys objectForKey:[ki keyIds:3]])) {
-		key.block();
-	}	
+	// Now check for key matches
 	
-	else if (presses.count > 1 && (key = [keys objectForKey:[ki keyIds:2]])) {	
-		key.block();
-	}	
+	//	NSLog(@"CHECKING (%@) (%@) (%@)", ki.last3Id, ki.last2Id, ki.lastId);
 	
-	else if (presses.count > 0 && (key = [keys objectForKey:[ki keyIds:1]])) {
-		key.block();	
+	BOOL stop = NO;
+	for (int i = 3; i > 0; i++) {
+		HotKey * key = [keys objectForKey:[ki lastId:i]];
+		if (key) {
+			key.block();		
+			stop = YES;
+			break;
+		}
 	}
 	
-	if (key) {
-		if (key.resetHistory) [ki resetHistory];
+	if (stop) {
 		[info stopEvent];
 	}
 }

@@ -9,13 +9,12 @@
 #import "HotKey.h"
 
 @implementation HotKey
-@synthesize keyId, block, resetHistory;
+@synthesize keyId, block;
 
 -(id)initWithKeyId:(NSString*)k block:(void(^)(void))b {
 	if (self = [super init]) {
 		self.keyId = k;
 		self.block = b;
-		self.resetHistory = YES; // by default.
 	}
 	return self;
 }

@@ -11,7 +11,6 @@
 @interface HotKey : NSObject {
 	void(^block)(void);
 	NSString * keyId;
-	BOOL resetHistory;
 }
 
 -(id)initWithKeyId:(NSString*)keyId block:(void(^)(void))block;
@@ -19,6 +18,5 @@
 
 @property (nonatomic, retain) NSString * keyId;
 @property (nonatomic, copy) void(^block)(void);
-@property (assign) BOOL resetHistory;
 
 @end
