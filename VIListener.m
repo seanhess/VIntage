@@ -118,9 +118,12 @@
 		[commandMode add:@"0" send:@"mLeft"];
 		[commandMode add:@"$" send:@"mRight"];		
 		
-		[commandMode add:@"I" block:^{
-			[self useInsert];
+		HotKey * key = [commandMode add:@"I" block:^{
+			if (![[keys keyIds:2] isEqualToString:@"C I"]) {
+				[self useInsert];
+			}
 		}];	
+		key.resetHistory = NO;
 		
 		[commandMode add:@"A" block:^{
 			[self useInsert];
@@ -189,6 +192,9 @@
 			[self useInsert];
 		}];				
 		
+		// Doesn't work yet, because I hijacks into insert mode
+		// I need a way to detect the history INSIDE the block 
+		// I guess I could just ask the keys
 		[commandMode add:@"C I W" block:^{
 			[keys sendString:@"aRight asLeft Delete"];
 			[self useInsert];
@@ -252,7 +258,7 @@
 		[commandMode stop:@"'"];								
 		
 		[commandMode stop:@"Z"];
-		[commandMode stop:@"C"];		
+		[commandMode stop:@"C"];
 		[commandMode stop:@"M"];				
 		[commandMode stop:@","];						
 		[commandMode stop:@"."];								

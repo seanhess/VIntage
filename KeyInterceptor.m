@@ -44,8 +44,8 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 		[keys.presses removeObjectAtIndex:0];
 	}
 
-//	NSLog(@"DOWN (%@)", info.keyId);
-//	NSLog(@"HISTORY (%@)", [keys keyIdLastThree]);		
+//	NSLog(@"DOWN (%@)", info.kasdfassasdeyId);
+	NSLog(@"HISTORY (%@) (%@) (%@)", [keys keyIds:1], [keys keyIds:2], [keys keyIds:3]);		
 
 	for (HotKeyGroup * group in keys.groups) {
 		if (group.enabled) {
@@ -197,18 +197,15 @@ CGEventRef onFlagsChanged(CGEventTapProxy proxy, CGEventType type, CGEventRef ev
 	return [self keyId:code cmd:NO alt:NO ctl:NO shift:NO];
 }
 
-- (NSString*)keyIdLastTwo {
-	NSString * keyId = @"";
-	if (presses.count > 0) keyId = [[presses objectAtIndex:0] keyId];
-	if (presses.count > 1) keyId = [keyId stringByAppendingFormat:@" %@", [[presses objectAtIndex:1] keyId]];
-	return keyId;
-}
+- (NSString*)keyIds:(NSInteger)num {
+	
+	NSMutableArray * array = [NSMutableArray array];
+	
+	for (int i = (presses.count - num); i < presses.count; i++) {
+		[array addObject:[[presses objectAtIndex:i] keyId]];
+	}
 
-- (NSString*)keyIdLastThree {
-	NSString * keyId = [self keyIdLastTwo];
-	if (presses.count > 2) 
-		keyId = [keyId stringByAppendingFormat:@" %@", [[presses objectAtIndex:2] keyId]];
-	return keyId;
+	return [array componentsJoinedByString:@" "];
 }
 
 - (NSArray*)parseKeyIds:(NSString *)keyId {

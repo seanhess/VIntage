@@ -60,18 +60,15 @@
 	
 	HotKey * key;
 	
-	if (presses.count > 2 && (key = [keys objectForKey:[ki keyIdLastThree]])) {
-		NSLog(@"Matched (3) %@ %@", [self name], [ki keyIdLastThree]);
+	if (presses.count > 2 && (key = [keys objectForKey:[ki keyIds:3]])) {
 		key.block();
 	}	
 	
-	else if (presses.count > 1 && (key = [keys objectForKey:[ki keyIdLastTwo]])) {
-		NSLog(@"Matched (2) %@ %@", [self name], [ki keyIdLastTwo]);		
+	else if (presses.count > 1 && (key = [keys objectForKey:[ki keyIds:2]])) {	
 		key.block();
 	}	
 	
-	else if (presses.count > 0 && (key = [keys objectForKey:info.keyId])) {
-		NSLog(@"Matched (1) %@ %@", [self name], info.keyId);				
+	else if (presses.count > 0 && (key = [keys objectForKey:[ki keyIds:1]])) {
 		key.block();	
 	}
 	

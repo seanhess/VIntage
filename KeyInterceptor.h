@@ -27,8 +27,7 @@
 // the unique id for that key press
 - (NSString*)keyId:(KeyCode)code;
 - (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift;
-- (NSString*)keyIdLastTwo;
-- (NSString*)keyIdLastThree;
+- (NSString*)keyIds:(NSInteger)num;
 
 - (NSString*)stringForCode:(KeyCode)code;
 - (KeyCode)codeForString:(NSString*)string;
