@@ -73,20 +73,16 @@
 	
 	// Now check for key matches
 	
-	//	NSLog(@"CHECKING (%@) (%@) (%@)", ki.last3Id, ki.last2Id, ki.lastId);
+//	NSLog(@"CHECKING (%@) (%@) (%@)", ki.last3Id, ki.last2Id, ki.lastId);
 	
-	BOOL stop = NO;
-	for (int i = 3; i > 0; i++) {
+	for (int i = 3; i > 0; i--) {
 		HotKey * key = [keys objectForKey:[ki lastId:i]];
 		if (key) {
+			NSLog(@"Found Key %@", key.keyId);
 			key.block();		
-			stop = YES;
+			[info stopEvent];
 			break;
 		}
-	}
-	
-	if (stop) {
-		[info stopEvent];
 	}
 }
 
