@@ -274,6 +274,8 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	[self sendKey:code cmd:NO alt:NO ctl:NO shift:NO];	
 }
 
+
+
 - (void)sendKey:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
 	
 	CGEventFlags flags = 0;
@@ -283,12 +285,12 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	if (ctl) flags = flags | KeyCtl;
 	if (shift) flags = flags | KeyShift;	
 	
+//	NSLog(@"SEND KEY %i %i", code, flags);	
+	
 	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
 	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)code, YES);
 
-	if (flags) {
-		CGEventSetFlags(keyDownPress, flags);
-	}
+	CGEventSetFlags(keyDownPress, flags);
 	
 	//	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
 	//	CGEventSetFlags(keyUpPress, (CGEventFlags)flags);	

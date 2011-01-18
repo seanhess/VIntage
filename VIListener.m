@@ -20,6 +20,7 @@
 		NSMutableArray * applications = [NSMutableArray array];
 		[applications addObject:@"com.apple.Xcode"];
 		[applications addObject:@"com.macromates.textmate"];
+		[applications addObject:@"se.hunch.kod"];
 		
 		commandMode = [[HotKeyGroup alloc] initWithName:@"Command"];
 		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
@@ -102,7 +103,8 @@
 		[commandMode add:@"$" send:@"mRight"];		
 		
 		HotKey * key = [commandMode add:@"I" block:^{
-			if (![[keys keyIds:2] isEqualToString:@"C I"]) {
+			NSString * keyIds2 = [keys keyIds:2];
+			if (![keyIds2 isEqualToString:@"C I"] && ![keyIds2 isEqualToString:@"D I"]) {
 				[self useInsert];
 			}
 		}];	
@@ -126,13 +128,23 @@
 		
 		[commandMode add:@"D D" send:@"mLeft sDown mX"];
 		
-		[commandMode add:@"O" block:^{				
-			[keys sendString:@"mRight Enter"];
-			[self useInsert];
+		[commandMode add:@"D W" send:@"saRight sRight mX"];
+		[commandMode add:@"D E" send:@"saRight mX"];
+		[commandMode add:@"D B" send:@"saLeft mX"];	
+		[commandMode add:@"D I W" send:@"aRight asLeft mX"];
+		[commandMode add:@"D O W" send:@"aRight Right asLeft sLeft mX"];		
+		
+		HotKey * oKey = [commandMode add:@"O" block:^{			
+			NSString * keyIds2 = [keys keyIds:2];
+			if (![keyIds2 isEqualToString:@"C O"] && ![keyIds2 isEqualToString:@"D O"]) {
+				[keys sendString:@"mRight Enter"];
+				[self useInsert];
+			}
 		}];
+		oKey.resetHistory = NO;
 
 		[commandMode add:@"sO" block:^{
-			[keys sendString:@"Up mRight Enter"];
+			[keys sendString:@"Up mRight Enter"];			
 			[self useInsert];
 		}];
 		
@@ -175,13 +187,16 @@
 			[self useInsert];
 		}];				
 		
-		// Doesn't work yet, because I hijacks into insert mode
-		// I need a way to detect the history INSIDE the block 
-		// I guess I could just ask the keys
+
 		[commandMode add:@"C I W" block:^{
 			[keys sendString:@"aRight asLeft Delete"];
 			[self useInsert];
 		}];						
+		
+		[commandMode add:@"C O W" block:^{
+			[keys sendString:@"aRight Right asLeft sLeft Delete"];
+			[self useInsert];
+		}];								
 		
 		
 		// FIND
