@@ -54,7 +54,7 @@
 	return key;
 }
 
--(void)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)ki {
+-(BOOL)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)ki {
 	
 //	NSLog(@"WOOT %@", [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"]);
 	
@@ -67,7 +67,7 @@
 				pass = YES;
 		}
 		
-		if (!pass) return;
+		if (!pass) return NO;
 	}
 	
 	
@@ -78,12 +78,14 @@
 	for (int i = 3; i > 0; i--) {
 		HotKey * key = [keys objectForKey:[ki lastId:i]];
 		if (key) {
-			NSLog(@"Found Key %@", key.keyId);
+//			NSLog(@"Found Key %@", key.keyId);
 			key.block();		
 			[info stopEvent];
-			break;
+			return YES;
 		}
 	}
+	
+	return NO;
 }
 
 -(void)dealloc {

@@ -32,6 +32,6 @@
 -(HotKey*)stop:(NSString*)keyId;
 
 // presses already contains info
--(void)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)keys;
+-(BOOL)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)keys;
 
 @end

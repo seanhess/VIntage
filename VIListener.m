@@ -227,7 +227,7 @@
 		[commandMode add:@"sG" send:@"mDown"];
 		
 		[commandMode stop:@"Y"];
-		[commandMode add:@"Y Y" send:@"mLeft sDown mC"];
+		[commandMode add:@"Y Y" send:@"mLeft sDown mC Left Right"];
 		
 		[commandMode add:@"V" block:^{
 			[self useVisual];
@@ -258,16 +258,19 @@
 		[commandMode stop:@"."];								
 		
 		
-		
-		
-		
-		
 		// VISUAL MODE 
 		[visualMode inherit:commandMode]; 	 // you have to do this before adding your own, and after adding theirs	
 		[visualMode add:@"J" send:@"sDown"];
 		[visualMode add:@"K" send:@"sUp"];
 		[visualMode add:@"H" send:@"sLeft"];
-		[visualMode add:@"L" send:@"sRight"];		
+		[visualMode add:@"L" send:@"sRight"];	
+		
+		[visualMode add:@"E" send:@"saRight"];
+		[visualMode add:@"B" send:@"saLeft"];		
+		[visualMode add:@"W" send:@"saRight sRight"];		
+		
+		[visualMode add:@"0" send:@"smLeft"];
+		[visualMode add:@"s4" send:@"smRight"];	
 		
 		[visualMode stop:@"I"];
 //		[visualMode stop:@"A"];
@@ -282,13 +285,13 @@
 		[visualMode stop:@"V"];
 		[visualMode stop:@"sV"];
 				
-		[visualMode add:@"Escape" block:^{
-			[keys sendString:@"Left Right"]; // to deselect
-			[self useCommand];
-		}];		
+//		[visualMode add:@"Escape" block:^{
+//			[keys sendString:@"Left Right"]; // to deselect
+//			[self useCommand];
+//		}];		
 		
 		[visualMode add:@"cC" block:^{
-			[keys sendString:@"Left Right"]; // to deselect
+			[keys sendString:@"Right Left"]; // to deselect
 			[self useCommand];
 		}];		
 		
@@ -322,15 +325,17 @@
 		
 		// INSERT MODE
 		
-		[insertMode add:@"Escape" block:^{
-			[self useCommand];
-		}];
+//		[insertMode add:@"Escape" block:^{
+//			[self useCommand];
+//		}];
 		
 		[insertMode add:@"cC" block:^{
 			[self useCommand];
 		}];
-				
-		
+
+		[insertMode add:@"c[" block:^{
+			[self useCommand];
+		}];
 		
 		
 		
@@ -355,6 +360,19 @@
 		
 		
 		
+		// Then, somehow, I need to make it do different things in textmate/xcode
+		// For example, in textmate I need to do 
+		
+		// Can I have more than one responder using a key command at once?
+		// No. So, it depends on the priority. Add them in order :)
+		
+		// The one that matches first does the job. 
+		
+		// how do I make a text-mate only visual mode? 
+		// Yikes... 
+		// Besides, I should use text-mates' built in stuff. 
+		
+		// 
 
 		
 		
@@ -368,7 +386,7 @@
 	insertMode.enabled = NO;
 	visualMode.enabled = NO;
 	findMode.enabled = YES;
-	[statusItem setTitle:@"Command"];	
+	[statusItem setTitle:@"Command (Find)"];	
 }
 
 -(void)useVisual {
@@ -395,26 +413,26 @@
 	[statusItem setTitle:@"Insert"];
 }
 
-- (void) appFrontSwitched {
-//    NSLog(@"%@", [[NSWorkspace sharedWorkspace] activeApplication]);
-	// USE THIS TO turn the whole thing on/off
-}
-
-static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData)
-{
-    [(id)inUserData appFrontSwitched];
-    return 0;
-}
-
-
-- (void)setupAppFrontSwitchedHandler
-{
-    EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
-    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (void*)self, NULL);
-	
-    if (err)
-        NSLog(@"Could not install event handler");
-}
+//- (void) appFrontSwitched {
+////    NSLog(@"%@", [[NSWorkspace sharedWorkspace] activeApplication]);
+//	// USE THIS TO turn the whole thing on/off
+//}
+//
+//static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData)
+//{
+//    [(id)inUserData appFrontSwitched];
+//    return 0;
+//}
+//
+//
+//- (void)setupAppFrontSwitchedHandler
+//{
+//    EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
+//    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (void*)self, NULL);
+//	
+//    if (err)
+//        NSLog(@"Could not install event handler");
+//}
 
 
 
@@ -429,7 +447,7 @@ static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, Ev
 
 -(void)listen {
 	[[KeyInterceptor shared] listen];	
-	[self setupAppFrontSwitchedHandler];
+//	[self setupAppFrontSwitchedHandler];
 	[self useCommand];
 }
 	 

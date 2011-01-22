@@ -21,10 +21,20 @@
 CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
 	
 	KeyInterceptor * keys = [KeyInterceptor shared];
+	
+	if (type == kCGEventTapDisabledByTimeout) {
+		NSLog(@"Event Taps Disabled! Re-enabling");
+		[keys enable];
+		return event;
+	}
+	
+	NSAutoreleasePool * pool = [NSAutoreleasePool new];
+	
+	[keys setSource:CGEventCreateSourceFromEvent(event)];
 
 	KeyFlags flags = CGEventGetFlags(event);	
 	
-	KeyPress * info = [[KeyPress new] autorelease];
+	KeyPress * info = [KeyPress new];
 	
 	info.event = event;
 	
@@ -38,16 +48,24 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	// HISTORY
 	[keys addKeyToHistory:info];
 
-	NSLog(@"HISTORY (%@)", keys.last3Id);
+//	NSLog(@"HISTORY (%@)", keys.last3Id);
 
 	for (HotKeyGroup * group in keys.groups) {
 		if (group.enabled) {
-			[group onKeyDown:info keys:keys];
+
+			// only let ONE of the groups respond to it. 
+			if ([group onKeyDown:info keys:keys]) {
+				break;
+			}
 		}
 	}
 	
-	// a group can modify the event
-	return info.event;
+	// can override event
+	event = info.event;
+	
+	[info release];
+	[pool release];
+	return event;
 }
 
 //CGEventRef onKeyUp(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
@@ -157,13 +175,11 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 -(void)listen {
 	
-	CFMachPortRef downEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventKeyDown),&onKeyDown,self);		
-	downSourceRef = CFMachPortCreateRunLoopSource(NULL, downEventTap, 0);
-	CFRelease(downEventTap);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
-		
+	eventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventKeyDown),&onKeyDown,self);		
+	runLoopSource = CFMachPortCreateRunLoopSource(NULL, eventTap, 0);
+//	CFRelease(downEventTap);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);	
 //	CFRelease(downSourceRef);	
-	
 	
 //	CFMachPortRef flagsEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onFlagsChanged,self);		
 //	CFRunLoopSourceRef flagsSourceRef = CFMachPortCreateRunLoopSource(NULL, flagsEventTap, 0);
@@ -179,8 +195,13 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 }
 
 -(void)unlisten {
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), downSourceRef, kCFRunLoopDefaultMode);
-	CFRelease(downSourceRef);
+//	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+//	CFRelease(downSourceRef);
+}
+
+-(void)enable {
+	NSLog(@"ENABLING");
+	CGEventTapEnable(eventTap, true);
 }
 
 - (NSArray*)parseKeyIds:(NSString *)keyId {
@@ -229,20 +250,16 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 - (void)sendString:(NSString*)string {
 	NSArray * parsed = [self parseKeyIds:string];
-	
 	for (KeyPress * press in parsed) {
 		[self sendKey:press.code cmd:press.cmd alt:press.alt ctl:press.ctl shift:press.shift];
 	}
 }
 
 - (void)sendKey:(KeyCode)code {
-	[self sendKey:code cmd:NO alt:NO ctl:NO shift:NO];	
+	[self sendKey:code cmd:NO alt:NO ctl:NO shift:NO];
 }
 
-
-
 - (void)sendKey:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
-	
 	CGEventFlags flags = 0;
 	
 	if (cmd) flags = flags | KeyCmd;
@@ -250,23 +267,25 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	if (ctl) flags = flags | KeyCtl;
 	if (shift) flags = flags | KeyShift;	
 	
-//	NSLog(@"SEND KEY %i %i", code, flags);	
+	//	NSLog(@"SEND KEY %i %i", code, flags);	
 	
-	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)code, YES);
-
+	CGEventRef keyDownPress = CGEventCreateKeyboardEvent(eventSource, (CGKeyCode)code, YES);
 	CGEventSetFlags(keyDownPress, flags);
 	
-	//	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(source, (CGKeyCode)keyCode, NO);
-	//	CGEventSetFlags(keyUpPress, (CGEventFlags)flags);	
-
+	CGEventRef keyUpPress = CGEventCreateKeyboardEvent(eventSource, (CGKeyCode)code, NO);
+	CGEventSetFlags(keyUpPress, flags);	
+	
 	CGEventPost(kCGAnnotatedSessionEventTap, keyDownPress);
-	//	CGEventPost(kCGAnnotatedSessionEventTap, keyUpPress);
+	CGEventPost(kCGAnnotatedSessionEventTap, keyUpPress);
 	
 	CFRelease(keyDownPress);
-	CFRelease(source);
-	//	CFRelease(keyUpPress);
-	
+	CFRelease(keyUpPress);
+}
+
+- (void)setSource:(CGEventSourceRef)s {
+	if (eventSource) CFRelease(eventSource);
+	eventSource = s;
+	CFRetain(eventSource);
 }
 
 - (NSString*)stringForCode:(KeyCode)code {
@@ -382,7 +401,9 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	[presses release];
 	[groups release];
 	[codesForStrings release];
-	if (downSourceRef) CFRelease(downSourceRef);
+	if (runLoopSource) CFRelease(runLoopSource);
+	if (eventSource) CFRelease(eventSource);
+	if (eventTap) CFRelease(eventTap);	
 	[super dealloc];
 }
 

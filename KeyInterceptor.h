@@ -16,7 +16,9 @@
 	NSMutableArray * presses;
 	NSMutableDictionary * codesForStrings;
 	
-	CFRunLoopSourceRef downSourceRef;
+	CFRunLoopSourceRef runLoopSource;
+	CGEventSourceRef eventSource;
+	CFMachPortRef eventTap;
 	
 	CGEventRef nullEvent;
 	
@@ -59,7 +61,10 @@
 - (void)add:(HotKeyGroup*)group;
 - (void)remove:(HotKeyGroup*)group;
 
+- (void)setSource:(CGEventSourceRef)source;
+
 - (void)listen;
+- (void)enable;
 
 
 @end

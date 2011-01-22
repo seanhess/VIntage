@@ -38,8 +38,6 @@
 		7823E6DB12DFB40C002EF159 /* VIListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIListener.h; sourceTree = "<group>"; };
 		7823E6DC12DFB40C002EF159 /* VIListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIListener.m; sourceTree = "<group>"; };
 		7823E6DE12DFB4AC002EF159 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		7823E6FE12DFB5A6002EF159 /* DDHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHotKeyCenter.h; sourceTree = "<group>"; };
-		7823E6FF12DFB5A6002EF159 /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
 		7823E7BE12DFBF8B002EF159 /* KeyInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyInterceptor.h; sourceTree = "<group>"; };
 		7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyInterceptor.m; sourceTree = "<group>"; };
 		785707D012E3CCEA0033EB74 /* HotKeyGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKeyGroup.h; sourceTree = "<group>"; };
@@ -89,8 +87,6 @@
 				78BFAD7C12E436DF00C1FA5C /* KeyPress.m */,
 				7823E6DB12DFB40C002EF159 /* VIListener.h */,
 				7823E6DC12DFB40C002EF159 /* VIListener.m */,
-				7823E6FE12DFB5A6002EF159 /* DDHotKeyCenter.h */,
-				7823E6FF12DFB5A6002EF159 /* DDHotKeyCenter.m */,
 				78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */,
 				78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */,
 				78CEB64412E4CDF1004C51D0 /* KeyTypes.h */,
