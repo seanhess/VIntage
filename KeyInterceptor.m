@@ -68,6 +68,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	return event;
 }
 
+
 //CGEventRef onKeyUp(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
 //	
 ////	KeyCode code = CGEventGetIntegerValueField(event, kCGKeybsssssssssssssssssoardEventKeycode);
@@ -197,6 +198,16 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 -(void)unlisten {
 //	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
 //	CFRelease(downSourceRef);
+}
+
+- (HotKeyGroup*)groupWithName:(NSString*)name {
+	for (HotKeyGroup * group in groups) {
+		if ([group.name isEqualToString:name]) {
+			return group;
+		}
+	}
+	
+	return nil;
 }
 
 -(void)enable {

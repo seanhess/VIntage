@@ -52,6 +52,8 @@
 - (void)addKeyToHistory:(KeyPress*)key;
 - (void)resetHistory:(NSArray*)history;
 
+- (HotKeyGroup*)groupWithName:(NSString*)name;
+
 // KeySender
 //- (void)sendString:(NSString*)string;
 //- (void)sendKey:(KeyCode)code;

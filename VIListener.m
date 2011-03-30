@@ -240,6 +240,11 @@
 		
 		
 		
+		[commandMode add:@"s," send:@"m["];	
+		[commandMode add:@"s." send:@"m]"];	
+		
+		
+		
 		// DEAD KEYS
 		[commandMode stop:@"Q"];
 		[commandMode stop:@"R"];
@@ -311,8 +316,6 @@
 			[self useCommand];
 		}];		
 
-		[visualMode add:@"s," send:@"m["];	
-		[visualMode add:@"s." send:@"m]"];	
 		
 		[visualMode add:@"C" block:^{
 			[keys sendString:@"mX"];
