@@ -6,11 +6,11 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "InputNinjaAppDelegate.h"
+#import "AppDelegate.h"
 #import "KeyInterceptor.h"
 #import "EventTapExample.h"
 
-@implementation InputNinjaAppDelegate
+@implementation AppDelegate
 
 @synthesize window, statusItem;
 

@@ -10,7 +10,7 @@
 
 #import "VIListener.h"
 
-@interface InputNinjaAppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
 	NSStatusItem * statusItem;
 	VIListener * listener;
