@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "VIListener.h"
 #import "ModeDelegate.h"
 #import "FocusObserver.h"
 
@@ -18,7 +17,6 @@
 
     NSWindow * modeWindow;
 	NSStatusItem * statusItem;
-	VIListener * listener;
     
     FocusObserver * focus;
 }

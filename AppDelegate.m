@@ -12,6 +12,8 @@
 #import "KeyInterceptor.h"
 #import "EventTapExample.h"
 #import "FocusObserver.h"
+#import "Parser.h"
+#import "HotKeyGroup.h"
 
 @implementation AppDelegate
 
@@ -20,6 +22,8 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
 	
+    
+    // WINDOW AND STATUS BAR
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	self.statusItem.highlightMode = YES;
 	[statusItem setHighlightMode:YES];
@@ -58,23 +62,36 @@
 //	[statusItem setMenu:menu];
 
 //	[menu release];
-	
-	listener = [VIListener new];
-	[listener listen];
     
     
 
+
+
+
+    // LISTENER //
+    KeyInterceptor * keys = [KeyInterceptor shared];    
+    
     NSMutableArray * applications = [NSMutableArray array];
     [applications addObject:@"com.apple.dt.Xcode"];
     [applications addObject:@"com.macromates.textmate"];
     [applications addObject:@"se.hunch.kod"];    
-    
+    [applications addObject:@"com.chocolatapp.Chocolat"];    
     
     self.focus = [[FocusObserver new] autorelease];
     [self.focus observeApplications:applications delegate:self];    
     
     // change to observer?    
-    [KeyInterceptor shared].delegate = self;
+    keys.delegate = self;
+    
+    
+    NSArray * groups = [Parser parseFile:[Parser bundleFilePath:@"defaults"]];
+    
+    for (HotKeyGroup * group in groups) {
+        group.isMajor = ![group.name isEqualToString:@"insert"];
+        [keys add:group];
+    }
+
+    [keys listen];         
     
 }
 
@@ -83,6 +100,7 @@
     
     if (group.isMajor)
         [self.modeWindow setAlphaValue:1.0];
+        
     else
         [self.modeWindow setAlphaValue:0.0];
 }
@@ -104,7 +122,6 @@
 
 - (void)dealloc {
 	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
-	[listener release];
 	[statusItem release];
     [modeWindow release];
     [focus release];

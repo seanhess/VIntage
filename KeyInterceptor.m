@@ -243,37 +243,6 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 }
 
 
-//- (NSString*)lastId:(NSInteger)num {
-//	if (num <= 1) return self.lastId;
-//	else if (num == 2) return self.last2Id;
-//	else return self.last3Id;
-//}
-//
-//- (void) updateLastKeyIds {
-//	self.lastId = [presses objectAtIndex:presses.count-1];
-//	
-//	NSInteger twoStart = presses.count-2;
-//	if (twoStart < 0) twoStart = 0;
-//	NSInteger twoLength = presses.count - twoStart;
-//	
-//	self.last2Id = [[presses subarrayWithRange:NSMakeRange(twoStart, twoLength)] componentsJoinedByString:@" "];
-//	self.last3Id = [presses componentsJoinedByString:@" "];
-//}
-//
-//- (void)resetHistory:(NSArray*)history {
-//	// ALWAYS must be 3-long
-//	self.presses = [NSMutableArray arrayWithArray:history];
-//	[self updateLastKeyIds];	
-//}
-//
-//- (void)addKeyToHistory:(Command*)key {
-//	[presses addObject:key.keyId];
-//	if (presses.count > 3) {
-//		[presses removeObjectAtIndex:0];
-//	}	
-//	[self updateLastKeyIds];
-//}
-
 
 
 

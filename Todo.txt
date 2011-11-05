@@ -1,16 +1,9 @@
 [√] Deactivate when switching out of app (not the same as switching to a group)
 [ ] Read all config from a text file
     [√] multiple sets
-    [ ] Overhaul buffer code
-        [ ] if part of a match, store in buffer
-        [ ] if exact match, execute, clear buffer
-        [ ] if no matches left, clear buffer 
-        --- somebody needs a tree :)
-        --- not really, just store each step of the process in a dictionary as an array of further possibilities?
-        --- "C" -> Continue
-        --- "CO" -> Continue
-        --- "COP" -> Nothing!
-        --- "COW" -> Execute!
+    [√] Overhaul buffer code
+    [ ] Specify MAJOR MODE or not - no, just hard-code it
+    [ ] get rid of VIListener completely
 [ ] Override config from a file - /Library/Application Support/VIntage
 [ ] UI to select applications (menu bar options)
 [ ] App-specific settings (to get find to work nicely in each app)
@@ -22,8 +15,8 @@ BUGS
 [ ] CMD-SHIFT-O should work, and let you type (it should put you into find files mode)
 [ ] App Switch - Same mode when you come back
 [ ] App Switch - doesn't always show inactive
-[ ] Visual mode Delete - Delete + Command 
-[ ] dd, d deletes two lines, should be halfway through second dd
+[√] Visual mode Delete - Delete + Command 
+[√] dd, d deletes two lines, should be halfway through second dd
 
 RESEARCH
 [ ] Magic Mac Keyboard stuff? 
@@ -33,14 +26,64 @@ RESEARCH
 
 
 
-//	NSLog(@"HISTORY (%@)", keys.last3Id);
 
-	for (HotKeyGroup * group in keys.groups) {
-		if (group.enabled) {
 
-			// only let ONE of the groups respond to it. 
-			if ([group onKeyDown:info keys:keys]) {
-				break;
-			}
-		}
-	}
+
+
+
+
+
+
+
+
+//	√	e - end of word
+//		E - end of whitespace-delimited word
+//	√	b - beginning of a word
+//		B - beginning of whitespace word
+//	√	0	To the beginning of a line.
+//		^	To the first non-whitespace character of a line.
+//	√	$	To the end of a line.
+//		H	To the first line of the screen.
+//		M	To the middle line of the screen.
+//		L	To the the last line of the screen.
+		
+		
+//	√	i	Insert before cursor.
+//	√	I	Insert to the start of the current line.
+//	√	a	Append after cursor.
+//	√	A	Append to the end of the current line.
+//	√	o	Open a new line below and insert.
+//	√	O	Open a new line above and insert.
+//		C	Change the rest of the current line.
+//		r	Overwrite one character. After overwriting the single character, go back to command mode.
+//		R	Enter insert mode but replace characters rather than inserting.
+//	√	The ESC key	Exit insert/overwrite mode and go back to command mode.
+		
+//	√	x	Delete characters under the cursor.
+//	√	X	Delete characters before the cursor.
+//	√	dd or :d	Delete the current line.
+		
+//	√	v	Start highlighting characters. Use the normal movement keys and commands to select text for highlighting.
+//	~	V	Start highlighting lines.
+//	√	ESC Exit visual mode and return to command mode.
+		
+		
+//		~	Change the case of characters. This works both in visual and command mode. In visual mode, change the case of highlighted characters. In command mode, change the case of the character uder cursor.
+//	√	> (V)	Shift right (indent).
+//	√	< (V)	Shift left (de-indent).
+//	√	c (V)	Change the highlighted text.
+//	√	y (V)	Yank the highlighted text. In Windows terms, "copy the selected text to clipboard."
+//	√	d (V)	Delete the highlighted text. In Windows terms, "cut the selected text to clipboard."
+//	√	yy or :y or Y	Yank the current line. You don't need to highlight it first.
+//	√	dd or :d	Delete the current line. Again, you don't need to highlight it first.
+//	√	p	Put the text you yanked or deleted. In Windows terms, "paste the contents of the clipboard". Put characters after the cursor. Put lines below the current line.
+//	~	P	Put characters before the cursor. Put lines above the current line.		
+		
+		
+//	√	u	Undo the last action.
+//	X	U	Undo all the latest changes that were made to the current line. -
+//	√	Ctrl + r	Redo.		
+
+//      -tX Where X is a character. Movement command. Move to x (whether visual, delete, etc)
+		
+		// Proposed: -Visual +Command, etc. Lets you turn them on and off. 
