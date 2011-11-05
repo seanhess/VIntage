@@ -14,7 +14,7 @@
 #import "Parser.h"
 
 @implementation VIListener
-@synthesize statusItem;
+@synthesize delegate;
 
 -(id)init {
 	if (self = [super init]) {
@@ -397,7 +397,7 @@
 	insertMode.enabled = NO;
 	visualMode.enabled = NO;
 	findMode.enabled = YES;
-	[statusItem setTitle:@"Command (Find)"];	
+    [delegate didChangeModeToName:@"Command (Find)" isMajor:YES];
 }
 
 -(void)useVisual {
@@ -405,7 +405,7 @@
 	insertMode.enabled = NO;
 	visualMode.enabled = YES;
 	findMode.enabled = NO;
-	[statusItem setTitle:@"Visual"];	
+    [delegate didChangeModeToName:@"Visual" isMajor:YES];
 }
 		
 -(void)useCommand {
@@ -413,7 +413,7 @@
 	insertMode.enabled = NO;
 	visualMode.enabled = NO;
 	findMode.enabled = NO;
-	[statusItem setTitle:@"Command"];
+    [delegate didChangeModeToName:@"Command" isMajor:YES];
 }
 
 -(void)useInsert {
@@ -421,7 +421,7 @@
 	insertMode.enabled = YES;	
 	visualMode.enabled = NO;
 	findMode.enabled = NO;
-	[statusItem setTitle:@"Insert"];
+    [delegate didChangeModeToName:@"Insert" isMajor:NO];
 }
 
 //- (void) appFrontSwitched {
@@ -467,7 +467,6 @@
 	[insertMode release];
 	[visualMode release];
 	[findMode release];
-	[statusItem release];
 	[super dealloc];
 }
 

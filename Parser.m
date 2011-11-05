@@ -14,6 +14,8 @@
 +(NSArray*)parseCommands:(NSString *)commands;
 @end
 
+//         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
+
 @implementation Parser
 
 +(NSString*)bundleFilePath:(NSString*)name {

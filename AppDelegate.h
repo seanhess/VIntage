@@ -9,14 +9,19 @@
 #import <Cocoa/Cocoa.h>
 
 #import "VIListener.h"
+#import "ModeDelegate.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, ModeDelegate> {
     NSWindow *window;
+
+
+    NSWindow * modeWindow;
 	NSStatusItem * statusItem;
 	VIListener * listener;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) NSStatusItem * statusItem;
+@property (retain) NSWindow * modeWindow;
 
 @end
