@@ -25,7 +25,9 @@ command --
     P - mV
     sP - mV		
 
-    sC - smRight Delete INSERT		
+    sC - smRight Delete INSERT	
+    
+    Enter - mLeft Down        	
 
     C E - saRight Delete INSERT
     C W - saRight Delete INSERT
@@ -65,7 +67,6 @@ command --
     F - STOP
     ; - STOP
     ' - STOP
-    Enter - STOP
     Z - STOP
     C - STOP
     M - STOP

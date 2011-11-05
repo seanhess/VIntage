@@ -27,16 +27,24 @@
 	NSString * last2Id;
 	NSString * last3Id;
     
-    id<ModeDelegate>delegate;    
+    id<ModeDelegate>delegate;  
+    
+    NSArray * applications;
+    
+    HotKeyGroup * activeGroup;
 }
 
 @property (nonatomic, retain) NSMutableSet * groups;
 @property (nonatomic, retain) NSMutableArray * presses;
 @property (nonatomic, retain) NSMutableDictionary * codesForStrings;
 
+@property (nonatomic, retain) NSArray * applications;
+
 @property (nonatomic, retain) NSString * lastId;
 @property (nonatomic, retain) NSString * last2Id;
 @property (nonatomic, retain) NSString * last3Id;
+
+@property (nonatomic, retain) HotKeyGroup * activeGroup;
 
 @property (nonatomic, assign) id<ModeDelegate>delegate;
 
@@ -73,6 +81,7 @@
 
 - (void)listen;
 - (void)enable;
+- (void)disable;
 
 
 @end

@@ -15,7 +15,7 @@
 
 @implementation AppDelegate
 
-@synthesize window, statusItem, modeWindow;
+@synthesize window, statusItem, modeWindow, focus;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
@@ -43,8 +43,7 @@
     // Can I detect when it happens?
     // Poll the accessibility API 10/s
     
-    FocusObserver * cur = [FocusObserver new];
-    [cur observe];
+
     
 //    [self.modeWindow makeKeyAndOrderFront:self];        
      
@@ -63,11 +62,21 @@
 	listener = [VIListener new];
 	[listener listen];
     
-    // change to observer?
+    
+
+    NSMutableArray * applications = [NSMutableArray array];
+    [applications addObject:@"com.apple.dt.Xcode"];
+    [applications addObject:@"com.macromates.textmate"];
+    [applications addObject:@"se.hunch.kod"];    
+    
+    
+    self.focus = [[FocusObserver new] autorelease];
+    [self.focus observeApplications:applications delegate:self];    
+    
+    // change to observer?    
     [KeyInterceptor shared].delegate = self;
-	
-//	NSLog(@"KEYS: %@", [[KeyInterceptor shared] parseKeyIds:@"H aJ msJ cJ m[ s, cm."]);
-	
+    [KeyInterceptor shared].applications = applications;	
+    
 }
 
 - (void)didChangeToGroup:(HotKeyGroup *)group {
@@ -79,7 +88,19 @@
         [self.modeWindow setAlphaValue:0.0];
 }
 
-- (void)checkCurrentApp {
+- (void)didDeactivate {
+    [self.statusItem setTitle:@"Inactive"];
+    [self.modeWindow setAlphaValue:0.0];
+}
+
+- (void)didSwitchToActive {
+    [self didChangeToGroup:[KeyInterceptor shared].activeGroup];
+    [[KeyInterceptor shared] enable];    
+}
+
+- (void)didSwitchToInactive {
+    [self didDeactivate];
+    [[KeyInterceptor shared] disable];
 }
 
 - (void)dealloc {
@@ -87,6 +108,7 @@
 	[listener release];
 	[statusItem release];
     [modeWindow release];
+    [focus release];
 	[super dealloc];
 }
 

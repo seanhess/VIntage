@@ -10,18 +10,22 @@
 
 #import "VIListener.h"
 #import "ModeDelegate.h"
+#import "FocusObserver.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, ModeDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, ModeDelegate, FocusDelegate> {
     NSWindow *window;
 
 
     NSWindow * modeWindow;
 	NSStatusItem * statusItem;
 	VIListener * listener;
+    
+    FocusObserver * focus;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) NSStatusItem * statusItem;
 @property (retain) NSWindow * modeWindow;
+@property (retain) FocusObserver * focus;
 
 @end

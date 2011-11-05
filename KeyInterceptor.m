@@ -19,7 +19,7 @@
 // THE HANDLER FUNCTION
 
 CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
-	
+
 	KeyInterceptor * keys = [KeyInterceptor shared];
 	
 	if (type == kCGEventTapDisabledByTimeout) {
@@ -93,6 +93,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 @implementation KeyInterceptor
 @synthesize groups, presses, codesForStrings, lastId, last2Id, last3Id, delegate;
+@synthesize applications, activeGroup;
 
 -(id)init {
 	if (self = [super init]) {
@@ -214,6 +215,10 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	CGEventTapEnable(eventTap, true);
 }
 
+-(void)disable {
+    CGEventTapEnable(eventTap, false);
+}
+
 - (NSArray*)parseKeyIds:(NSString *)keyId {
 	NSMutableArray * keyPresses = [NSMutableArray array];
 	NSArray * keys = [keyId componentsSeparatedByRegex:@" "];
@@ -260,14 +265,15 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	[groups removeObject:group];
 }
 
-- (void)activateGroup:(HotKeyGroup*)activeGroup {
+- (void)activateGroup:(HotKeyGroup*)newGroup {
     
     for (HotKeyGroup * group in groups) {
         group.enabled = NO;
     }
     
-    activeGroup.enabled = YES;
-    [delegate didChangeToGroup:activeGroup];
+    self.activeGroup = newGroup;    
+    self.activeGroup.enabled = YES;
+    [delegate didChangeToGroup:self.activeGroup];
 }
 
 - (void)activateGroupWithName:(NSString*)name {
@@ -442,6 +448,8 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	[presses release];
 	[groups release];
 	[codesForStrings release];
+    [applications release];
+    [activeGroup release];
 	if (runLoopSource) CFRelease(runLoopSource);
 	if (eventSource) CFRelease(eventSource);
 	if (eventTap) CFRelease(eventTap);	

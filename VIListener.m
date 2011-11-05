@@ -17,13 +17,6 @@
 
 -(id)init {
 	if (self = [super init]) {
-    
-        
-		
-		NSMutableArray * applications = [NSMutableArray array];
-		[applications addObject:@"com.apple.dt.Xcode"];
-		[applications addObject:@"com.macromates.textmate"];
-		[applications addObject:@"se.hunch.kod"];
 		
 		commandMode = [[Parser parseFile:[Parser bundleFilePath:@"example"]] objectAtIndex:0];
 		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
@@ -32,12 +25,9 @@
         
         // isMajor!
         commandMode.isMajor = YES;
-		commandMode.applications = applications;
-		insertMode.applications = applications;
-		visualMode.applications = applications;
         visualMode.isMajor = YES;        
-		findMode.applications = applications;	
         findMode.isMajor = YES;        
+        insertMode.isMajor = NO;
 		
 		KeyInterceptor * keys = [KeyInterceptor shared];
 

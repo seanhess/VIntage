@@ -1,8 +1,13 @@
-[ ] Read config from a file - /Library/Application Support/VIntage
+[ ] Deactivate when switching out of app (not the same as switching to a group)
+[ ] Override config from a file - /Library/Application Support/VIntage
 [ ] UI to select applications (menu bar options)
-[ ] Ability to reference other macros in declarations
-[ ] ESC has to work
 
-    [ ] Figure out finer-grained control with mac keyboard actions. Did I get any of those to work?
-    [ ] 
+BUGS
+[ ] Escape should get you out of find mode - requires different settings for different apps! Oh no! - or just an override
+[ ] CMD-SHIFT-O should work, and let you type (it should put you into find files mode)
 
+OPTIONAL
+
+
+RESEARCH
+[ ] Magic Mac Keyboard stuff? 

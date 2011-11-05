@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FocusObserver : NSObject
-- (void) observe;
+@protocol FocusDelegate <NSObject>
+-(void)didSwitchToActive;
+-(void)didSwitchToInactive;
+@end
+
+@interface FocusObserver : NSObject {
+    id<FocusDelegate>delegate;
+    NSArray * applications;
+}
+@property (nonatomic, assign) id<FocusDelegate>delegate;
+@property (nonatomic, retain) NSArray * applications;
+
+- (void) observeApplications:(NSArray*)applications delegate:(id<FocusDelegate>)del;
 @end

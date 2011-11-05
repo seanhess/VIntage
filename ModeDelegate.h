@@ -12,5 +12,6 @@
 @protocol ModeDelegate <NSObject>
 
 -(void)didChangeToGroup:(HotKeyGroup*)group;
+-(void)didDeactivate;
 
 @end

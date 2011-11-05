@@ -34,22 +34,32 @@ void MyAXObserverCallback( AXObserverRef observer, AXUIElementRef element,
 }
 
 @implementation FocusObserver
+@synthesize delegate, applications;
 
-- (void) test:(NSDictionary*)userInfo {
-    NSLog(@"ACtiVATE %@", userInfo);
+- (void) onActivate:(NSNotification*)event {
+    NSRunningApplication * app = [[event userInfo] objectForKey:NSWorkspaceApplicationKey];
+    
+    NSLog(@"SWITCHED TO APPLICATION %@ %@", app.bundleIdentifier, self.applications);
+    
+    for (NSString * bundleId in self.applications) {
+        if ([[app bundleIdentifier] isEqualToString:bundleId]) {
+            [delegate didSwitchToActive];
+            return;
+        }
+    }
+    
+    [delegate didSwitchToInactive];
 }
 
-- (void) observe {
+- (void) observeApplications:(NSArray*)apps delegate:(id<FocusDelegate>)del {
+    self.delegate = del;
+    self.applications = apps;
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(onActivate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
+}
 
-//AXUIElementRef app = AXUIElementCreateApplication( targetApplicationProcessID );
-//AXUIElementRef frontWindow = NULL;
-//AXError err = AXUIElementCopyAttributeValue( app, kAXMainWindowAttribute, &frontWindow );
-//if ( err != kAXErrorSuccess )
-//    // it failed -- maybe no main window (yet)
-// AXObserverAddNotification( observer, frontWindow, kAXMovedNotification, self );
-
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(test:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
-
+- (void) dealloc {
+    [applications release];
+    [super dealloc];
 }
 
 @end
