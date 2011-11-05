@@ -15,7 +15,7 @@
 		785707D212E3CCEA0033EB74 /* HotKeyGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 785707D112E3CCEA0033EB74 /* HotKeyGroup.m */; };
 		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
 		7861119E12E17BA3009B30A4 /* VIListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E6DC12DFB40C002EF159 /* VIListener.m */; };
-		7865F4521464E93000A19207 /* example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7865F4511464E93000A19207 /* example.txt */; };
+		7865F4521464E93000A19207 /* defaults.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7865F4511464E93000A19207 /* defaults.txt */; };
 		7865F4551464EAC500A19207 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7865F4541464EAC500A19207 /* Parser.m */; };
 		78BFAD7D12E436DF00C1FA5C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* Command.m */; };
 		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
@@ -52,7 +52,7 @@
 		78606D5B1464A8EA008A47FD /* Todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		7861109812E16D50009B30A4 /* HotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKey.h; sourceTree = "<group>"; };
 		7861109912E16D50009B30A4 /* HotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKey.m; sourceTree = "<group>"; };
-		7865F4511464E93000A19207 /* example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
+		7865F4511464E93000A19207 /* defaults.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = defaults.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		7865F4531464EAC500A19207 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		7865F4541464EAC500A19207 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
 		78BFAD7B12E436DF00C1FA5C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Command.h; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				78606D5B1464A8EA008A47FD /* Todo.txt */,
-				7865F4511464E93000A19207 /* example.txt */,
+				7865F4511464E93000A19207 /* defaults.txt */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -236,7 +236,7 @@
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */,
 				78D4800912E4E3F700BB510A /* Ninja.icns in Resources */,
-				7865F4521464E93000A19207 /* example.txt in Resources */,
+				7865F4521464E93000A19207 /* defaults.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

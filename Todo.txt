@@ -1,13 +1,25 @@
-[ ] Deactivate when switching out of app (not the same as switching to a group)
+[√] Deactivate when switching out of app (not the same as switching to a group)
+[ ] Read all config from a text file
+    [√] multiple sets
+    [ ] Inherit    
+    [ ] single commands only if not preceeded by another (favor long ones!) - 
+        - any time you get an action, clear the buffer
+        - otherwise, just save them up until you hit escape
+        - no, if you run out of possible combinations, clear the buffer to "DP"
+        - show buffer in menu - just like VI:
+    [ ] Visual, Insert, and Find
 [ ] Override config from a file - /Library/Application Support/VIntage
 [ ] UI to select applications (menu bar options)
 
 BUGS
 [ ] Escape should get you out of find mode - requires different settings for different apps! Oh no! - or just an override
 [ ] CMD-SHIFT-O should work, and let you type (it should put you into find files mode)
-
-OPTIONAL
-
+[ ] App Switch - Same mode when you come back
+[ ] App Switch - doesn't always show inactive
+[ ] Visual mode Delete - Delete + Command 
+[ ] Visual mode P - Paste + Command mode
+[ ] dd, d deletes two lines, should be halfway through second dd
 
 RESEARCH
 [ ] Magic Mac Keyboard stuff? 
+[ ] Can I put borders ALL around the screen (but make them smaller?)

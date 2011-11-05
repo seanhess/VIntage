@@ -1,4 +1,4 @@
-command -- 
+-- command -- 
     J - Down
     K - Up
     H - Left
@@ -56,6 +56,8 @@ command --
     s, - m[	
     s. - m]	  
     
+    Delete - Left
+    
     [ - STOP
     ] - STOP
     G - STOP
@@ -74,3 +76,52 @@ command --
     . - STOP
     D - STOP
     Escape - STOP
+    
+
+    
+-- visual -- 
+    J - sDown
+    K - sUp
+    H - sLeft
+    L - sRight	
+
+    E - saRight
+    B - saLeft		
+    W - saRight sRight		
+
+    0 - smLeft
+    s4 - smRight	
+
+
+    Escape - Up Down COMMAND
+    cC - Up Down COMMAND
+    Y - mC Up Down COMMAND
+    X - mX COMMAND
+    D - mX COMMAND
+    C - mX INSERT
+    
+    I - STOP
+    sI - STOP	
+
+    D D - STOP
+    Y Y - STOP		
+    O - STOP
+    sO - STOP
+
+    V - STOP
+    sV - STOP 
+    
+       
+-- insert -- 
+    Escape - COMMAND
+    cC - COMMAND
+    c[ - COMMAND
+    
+    
+-- find -- 
+    Escape - Escape COMMAND
+    Tab - Tab COMMAND
+    Enter - Enter COMMAND
+    
+
+    

@@ -30,10 +30,11 @@
     NSError * error = nil;
     NSString * contents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
     
+    // the very first one should be "" then it should be name/commands/name/commands
     NSArray * majorComponents = [contents componentsSeparatedByString:@"--"];
     NSCharacterSet * whitespace = [NSCharacterSet whitespaceCharacterSet];
     
-    for (int i = 0; i < [majorComponents count]; i += 2) {
+    for (int i = 1; i < [majorComponents count]; i += 2) {
         NSString * name = [[majorComponents objectAtIndex:i] stringByTrimmingCharactersInSet:whitespace];
         NSString * commands = [[majorComponents objectAtIndex:i+1] stringByTrimmingCharactersInSet:whitespace];
         

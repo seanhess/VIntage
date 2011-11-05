@@ -17,11 +17,15 @@
 
 -(id)init {
 	if (self = [super init]) {
+    
+        NSArray * groups = [Parser parseFile:[Parser bundleFilePath:@"defaults"]];
+        
+        NSLog(@"GORUPS %@", groups);
 		
-		commandMode = [[Parser parseFile:[Parser bundleFilePath:@"example"]] objectAtIndex:0];
-		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
-		visualMode = [[HotKeyGroup alloc] initWithName:@"Visual"];
-		findMode = [[HotKeyGroup alloc] initWithName:@"Find"];
+		commandMode = [groups objectAtIndex:0];
+		insertMode = [groups objectAtIndex:2];
+		visualMode = [groups objectAtIndex:1];
+		findMode = [groups objectAtIndex:3];
         
         // isMajor!
         commandMode.isMajor = YES;
@@ -35,6 +39,22 @@
 		[keys add:insertMode];
 		[keys add:visualMode];
 		[keys add:findMode];
+		
+		[commandMode add:@"I" block:^{
+			if (!([keys.last2Id isEqualToString:@"C I"] || [keys.last2Id isEqualToString:@"D I"])) {
+				[self useInsert];
+			}
+		}];
+		
+		[commandMode add:@"O" block:^{		
+			if (!([keys.last2Id isEqualToString:@"C O"] || [keys.last2Id isEqualToString:@"D O"])) {
+				[keys sendString:@"mRight Enter"];				
+				[self useInsert];
+			}			
+		}];
+        
+		[visualMode inherit:commandMode]; 	 
+		[findMode inherit:insertMode];               
 
 		
 //	√	e - end of word
@@ -87,159 +107,13 @@
 		
 		// Proposed: -Visual +Command, etc. Lets you turn them on and off. 
 
-		
-		[commandMode add:@"I" block:^{
-			if (!([keys.last2Id isEqualToString:@"C I"] || [keys.last2Id isEqualToString:@"D I"])) {
-				[self useInsert];
-			}
-		}];
-		
-
-		
-		[commandMode add:@"O" block:^{		
-			if (!([keys.last2Id isEqualToString:@"C O"] || [keys.last2Id isEqualToString:@"D O"])) {
-				[keys sendString:@"mRight Enter"];				
-				[self useInsert];
-			}			
-		}];
-        
-        
+ 
         
 
-		
-		// FIND
 
 		
-		// not exactly right, but it's better than nothing
-		// could store state, and reverse them. 
+                        
 
-
-		
-		// Need these to dismiss dialogs, and interact with the system
-        
-//		[commandMode add:@"Escape" block:^{
-//            [self use
-//        }];
-		// [commandMode add:@"Enter" block:^{}];		
-		// [commandMode add:@"Tab" block:^{}];										
-		
-		
-		// VISUAL MODE 
-		[visualMode inherit:commandMode]; 	 // you have to do this before adding your own, and after adding theirs	
-		[visualMode add:@"J" send:@"sDown"];
-		[visualMode add:@"K" send:@"sUp"];
-		[visualMode add:@"H" send:@"sLeft"];
-		[visualMode add:@"L" send:@"sRight"];	
-		
-		[visualMode add:@"E" send:@"saRight"];
-		[visualMode add:@"B" send:@"saLeft"];		
-		[visualMode add:@"W" send:@"saRight sRight"];		
-		
-		[visualMode add:@"0" send:@"smLeft"];
-		[visualMode add:@"s4" send:@"smRight"];	
-		
-		[visualMode stop:@"I"];
-//		[visualMode stop:@"A"];
-//		[visualMode stop:@"sA"];
-		[visualMode stop:@"sI"];	
-		
-		[visualMode stop:@"D D"];
-		[visualMode stop:@"Y Y"];		
-		[visualMode stop:@"O"];
-		[visualMode stop:@"sO"];
-		
-		[visualMode stop:@"V"];
-		[visualMode stop:@"sV"];
-				
-		[visualMode add:@"Escape" block:^{
-			[keys sendString:@"Up Down"]; // to deselect
-			[self useCommand];
-		}];		
-		
-		[visualMode add:@"cC" block:^{
-			[keys sendString:@"Up Down"]; // to deselect
-			[self useCommand];
-		}];		
-		
-		[visualMode add:@"Y" block:^{
-			[keys sendString:@"mC"];
-			[keys sendString:@"Left Right"]; // to deselect			
-			[self useCommand];
-		}];
-
-		[visualMode add:@"X" block:^{
-			[keys sendString:@"mX"];
-			[self useCommand];
-		}];
-		
-		[visualMode add:@"D" block:^{
-			[keys sendString:@"mX"];
-			[self useCommand];
-		}];		
-
-		
-		[visualMode add:@"C" block:^{
-			[keys sendString:@"mX"];
-			[self useInsert];
-		}];				
-		
-
-		
-		
-		
-		// INSERT MODE
-		
-		[insertMode add:@"Escape" block:^{
-			[self useCommand];  
-		}];
-		
-		[insertMode add:@"cC" block:^{
-			[self useCommand];
-		}];
-
-		[insertMode add:@"c[" block:^{
-			[self useCommand];
-		}];
-		
-		
-		
-		
-		// FIND MODE 
-		[findMode inherit:insertMode];
-		
-		[findMode add:@"Escape" block:^{
-			[keys sendString:@"Escape"];
-			[self useCommand];			
-		}];
-		
-		[findMode add:@"Tab" block:^{
-			[keys sendString:@"Tab"];			
-			[self useCommand];
-		}];
-		
-		[findMode add:@"Enter" block:^{
-			[keys sendString:@"Enter"];			
-			[self useCommand];			
-		}];		
-		
-		
-		
-		// Then, somehow, I need to make it do different things in textmate/xcode
-		// For example, in textmate I need to do 
-		
-		// Can I have more than one responder using a key command at once?
-		// No. So, it depends on the priority. Add them in order :)
-		
-		// The one that matches first does the job. 
-		
-		// how do I make a text-mate only visual mode? 
-		// Yikes... 
-		// Besides, I should use text-mates' built in stuff. 
-		
-		// 
-
-		
-		
 		
 	}
 	return self;
@@ -261,29 +135,6 @@
     [[KeyInterceptor shared] activateGroup:insertMode];
 }
 
-//- (void) appFrontSwitched {
-////    NSLog(@"%@", [[NSWorkspace sharedWorkspace] activeApplication]);
-//	// USE THIS TO turn the whole thing on/off
-//}
-//
-//static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData)
-//{
-//    [(id)inUserData appFrontSwitched];
-//    return 0;
-//}
-//
-//
-//- (void)setupAppFrontSwitchedHandler
-//{
-//    EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
-//    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (void*)self, NULL);
-//	
-//    if (err)
-//        NSLog(@"Could not install event handler");
-//}
-
-
-
 
 // This won't work, because we need to keep track of inserts & whatnot
 // I REALLY need to be tracking the last block called
@@ -296,7 +147,7 @@
 -(void)listen {
 	[[KeyInterceptor shared] listen];	
 //	[self setupAppFrontSwitchedHandler];
-	[self useCommand];
+	[self useInsert];
 }
 	 
 - (void)dealloc {
