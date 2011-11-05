@@ -58,13 +58,13 @@
 //	[menu addItemWithTitle:@"Quit Input Ninja" action:@selector(quit:) keyEquivalent:@""];
 //	[statusItem setMenu:menu];
 
-
-	
 //	[menu release];
 	
 	listener = [VIListener new];
-	listener.delegate = self;
 	[listener listen];
+    
+    // change to observer?
+    [KeyInterceptor shared].delegate = self;
 	
 //	NSLog(@"KEYS: %@", [[KeyInterceptor shared] parseKeyIds:@"H aJ msJ cJ m[ s, cm."]);
 	

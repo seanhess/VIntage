@@ -14,7 +14,6 @@
 #import "Parser.h"
 
 @implementation VIListener
-@synthesize delegate;
 
 -(id)init {
 	if (self = [super init]) {
@@ -112,9 +111,7 @@
 			}
 		}];
 		
-		[commandMode add:@"A" block:^{
-			[self useInsert];
-		}];			
+		[commandMode add:@"A" send:@"insert"];
 
 		[commandMode add:@"sA" block:^{
 			[keys sendString:@"mRight"];			
@@ -251,8 +248,7 @@
 		[commandMode add:@"s," send:@"m["];	
 		[commandMode add:@"s." send:@"m]"];	
 		
-		
-		
+        
 		// DEAD KEYS
 		[commandMode stop:@"Q"];
 		[commandMode stop:@"R"];
@@ -268,7 +264,8 @@
 		[commandMode stop:@"C"];
 		[commandMode stop:@"M"];				
 		[commandMode stop:@","];						
-		[commandMode stop:@"."];								
+		[commandMode stop:@"."];
+        [commandMode stop:@"Escape"];								
 		
 		
 		// VISUAL MODE 
@@ -393,35 +390,19 @@
 }
 
 -(void)useFind {
-	commandMode.enabled = NO;
-	insertMode.enabled = NO;
-	visualMode.enabled = NO;
-	findMode.enabled = YES;
-    [delegate didChangeModeToName:@"Command (Find)" isMajor:YES];
+    [[KeyInterceptor shared] activateGroup:findMode];
 }
 
 -(void)useVisual {
-	commandMode.enabled = NO;
-	insertMode.enabled = NO;
-	visualMode.enabled = YES;
-	findMode.enabled = NO;
-    [delegate didChangeModeToName:@"Visual" isMajor:YES];
+    [[KeyInterceptor shared] activateGroup:visualMode];
 }
 		
 -(void)useCommand {
-	commandMode.enabled = YES;
-	insertMode.enabled = NO;
-	visualMode.enabled = NO;
-	findMode.enabled = NO;
-    [delegate didChangeModeToName:@"Command" isMajor:YES];
+    [[KeyInterceptor shared] activateGroup:commandMode];
 }
 
 -(void)useInsert {
-	commandMode.enabled = NO;
-	insertMode.enabled = YES;	
-	visualMode.enabled = NO;
-	findMode.enabled = NO;
-    [delegate didChangeModeToName:@"Insert" isMajor:NO];
+    [[KeyInterceptor shared] activateGroup:insertMode];
 }
 
 //- (void) appFrontSwitched {

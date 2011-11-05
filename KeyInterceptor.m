@@ -92,7 +92,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 
 @implementation KeyInterceptor
-@synthesize groups, presses, codesForStrings, lastId, last2Id, last3Id;
+@synthesize groups, presses, codesForStrings, lastId, last2Id, last3Id, delegate;
 
 -(id)init {
 	if (self = [super init]) {
@@ -257,6 +257,20 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 			 
 - (void)remove:(HotKeyGroup*)group {
 	[groups removeObject:group];
+}
+
+- (void)activateGroup:(HotKeyGroup*)activeGroup {
+    
+    for (HotKeyGroup * group in groups) {
+        group.enabled = NO;
+    }
+    
+    activeGroup.enabled = YES;
+    [delegate didChangeModeToName:activeGroup.name isMajor:YES];
+}
+
+- (void)activateGroupWithName:(NSString*)name {
+    [self activateGroup:[self groupWithName:name]];
 }
 
 - (void)sendString:(NSString*)string {

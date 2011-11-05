@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KeyTypes.h"
+#import "ModeDelegate.h"
 
 @class HotKeyGroup, KeyPress;
 
@@ -25,6 +26,8 @@
 	NSString * lastId;
 	NSString * last2Id;
 	NSString * last3Id;
+    
+    id<ModeDelegate>delegate;    
 }
 
 @property (nonatomic, retain) NSMutableSet * groups;
@@ -34,6 +37,8 @@
 @property (nonatomic, retain) NSString * lastId;
 @property (nonatomic, retain) NSString * last2Id;
 @property (nonatomic, retain) NSString * last3Id;
+
+@property (nonatomic, assign) id<ModeDelegate>delegate;
 
 - (NSString*)lastId:(NSInteger)num;
 
@@ -62,7 +67,8 @@
 
 - (void)add:(HotKeyGroup*)group;
 - (void)remove:(HotKeyGroup*)group;
-
+- (void)activateGroup:(HotKeyGroup*)activeGroup;
+- (void)activateGroupWithName:(NSString*)name;
 - (void)setSource:(CGEventSourceRef)source;
 
 - (void)listen;

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ModeDelegate.h"
 
 @class KeyInterceptor, HotKeyGroup;
 
@@ -18,11 +17,7 @@
 	HotKeyGroup * findMode;
 	
 	NSString * lastSend;
-    
-    id<ModeDelegate>delegate;
 }
-
-@property (nonatomic, assign) id<ModeDelegate>delegate;
 
 //-(void)send:(NSString*)command;
 
