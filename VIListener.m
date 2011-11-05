@@ -29,11 +29,15 @@
 		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
 		visualMode = [[HotKeyGroup alloc] initWithName:@"Visual"];
 		findMode = [[HotKeyGroup alloc] initWithName:@"Find"];
-		
+        
+        // isMajor!
+        commandMode.isMajor = YES;
 		commandMode.applications = applications;
 		insertMode.applications = applications;
 		visualMode.applications = applications;
+        visualMode.isMajor = YES;        
 		findMode.applications = applications;	
+        findMode.isMajor = YES;        
 		
 		KeyInterceptor * keys = [KeyInterceptor shared];
 

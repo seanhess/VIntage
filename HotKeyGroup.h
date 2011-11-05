@@ -16,10 +16,13 @@
 	NSString * name;
 	
 	NSMutableArray * applications;
+    
+    BOOL isMajor;
 }
 
 -(void)inherit:(HotKeyGroup*)parent;
 
+@property (nonatomic) BOOL isMajor;
 @property (nonatomic) BOOL enabled;
 @property (nonatomic, retain) NSMutableDictionary * keys;
 @property (nonatomic, retain) NSString * name;

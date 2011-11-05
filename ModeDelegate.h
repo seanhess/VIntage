@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HotKeyGroup.h"
 
 @protocol ModeDelegate <NSObject>
 
--(void)didChangeModeToName:(NSString*)name isMajor:(BOOL)isMajor;
+-(void)didChangeToGroup:(HotKeyGroup*)group;
 
 @end

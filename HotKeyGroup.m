@@ -13,6 +13,7 @@
 
 @implementation HotKeyGroup
 @synthesize enabled, keys, name, applications;
+@synthesize isMajor;
 
 -(id)initWithName:(NSString*)n {
 	if (self = [super init]) {

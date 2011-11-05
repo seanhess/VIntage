@@ -267,7 +267,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
     }
     
     activeGroup.enabled = YES;
-    [delegate didChangeModeToName:activeGroup.name isMajor:YES];
+    [delegate didChangeToGroup:activeGroup];
 }
 
 - (void)activateGroupWithName:(NSString*)name {

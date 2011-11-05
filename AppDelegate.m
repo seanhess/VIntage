@@ -70,10 +70,10 @@
 	
 }
 
-- (void)didChangeModeToName:(NSString *)name isMajor:(BOOL)isMajor {
-    [self.statusItem setTitle:name]; // this works pretty well!
+- (void)didChangeToGroup:(HotKeyGroup *)group {
+    [self.statusItem setTitle:group.name]; // this works pretty well!
     
-    if (isMajor)
+    if (group.isMajor)
         [self.modeWindow setAlphaValue:1.0];
     else
         [self.modeWindow setAlphaValue:0.0];
