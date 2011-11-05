@@ -11,18 +11,22 @@
 #import "HotKeyGroup.h"
 #import "HotKey.h"
 
+#import "Parser.h"
+
 @implementation VIListener
 @synthesize statusItem;
 
 -(id)init {
 	if (self = [super init]) {
+    
+        
 		
 		NSMutableArray * applications = [NSMutableArray array];
-		[applications addObject:@"com.apple.Xcode"];
+		[applications addObject:@"com.apple.dt.Xcode"];
 		[applications addObject:@"com.macromates.textmate"];
 		[applications addObject:@"se.hunch.kod"];
 		
-		commandMode = [[HotKeyGroup alloc] initWithName:@"Command"];
+		commandMode = [[Parser parseFile:[Parser bundleFilePath:@"example"]] objectAtIndex:0];
 		insertMode = [[HotKeyGroup alloc] initWithName:@"Insert"];
 		visualMode = [[HotKeyGroup alloc] initWithName:@"Visual"];
 		findMode = [[HotKeyGroup alloc] initWithName:@"Find"];
@@ -90,14 +94,14 @@
 		
 		// Proposed: -Visual +Command, etc. Lets you turn them on and off. 
 		
-		[commandMode add:@"J" send:@"Down"];     
-		[commandMode add:@"K" send:@"Up"];
-		[commandMode add:@"H" send:@"Left"];
-		[commandMode add:@"L" send:@"Right"];		
-		
-		[commandMode add:@"E" send:@"aRight"];
-		[commandMode add:@"B" send:@"aLeft"];		
-		[commandMode add:@"W" send:@"aRight Right"];		
+//		[commandMode add:@"J" send:@"Down"];     
+//		[commandMode add:@"K" send:@"Up"];
+//		[commandMode add:@"H" send:@"Left"];
+//		[commandMode add:@"L" send:@"Right"];		
+//		
+//		[commandMode add:@"E" send:@"aRight"];
+//		[commandMode add:@"B" send:@"aLeft"];		
+//		[commandMode add:@"W" send:@"aRight Right"];		
 		
 		[commandMode add:@"0" send:@"mLeft"];
 		[commandMode add:@"s4" send:@"mRight"];		
@@ -217,9 +221,13 @@
 		[commandMode add:@"X" send:@"cD"];
 		
 		// Need these to dismiss dialogs, and interact with the system
-		// [commandMode add:@"Escape" block:^{
+        
+//		[commandMode add:@"Escape" block:^{
+//            [self use
+//        }];
 		// [commandMode add:@"Enter" block:^{}];		
 		// [commandMode add:@"Tab" block:^{}];			
+        
 		[commandMode stop:@"Delete"];		
 		
 		[commandMode stop:@"G"];				
@@ -290,13 +298,13 @@
 		[visualMode stop:@"V"];
 		[visualMode stop:@"sV"];
 				
-//		[visualMode add:@"Escape" block:^{
-//			[keys sendString:@"Left Right"]; // to deselect
-//			[self useCommand];
-//		}];		
+		[visualMode add:@"Escape" block:^{
+			[keys sendString:@"Up Down"]; // to deselect
+			[self useCommand];
+		}];		
 		
 		[visualMode add:@"cC" block:^{
-			[keys sendString:@"Right Left"]; // to deselect
+			[keys sendString:@"Up Down"]; // to deselect
 			[self useCommand];
 		}];		
 		
@@ -328,9 +336,9 @@
 		
 		// INSERT MODE
 		
-//		[insertMode add:@"Escape" block:^{
-//			[self useCommand];
-//		}];
+		[insertMode add:@"Escape" block:^{
+			[self useCommand];  
+		}];
 		
 		[insertMode add:@"cC" block:^{
 			[self useCommand];

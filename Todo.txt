@@ -1,0 +1,8 @@
+[ ] Read config from a file - /Library/Application Support/VIntage
+[ ] UI to select applications (menu bar options)
+[ ] Ability to reference other macros in declarations
+[ ] ESC has to work
+
+    [ ] Figure out finer-grained control with mac keyboard actions. Did I get any of those to work?
+    [ ] 
+

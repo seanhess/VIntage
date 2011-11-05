@@ -34,4 +34,6 @@
 // presses already contains info
 -(BOOL)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)keys;
 
+-(id)initWithName:(NSString*)n;
+
 @end

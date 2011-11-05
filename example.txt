@@ -1,0 +1,9 @@
+command -- 
+    J - Down
+    K - Up
+    H - Left
+    L - Right
+    E - aRight
+    B - aLeft
+    W - aRight Right 
+    
