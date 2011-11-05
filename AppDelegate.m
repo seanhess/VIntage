@@ -90,6 +90,8 @@
         group.isMajor = ![group.name isEqualToString:@"insert"];
         [keys add:group];
     }
+    
+    [keys activateGroupWithName:@"command"];
 
     [keys listen];         
     
