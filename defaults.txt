@@ -91,14 +91,19 @@
 
     0 - smLeft
     s4 - smRight	
+    
+    G G - smUp
+    sG - smDown    
+    
+    Delete - Delete COMMAND
 
-
-    Escape - Up Down COMMAND
-    cC - Up Down COMMAND
-    Y - mC Up Down COMMAND
+    Escape - Left Right COMMAND
+    cC - Left Right COMMAND
+    Y - mC Left Right COMMAND
     X - mX COMMAND
     D - mX COMMAND
     C - mX INSERT
+    P - mV COMMAND
     
     I - STOP
     sI - STOP	

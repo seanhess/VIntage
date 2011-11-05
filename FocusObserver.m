@@ -39,8 +39,6 @@ void MyAXObserverCallback( AXObserverRef observer, AXUIElementRef element,
 - (void) onActivate:(NSNotification*)event {
     NSRunningApplication * app = [[event userInfo] objectForKey:NSWorkspaceApplicationKey];
     
-    NSLog(@"SWITCHED TO APPLICATION %@ %@", app.bundleIdentifier, self.applications);
-    
     for (NSString * bundleId in self.applications) {
         if ([[app bundleIdentifier] isEqualToString:bundleId]) {
             [delegate didSwitchToActive];

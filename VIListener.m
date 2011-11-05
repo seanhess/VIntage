@@ -19,13 +19,11 @@
 	if (self = [super init]) {
     
         NSArray * groups = [Parser parseFile:[Parser bundleFilePath:@"defaults"]];
-        
-        NSLog(@"GORUPS %@", groups);
 		
 		commandMode = [groups objectAtIndex:0];
 		insertMode = [groups objectAtIndex:2];
 		visualMode = [groups objectAtIndex:1];
-		findMode = [groups objectAtIndex:3];
+		findMode = [groups objectAtIndex:3];   
         
         // isMajor!
         commandMode.isMajor = YES;
@@ -52,9 +50,6 @@
 				[self useInsert];
 			}			
 		}];
-        
-		[visualMode inherit:commandMode]; 	 
-		[findMode inherit:insertMode];               
 
 		
 //	√	e - end of word

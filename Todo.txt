@@ -1,15 +1,21 @@
 [√] Deactivate when switching out of app (not the same as switching to a group)
 [ ] Read all config from a text file
     [√] multiple sets
-    [ ] Inherit    
-    [ ] single commands only if not preceeded by another (favor long ones!) - 
-        - any time you get an action, clear the buffer
-        - otherwise, just save them up until you hit escape
-        - no, if you run out of possible combinations, clear the buffer to "DP"
-        - show buffer in menu - just like VI:
-    [ ] Visual, Insert, and Find
+    [ ] Overhaul buffer code
+        [ ] if part of a match, store in buffer
+        [ ] if exact match, execute, clear buffer
+        [ ] if no matches left, clear buffer 
+        --- somebody needs a tree :)
+        --- not really, just store each step of the process in a dictionary as an array of further possibilities?
+        --- "C" -> Continue
+        --- "CO" -> Continue
+        --- "COP" -> Nothing!
+        --- "COW" -> Execute!
 [ ] Override config from a file - /Library/Application Support/VIntage
 [ ] UI to select applications (menu bar options)
+[ ] App-specific settings (to get find to work nicely in each app)
+[ ] Icon
+[ ] Nicer-looking visual indicator
 
 BUGS
 [ ] Escape should get you out of find mode - requires different settings for different apps! Oh no! - or just an override
@@ -17,7 +23,6 @@ BUGS
 [ ] App Switch - Same mode when you come back
 [ ] App Switch - doesn't always show inactive
 [ ] Visual mode Delete - Delete + Command 
-[ ] Visual mode P - Paste + Command mode
 [ ] dd, d deletes two lines, should be halfway through second dd
 
 RESEARCH
