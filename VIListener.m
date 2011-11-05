@@ -228,7 +228,7 @@
 		// [commandMode add:@"Enter" block:^{}];		
 		// [commandMode add:@"Tab" block:^{}];			
         
-		[commandMode stop:@"Delete"];		
+		[commandMode add:@"Delete" send:@"Left"];
 		
 		[commandMode stop:@"G"];				
 		[commandMode add:@"G G" send:@"mUp"];
