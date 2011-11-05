@@ -12,13 +12,14 @@
 #import "KeyInterceptor.h"
 
 @implementation HotKeyGroup
-@synthesize enabled, keys, name;
+@synthesize enabled, keys, rawKeys, name;
 @synthesize isMajor;
 
 -(id)initWithName:(NSString*)n {
 	if (self = [super init]) {
 		enabled = YES;
 		self.keys = [NSMutableDictionary dictionary];
+        self.rawKeys = [NSMutableArray array];
 		self.name = n;
 	}
 	return self;	
@@ -29,6 +30,12 @@
 //-(void)inherit:(HotKeyGroup*)parent {
 //	self.keys = [NSMutableDictionary dictionaryWithDictionary:parent.keys];
 //}
+
+-(void)overrideWith:(HotKeyGroup*)group {
+    for (HotKey * key in group.rawKeys) {
+        [self add:key];
+    }
+}
 
 -(void)add:(HotKey*)key {
     // Ok, the only thing I have to do is add "C O" for "C O W" and set it to continue
@@ -41,11 +48,13 @@
         [keys setObject:[HotKey continueKey] forKey:partialId];
     }
     
+    [rawKeys addObject:key];
 	[keys setObject:key forKey:[key keyId]];
 }
 
 -(void)remove:(HotKey*)key {
 	[keys removeObjectForKey:[key keyId]];
+    [rawKeys removeObject:key];
 }
 
 -(HotKey*)keyForPresses:(NSArray*)buffer {
@@ -63,6 +72,7 @@
 
 -(void)dealloc {
 	[keys release];
+    [rawKeys release];
 	[super dealloc];
 }
 

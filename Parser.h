@@ -13,5 +13,6 @@
 
 +(NSArray*)parseFile:(NSString*)filePath;
 +(NSString*)bundleFilePath:(NSString*)name;
++(NSArray*)groupsFromAllLocations;
 
 @end

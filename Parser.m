@@ -19,7 +19,24 @@
 @implementation Parser
 
 +(NSString*)bundleFilePath:(NSString*)name {
-    return [[NSBundle mainBundle] pathForResource:name ofType:@"txt"];
+    return [[NSBundle mainBundle] pathForResource:name ofType:@"vintage"];
+}
+
++(NSString*)libraryFilePath:(NSString*)name {
+
+    NSString * appSupportDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSString * vintageDir = [appSupportDir stringByAppendingPathComponent:@"VIntage"];
+    
+    // Make application support directory if you need to
+    if (![[NSFileManager defaultManager] fileExistsAtPath:vintageDir]) {
+        NSError * error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:vintageDir withIntermediateDirectories:YES attributes:nil error:&error];
+        
+        if (error) NSLog(@"Could not Application Support Directory: %@", vintageDir);
+    }
+    
+    return [vintageDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.vintage", name]];
 }
 
 +(NSArray*)parseFile:(NSString*)filePath {
@@ -29,6 +46,8 @@
 
     NSError * error = nil;
     NSString * contents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
+    
+    if (error) return nil;
     
     // the very first one should be "" then it should be name/commands/name/commands
     NSArray * majorComponents = [contents componentsSeparatedByString:@"--"];
@@ -73,6 +92,32 @@
     }
     
     return hotKeys;
+}
+
+// load the main groups, then merge them with the file from ~/Library/Application Support/VIntage/keys.vintage
++(NSArray*)groupsFromAllLocations {
+    NSMutableArray * defaultGroups = [NSMutableArray arrayWithArray:[self parseFile:[self bundleFilePath:@"defaults"]]];
+    NSArray * overrideGroups = [self parseFile:[self libraryFilePath:@"keys"]];
+    
+    for (HotKeyGroup * override in overrideGroups) {
+        
+        HotKeyGroup * original = nil;
+        
+        for (HotKeyGroup * group in defaultGroups) {
+            if ([group.name isEqualToString:override.name]) {
+                original = group;
+                break;
+            }
+        }
+        
+        if (original)
+            [original overrideWith:override];
+            
+        else
+            [defaultGroups addObject:override];
+    }
+    
+    return defaultGroups;
 }
 
 @end

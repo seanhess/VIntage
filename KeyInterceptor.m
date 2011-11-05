@@ -22,12 +22,17 @@
 CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
 
 	KeyInterceptor * keys = [KeyInterceptor shared];
-	
+    
 	if (type == kCGEventTapDisabledByTimeout) {
 		NSLog(@"Event Taps Disabled! Re-enabling");
 		[keys enable];
 		return event;
 	}
+    
+    else if (type == -1) {
+        // ignore: probably just code 0 for when it starts and switches apps
+        return event;
+    }
 	
 	NSAutoreleasePool * pool = [NSAutoreleasePool new];
 	

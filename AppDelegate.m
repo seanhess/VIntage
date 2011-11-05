@@ -84,7 +84,7 @@
     keys.delegate = self;
     
     
-    NSArray * groups = [Parser parseFile:[Parser bundleFilePath:@"defaults"]];
+    NSArray * groups = [Parser groupsFromAllLocations];
     
     for (HotKeyGroup * group in groups) {
         group.isMajor = ![group.name isEqualToString:@"insert"];

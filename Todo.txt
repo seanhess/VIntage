@@ -1,20 +1,16 @@
 [√] Deactivate when switching out of app (not the same as switching to a group)
-[ ] Read all config from a text file
-    [√] multiple sets
-    [√] Overhaul buffer code
-    [ ] Specify MAJOR MODE or not - no, just hard-code it
-    [ ] get rid of VIListener completely
-[ ] Override config from a file - /Library/Application Support/VIntage
+[√] Read all config from a text file
+[√] Override config from a file - /Library/Application Support/VIntage
+[ ] App-specific settings (to get find to work nicely in each app) -- then fix bugs
 [ ] UI to select applications (menu bar options)
-[ ] App-specific settings (to get find to work nicely in each app)
 [ ] Icon
 [ ] Nicer-looking visual indicator
 
 BUGS
 [ ] Escape should get you out of find mode - requires different settings for different apps! Oh no! - or just an override
 [ ] CMD-SHIFT-O should work, and let you type (it should put you into find files mode)
-[ ] App Switch - Same mode when you come back
-[ ] App Switch - doesn't always show inactive
+[√] App Switch - Same mode when you come back - it's switching to insert all the time
+[√] App Switch - doesn't always show inactive
 [√] Visual mode Delete - Delete + Command 
 [√] dd, d deletes two lines, should be halfway through second dd
 
@@ -22,6 +18,9 @@ RESEARCH
 [ ] Magic Mac Keyboard stuff? 
 [ ] Can I put borders ALL around the screen (but make them smaller?)
 
+OPTIONS
+[ ] Figure out how to do a "Stop All" so that we don't have to specify all the combos
+[ ] "." character for simple stuff - just log ALL the keystrokes when in insert mode? No, it's really about what was inserted. 
 
 
 
