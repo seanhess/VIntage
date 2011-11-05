@@ -75,7 +75,6 @@
     
     // change to observer?    
     [KeyInterceptor shared].delegate = self;
-    [KeyInterceptor shared].applications = applications;	
     
 }
 

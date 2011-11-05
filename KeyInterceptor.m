@@ -12,6 +12,7 @@
 #import "Command.h"
 #import "RegexKitLite.h"
 #import "HotKeyGroup.h"
+#import "HotKey.h"
 
 
 
@@ -46,22 +47,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	info.ctl = ((flags & KeyCtl) != 0);
 	
 	// HISTORY
-	[keys addKeyToHistory:info];
-
-//	NSLog(@"HISTORY (%@)", keys.last3Id);
-
-	for (HotKeyGroup * group in keys.groups) {
-		if (group.enabled) {
-
-			// only let ONE of the groups respond to it. 
-			if ([group onKeyDown:info keys:keys]) {
-				break;
-			}
-		}
-	}
-	
-	// can override event
-	event = info.event;
+    event = [keys processKeyDown:info]; // return info.event, or nil to pass?
 	
 	[info release];
 	[pool release];
@@ -92,13 +78,13 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 
 @implementation KeyInterceptor
-@synthesize groups, presses, codesForStrings, lastId, last2Id, last3Id, delegate;
-@synthesize applications, activeGroup;
+@synthesize groups, buffer, codesForStrings, delegate;
+@synthesize activeGroup;
 
 -(id)init {
 	if (self = [super init]) {
 		self.groups = [NSMutableSet set];
-		self.presses = [NSMutableArray array];	
+		self.buffer = [NSMutableArray array];	
 		
 		self.codesForStrings = [NSMutableDictionary dictionary];
 		
@@ -179,9 +165,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	
 	eventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventKeyDown),&onKeyDown,self);		
 	runLoopSource = CFMachPortCreateRunLoopSource(NULL, eventTap, 0);
-//	CFRelease(downEventTap);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);	
-//	CFRelease(downSourceRef);	
 	
 //	CFMachPortRef flagsEventTap = CGEventTapCreate(kCGHIDEventTap,kCGHeadInsertEventTap,kCGEventTapOptionDefault,CGEventMaskBit(kCGEventFlagsChanged),&onFlagsChanged,self);		
 //	CFRunLoopSourceRef flagsSourceRef = CFMachPortCreateRunLoopSource(NULL, flagsEventTap, 0);
@@ -218,6 +202,86 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 -(void)disable {
     CGEventTapEnable(eventTap, false);
 }
+
+- (NSString*) describeBuffer {
+    return [self.buffer componentsJoinedByString:@" "];
+}
+
+- (void) clearBuffer {
+    self.buffer = [NSMutableArray array];
+}
+
+- (CGEventRef) processKeyDown:(Command*)info {
+    [self.buffer addObject:info]; // now they is in order
+    
+    NSLog(@"Buffer: %@", self.describeBuffer);
+    
+    HotKey * key = [self.activeGroup keyForPresses:self.buffer];
+    
+    // 1 // Continue command
+    // 2 // Commands
+    // 3 // Nothing (stop)
+    
+    if (key) {        
+        
+        // it can send a normal command
+        if (key.commands) {
+            [self sendString:key.commands]; // will break it all out
+            [self clearBuffer];  // clear the buffer to listen for new commands                    
+        }
+        
+        // or a continue key, which means we have more options, so stop
+        [info stopEvent];
+    }
+    
+    // null represents a failure
+    else {
+        [self clearBuffer];
+    }
+    
+    return info.event;
+}
+
+
+//- (NSString*)lastId:(NSInteger)num {
+//	if (num <= 1) return self.lastId;
+//	else if (num == 2) return self.last2Id;
+//	else return self.last3Id;
+//}
+//
+//- (void) updateLastKeyIds {
+//	self.lastId = [presses objectAtIndex:presses.count-1];
+//	
+//	NSInteger twoStart = presses.count-2;
+//	if (twoStart < 0) twoStart = 0;
+//	NSInteger twoLength = presses.count - twoStart;
+//	
+//	self.last2Id = [[presses subarrayWithRange:NSMakeRange(twoStart, twoLength)] componentsJoinedByString:@" "];
+//	self.last3Id = [presses componentsJoinedByString:@" "];
+//}
+//
+//- (void)resetHistory:(NSArray*)history {
+//	// ALWAYS must be 3-long
+//	self.presses = [NSMutableArray arrayWithArray:history];
+//	[self updateLastKeyIds];	
+//}
+//
+//- (void)addKeyToHistory:(Command*)key {
+//	[presses addObject:key.keyId];
+//	if (presses.count > 3) {
+//		[presses removeObjectAtIndex:0];
+//	}	
+//	[self updateLastKeyIds];
+//}
+
+
+
+
+
+
+
+
+
 
 - (NSArray*)parseKeyIds:(NSString *)keyId {
 	NSMutableArray * keyPresses = [NSMutableArray array];
@@ -404,36 +468,6 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	return [object intValue];
 }
 
-- (NSString*)lastId:(NSInteger)num {
-	if (num <= 1) return self.lastId;
-	else if (num == 2) return self.last2Id;
-	else return self.last3Id;
-}
-
-- (void) updateLastKeyIds {
-	self.lastId = [presses objectAtIndex:presses.count-1];
-	
-	NSInteger twoStart = presses.count-2;
-	if (twoStart < 0) twoStart = 0;
-	NSInteger twoLength = presses.count - twoStart;
-	
-	self.last2Id = [[presses subarrayWithRange:NSMakeRange(twoStart, twoLength)] componentsJoinedByString:@" "];
-	self.last3Id = [presses componentsJoinedByString:@" "];
-}
-
-- (void)resetHistory:(NSArray*)history {
-	// ALWAYS must be 3-long
-	self.presses = [NSMutableArray arrayWithArray:history];
-	[self updateLastKeyIds];	
-}
-
-- (void)addKeyToHistory:(Command*)key {
-	[presses addObject:key.keyId];
-	if (presses.count > 3) {
-		[presses removeObjectAtIndex:0];
-	}	
-	[self updateLastKeyIds];
-}
 
 - (CGEventRef)nullEvent {
 	if (!nullEvent) nullEvent = CGEventCreate(NULL);
@@ -442,13 +476,9 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 
 - (void)dealloc {
-	[lastId release];
-	[last2Id release];
-	[last3Id release];
-	[presses release];
+	[buffer release];
 	[groups release];
 	[codesForStrings release];
-    [applications release];
     [activeGroup release];
 	if (runLoopSource) CFRelease(runLoopSource);
 	if (eventSource) CFRelease(eventSource);

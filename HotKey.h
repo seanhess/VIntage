@@ -8,15 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+	HotKeyNormal = 1, 
+    HotKeyContinue = 2
+} HotKeyType;
+
 @interface HotKey : NSObject {
-	void(^block)(void);
 	NSString * keyId;
+    NSString * commands;
+    HotKeyType type;
 }
 
--(id)initWithKeyId:(NSString*)keyId block:(void(^)(void))block;
-+(HotKey*)keyWithId:(NSString*)keyId block:(void(^)(void))block;
+-(id)initWithKeyId:(NSString*)keyId commands:(NSString*)commands;
++(HotKey*)keyWithId:(NSString*)keyId commands:(NSString*)commands;
++(HotKey*)continueKey;
 
 @property (nonatomic, retain) NSString * keyId;
-@property (nonatomic, copy) void(^block)(void);
+@property (nonatomic, retain) NSString * commands;
+@property (nonatomic, assign) HotKeyType type;
 
 @end

@@ -67,10 +67,8 @@
         NSString * keys = [[cmdComponents objectAtIndex:0] stringByTrimmingCharactersInSet:whitespace];
         NSString * command = [[cmdComponents objectAtIndex:1] stringByTrimmingCharactersInSet:whitespace];
         
-        HotKey * hotKey = [HotKey keyWithId:keys block:^{
-            [[KeyInterceptor shared] sendString:command];
-        }];
-        
+        HotKey * hotKey = [HotKey keyWithId:keys commands:command];
+
         [hotKeys addObject:hotKey];
     }
     

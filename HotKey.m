@@ -9,23 +9,35 @@
 #import "HotKey.h"
 
 @implementation HotKey
-@synthesize keyId, block;
+@synthesize keyId, commands, type;
 
--(id)initWithKeyId:(NSString*)k block:(void(^)(void))b {
+-(id)initWithKeyId:(NSString*)k commands:(NSString *)c {
 	if (self = [super init]) {
 		self.keyId = k;
-		self.block = b;
+		self.commands = c;
+        self.type = HotKeyNormal;
 	}
 	return self;
 }
 
-+(HotKey*)keyWithId:(NSString*)keyId block:(void(^)(void))block {
-	return [[[HotKey alloc] initWithKeyId:keyId block:block] autorelease];
++(HotKey*)keyWithId:(NSString*)keyId commands:(NSString *)commands {
+	return [[[HotKey alloc] initWithKeyId:keyId commands:commands] autorelease];
+}
+
++(HotKey*)continueKey {
+    static HotKey * key = nil;
+    
+    if (!key) {
+        key = [HotKey new];
+        key.type = HotKeyContinue;        
+    }
+    
+    return key;
 }
 
 -(void)dealloc {
 	[keyId release];
-	[block release];
+	[commands release];
 	[super dealloc];
 }
 

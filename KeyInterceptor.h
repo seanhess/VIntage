@@ -23,32 +23,20 @@
 	
 	CGEventRef nullEvent;
 	
-	NSString * lastId;
-	NSString * last2Id;
-	NSString * last3Id;
-    
     id<ModeDelegate>delegate;  
-    
-    NSArray * applications;
     
     HotKeyGroup * activeGroup;
 }
 
 @property (nonatomic, retain) NSMutableSet * groups;
-@property (nonatomic, retain) NSMutableArray * presses;
+@property (nonatomic, retain) NSMutableArray * buffer;
 @property (nonatomic, retain) NSMutableDictionary * codesForStrings;
-
-@property (nonatomic, retain) NSArray * applications;
-
-@property (nonatomic, retain) NSString * lastId;
-@property (nonatomic, retain) NSString * last2Id;
-@property (nonatomic, retain) NSString * last3Id;
 
 @property (nonatomic, retain) HotKeyGroup * activeGroup;
 
 @property (nonatomic, assign) id<ModeDelegate>delegate;
 
-- (NSString*)lastId:(NSInteger)num;
+- (CGEventRef)processKeyDown:(Command*)info;
 
 - (CGEventRef)nullEvent;
 
@@ -61,9 +49,6 @@
 // Can also parse with spaces!
 - (Command*)parseKeyId:(NSString*)keyId;
 - (NSArray*)parseKeyIds:(NSString*)keyId;
-
-- (void)addKeyToHistory:(Command*)key;
-- (void)resetHistory:(NSArray*)history;
 
 - (HotKeyGroup*)groupWithName:(NSString*)name;
 

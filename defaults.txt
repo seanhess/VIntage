@@ -11,6 +11,7 @@
     A - INSERT
     sA - mRight INSERT
     sI - mLeft INSERT
+    I - INSERT
 
     D D - mLeft sDown mX
     D W - saRight sRight mX
@@ -19,7 +20,8 @@
     D I W - aRight asLeft mX
     D O W - aRight Right asLeft sLeft mX		
 
-    sO - Up mRight Enter INSERT		
+    O - mRight Enter INSERT
+    sO - Up mRight Enter INSERT
     U - mZ
     cR - smZ		
     P - mV
@@ -70,11 +72,9 @@
     ; - STOP
     ' - STOP
     Z - STOP
-    C - STOP
     M - STOP
     , - STOP
     . - STOP
-    D - STOP
     Escape - STOP
     
 
@@ -108,8 +108,6 @@
     I - STOP
     sI - STOP	
 
-    D D - STOP
-    Y Y - STOP		
     O - STOP
     sO - STOP
 

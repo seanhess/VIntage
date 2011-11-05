@@ -38,20 +38,6 @@
 		[keys add:visualMode];
 		[keys add:findMode];
 		
-		[commandMode add:@"I" block:^{
-			if (!([keys.last2Id isEqualToString:@"C I"] || [keys.last2Id isEqualToString:@"D I"])) {
-				[self useInsert];
-			}
-		}];
-		
-		[commandMode add:@"O" block:^{		
-			if (!([keys.last2Id isEqualToString:@"C O"] || [keys.last2Id isEqualToString:@"D O"])) {
-				[keys sendString:@"mRight Enter"];				
-				[self useInsert];
-			}			
-		}];
-
-		
 //	√	e - end of word
 //		E - end of whitespace-delimited word
 //	√	b - beginning of a word

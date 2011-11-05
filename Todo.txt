@@ -28,3 +28,19 @@ BUGS
 RESEARCH
 [ ] Magic Mac Keyboard stuff? 
 [ ] Can I put borders ALL around the screen (but make them smaller?)
+
+
+
+
+
+//	NSLog(@"HISTORY (%@)", keys.last3Id);
+
+	for (HotKeyGroup * group in keys.groups) {
+		if (group.enabled) {
+
+			// only let ONE of the groups respond to it. 
+			if ([group onKeyDown:info keys:keys]) {
+				break;
+			}
+		}
+	}
