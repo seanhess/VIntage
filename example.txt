@@ -5,5 +5,71 @@ command --
     L - Right
     E - aRight
     B - aLeft
-    W - aRight Right 
+    W - aRight 
+    0 - mLeft
+    s4 - mRight		
+    A - INSERT
+    sA - mRight INSERT
+    sI - mLeft INSERT
+
+    D D - mLeft sDown mX
+    D W - saRight sRight mX
+    D E - saRight mX
+    D B - saLeft mX	
+    D I W - aRight asLeft mX
+    D O W - aRight Right asLeft sLeft mX		
+
+    sO - Up mRight Enter INSERT		
+    U - mZ
+    cR - smZ		
+    P - mV
+    sP - mV		
+
+    sC - smRight Delete INSERT		
+
+    C E - saRight Delete INSERT
+    C W - saRight Delete INSERT
+    C $ - smRight Delete INSERT
+    C B - amLeft Delete INSERT
+    C I W - aRight asLeft Delete INSERT
+    C O W - aRight Right asLeft sLeft Delete INSERT
+
+    / - mF FIND
+    s/ - mF FIND
+                
+    N - mG
+    sN - smG
+    sN - smG		
+
+    X - cD  
+                     
+    G G - mUp
+    sG - mDown
+
+    Y Y - mLeft sDown mC Left Right  
+
+    V - VISUAL
+    sV - mLeft sDown VISUAL
+
+    s, - m[	
+    s. - m]	  
     
+    [ - STOP
+    ] - STOP
+    G - STOP
+    Y - STOP
+    Q - STOP
+    R - STOP
+    T - STOP
+    S - STOP
+    F - STOP
+    ; - STOP
+    ' - STOP
+    Enter - STOP
+    Z - STOP
+    C - STOP
+    M - STOP
+    , - STOP
+    . - STOP
+    D - STOP
+    Escape - STOP

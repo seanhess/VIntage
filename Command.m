@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "KeyPress.h"
+#import "Command.h"
 #import "KeyInterceptor.h"
 
 #define CmdChar @"m" // @"⌘"
@@ -14,9 +14,10 @@
 #define AltChar @"a" // @"⌥"
 #define ShiftChar @"s" // @"⇧"
 
-@implementation KeyPress
+@implementation Command
 @synthesize code, event;
 @synthesize cmd, alt, shift, ctl;
+@synthesize raw;
 
 
 + (NSString*)keyId:(KeyCode)code cmd:(BOOL)cmd alt:(BOOL)alt ctl:(BOOL)ctl shift:(BOOL)shift {
@@ -58,6 +59,7 @@
 
 -(void)dealloc {
 //	CFRelease(self.event);
+    [raw release];
 	[super dealloc];
 }
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KeyTypes.h"
 
-@class KeyPress, HotKey, KeyInterceptor;
+@class Command, HotKey, KeyInterceptor;
 @interface HotKeyGroup : NSObject {
 	BOOL enabled;
 	NSMutableDictionary * keys;
@@ -32,7 +32,7 @@
 -(HotKey*)stop:(NSString*)keyId;
 
 // presses already contains info
--(BOOL)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)keys;
+-(BOOL)onKeyDown:(Command*)info keys:(KeyInterceptor*)keys;
 
 -(id)initWithName:(NSString*)n;
 

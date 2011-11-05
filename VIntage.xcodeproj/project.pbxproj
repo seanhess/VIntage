@@ -17,7 +17,7 @@
 		7861119E12E17BA3009B30A4 /* VIListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7823E6DC12DFB40C002EF159 /* VIListener.m */; };
 		7865F4521464E93000A19207 /* example.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7865F4511464E93000A19207 /* example.txt */; };
 		7865F4551464EAC500A19207 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7865F4541464EAC500A19207 /* Parser.m */; };
-		78BFAD7D12E436DF00C1FA5C /* KeyPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* KeyPress.m */; };
+		78BFAD7D12E436DF00C1FA5C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* Command.m */; };
 		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
 		78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D47FF412E4E37E00BB510A /* Ninja-Small.png */; };
 		78D4800912E4E3F700BB510A /* Ninja.icns in Resources */ = {isa = PBXBuildFile; fileRef = 78D4800812E4E3F700BB510A /* Ninja.icns */; };
@@ -43,7 +43,7 @@
 		7823E7BE12DFBF8B002EF159 /* KeyInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyInterceptor.h; sourceTree = "<group>"; };
 		7823E7BF12DFBF8B002EF159 /* KeyInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyInterceptor.m; sourceTree = "<group>"; };
 		7847C62814659C5000B879C8 /* ModeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModeDelegate.h; sourceTree = "<group>"; };
-		7847C62D1465A56C00B879C8 /* FocusObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FocusObserver.h; sourceTree = "<group>"; };
+		7847C62D1465A56C00B879C8 /* FocusObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FocusObserver.h; sourceTree = "<group>"; };
 		7847C62E1465A56C00B879C8 /* FocusObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusObserver.m; sourceTree = "<group>"; };
 		785707D012E3CCEA0033EB74 /* HotKeyGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKeyGroup.h; sourceTree = "<group>"; };
 		785707D112E3CCEA0033EB74 /* HotKeyGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKeyGroup.m; sourceTree = "<group>"; };
@@ -55,8 +55,8 @@
 		7865F4511464E93000A19207 /* example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		7865F4531464EAC500A19207 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		7865F4541464EAC500A19207 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
-		78BFAD7B12E436DF00C1FA5C /* KeyPress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyPress.h; sourceTree = "<group>"; };
-		78BFAD7C12E436DF00C1FA5C /* KeyPress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyPress.m; sourceTree = "<group>"; };
+		78BFAD7B12E436DF00C1FA5C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Command.h; sourceTree = "<group>"; };
+		78BFAD7C12E436DF00C1FA5C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Command.m; sourceTree = "<group>"; };
 		78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		78CEB64412E4CDF1004C51D0 /* KeyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyTypes.h; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 				785707D112E3CCEA0033EB74 /* HotKeyGroup.m */,
 				7861109812E16D50009B30A4 /* HotKey.h */,
 				7861109912E16D50009B30A4 /* HotKey.m */,
-				78BFAD7B12E436DF00C1FA5C /* KeyPress.h */,
-				78BFAD7C12E436DF00C1FA5C /* KeyPress.m */,
+				78BFAD7B12E436DF00C1FA5C /* Command.h */,
+				78BFAD7C12E436DF00C1FA5C /* Command.m */,
 				7823E6DB12DFB40C002EF159 /* VIListener.h */,
 				7823E6DC12DFB40C002EF159 /* VIListener.m */,
 				78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */,
@@ -253,7 +253,7 @@
 				7861109A12E16D50009B30A4 /* HotKey.m in Sources */,
 				7861119E12E17BA3009B30A4 /* VIListener.m in Sources */,
 				785707D212E3CCEA0033EB74 /* HotKeyGroup.m in Sources */,
-				78BFAD7D12E436DF00C1FA5C /* KeyPress.m in Sources */,
+				78BFAD7D12E436DF00C1FA5C /* Command.m in Sources */,
 				78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */,
 				7865F4551464EAC500A19207 /* Parser.m in Sources */,
 				7847C62F1465A56C00B879C8 /* FocusObserver.m in Sources */,

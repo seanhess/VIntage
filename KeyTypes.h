@@ -76,6 +76,8 @@ typedef CGEventFlags KeyFlags;
 #define KeyLeft 123
 #define KeyRight 124
 
+#define KeyNotValid 999
+
 enum {
 	KeyNone = 1, // not sure what the correct value is
 	KeyCmd = kCGEventFlagMaskCommand,

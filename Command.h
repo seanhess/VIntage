@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KeyTypes.h"
 
-@interface KeyPress : NSObject {
+@interface Command : NSObject {
 	
 	// I probably need to "retain" them somehow? Yikes!
 	
@@ -22,6 +22,8 @@
 	BOOL alt;
 	BOOL shift;
 	BOOL ctl;
+    
+    NSString * raw;
 }
 
 @property (nonatomic) KeyCode code;
@@ -31,6 +33,8 @@
 @property (nonatomic) BOOL alt;
 @property (nonatomic) BOOL shift;
 @property (nonatomic) BOOL ctl;
+
+@property (nonatomic, retain) NSString * raw;
 
 -(void)stopEvent;
 

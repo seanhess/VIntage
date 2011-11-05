@@ -9,7 +9,7 @@
 // See EventTapExample
 
 #import "KeyInterceptor.h"
-#import "KeyPress.h"
+#import "Command.h"
 #import "RegexKitLite.h"
 #import "HotKeyGroup.h"
 
@@ -34,7 +34,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 	KeyFlags flags = CGEventGetFlags(event);	
 	
-	KeyPress * info = [KeyPress new];
+	Command * info = [Command new];
 	
 	info.event = event;
 	
@@ -202,7 +202,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 - (HotKeyGroup*)groupWithName:(NSString*)name {
 	for (HotKeyGroup * group in groups) {
-		if ([group.name isEqualToString:name]) {
+		if ([[group.name lowercaseString] isEqualToString:[name lowercaseString]]) {
 			return group;
 		}
 	}
@@ -211,7 +211,6 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 }
 
 -(void)enable {
-	NSLog(@"ENABLING");
 	CGEventTapEnable(eventTap, true);
 }
 
@@ -220,38 +219,40 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	NSArray * keys = [keyId componentsSeparatedByRegex:@" "];
 	
 	for (NSString * subKeyId in keys) {		
-		KeyPress * press = [self parseKeyId:subKeyId];
+		Command * press = [self parseKeyId:subKeyId];
 		if (press) [keyPresses addObject:press];
 	}
 	
 	return keyPresses;
 }
 
-- (KeyPress*)parseKeyId:(NSString*)keyId {
+- (Command*)parseKeyId:(NSString*)keyId {
 	
 	NSArray * components = [keyId arrayOfCaptureComponentsMatchedByRegex:@"([casm]?)([casm]?)([casm]?)([casm]?)([^casm]+)"];
 	if (!components) return nil;
 	components = [components objectAtIndex:0];
 
 	NSString * key = [components objectAtIndex:5];
-	
-	KeyPress * press = [[KeyPress new] autorelease];
-	press.code = [self codeForString:key];
-	
+
+	Command * command = [[Command new] autorelease];
+    command.raw = keyId;
+	command.code = [self codeForString:key];
+    
+    
+    
 	for (int i = 1; i <= 4; i++) {
 		NSString * flag = [components objectAtIndex:i];
-		press.ctl = press.ctl || ([flag isEqualToString:@"c"]);
-		press.alt = press.alt || ([flag isEqualToString:@"a"]);
-		press.shift = press.shift || ([flag isEqualToString:@"s"]);
-		press.cmd = press.cmd || ([flag isEqualToString:@"m"]);
+		command.ctl = command.ctl || ([flag isEqualToString:@"c"]);
+		command.alt = command.alt || ([flag isEqualToString:@"a"]);
+		command.shift = command.shift || ([flag isEqualToString:@"s"]);
+		command.cmd = command.cmd || ([flag isEqualToString:@"m"]);
 	}
 
-	return press;
+	return command;
 }
 
 
 - (void)add:(HotKeyGroup*)group {
-	NSLog(@"Adding %@", group.name);
 	[groups addObject:group];
 }
 			 
@@ -275,8 +276,21 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 
 - (void)sendString:(NSString*)string {
 	NSArray * parsed = [self parseKeyIds:string];
-	for (KeyPress * press in parsed) {
-		[self sendKey:press.code cmd:press.cmd alt:press.alt ctl:press.ctl shift:press.shift];
+    
+	for (Command * press in parsed) {
+        if (press.code == KeyNotValid) {
+            HotKeyGroup * group = [self groupWithName:press.raw];
+            if ([press.raw isEqualToString:@"STOP"]) {
+            
+            }
+                
+            else if (group) {
+                [self activateGroup:group];
+            }
+        }
+        else {    
+            [self sendKey:press.code cmd:press.cmd alt:press.alt ctl:press.ctl shift:press.shift];
+        }
 	}
 }
 
@@ -379,7 +393,9 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 }
 
 - (KeyCode)codeForString:(NSString*)string {
-	return [[codesForStrings objectForKey:string] intValue];
+    id object = [codesForStrings objectForKey:string];
+    if (!object) return KeyNotValid;
+	return [object intValue];
 }
 
 - (NSString*)lastId:(NSInteger)num {
@@ -405,7 +421,7 @@ CGEventRef onKeyDown(CGEventTapProxy proxy, CGEventType type, CGEventRef event, 
 	[self updateLastKeyIds];	
 }
 
-- (void)addKeyToHistory:(KeyPress*)key {
+- (void)addKeyToHistory:(Command*)key {
 	[presses addObject:key.keyId];
 	if (presses.count > 3) {
 		[presses removeObjectAtIndex:0];

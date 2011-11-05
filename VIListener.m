@@ -92,18 +92,7 @@
 //	√	Ctrl + r	Redo.		
 		
 		// Proposed: -Visual +Command, etc. Lets you turn them on and off. 
-		
-//		[commandMode add:@"J" send:@"Down"];     
-//		[commandMode add:@"K" send:@"Up"];
-//		[commandMode add:@"H" send:@"Left"];
-//		[commandMode add:@"L" send:@"Right"];		
-//		
-//		[commandMode add:@"E" send:@"aRight"];
-//		[commandMode add:@"B" send:@"aLeft"];		
-//		[commandMode add:@"W" send:@"aRight Right"];		
-		
-		[commandMode add:@"0" send:@"mLeft"];
-		[commandMode add:@"s4" send:@"mRight"];		
+
 		
 		[commandMode add:@"I" block:^{
 			if (!([keys.last2Id isEqualToString:@"C I"] || [keys.last2Id isEqualToString:@"D I"])) {
@@ -111,27 +100,7 @@
 			}
 		}];
 		
-		[commandMode add:@"A" send:@"insert"];
 
-		[commandMode add:@"sA" block:^{
-			[keys sendString:@"mRight"];			
-			[self useInsert];
-		}];				
-		
-		[commandMode add:@"sI" block:^{
-			[keys sendString:@"mLeft"];			
-			[self useInsert];
-		}];							
-
-		[commandMode stop:@"D"];
-		
-		[commandMode add:@"D D" send:@"mLeft sDown mX"];
-		
-		[commandMode add:@"D W" send:@"saRight sRight mX"];
-		[commandMode add:@"D E" send:@"saRight mX"];
-		[commandMode add:@"D B" send:@"saLeft mX"];	
-		[commandMode add:@"D I W" send:@"aRight asLeft mX"];
-		[commandMode add:@"D O W" send:@"aRight Right asLeft sLeft mX"];		
 		
 		[commandMode add:@"O" block:^{		
 			if (!([keys.last2Id isEqualToString:@"C O"] || [keys.last2Id isEqualToString:@"D O"])) {
@@ -139,83 +108,18 @@
 				[self useInsert];
 			}			
 		}];
+        
+        
+        
 
-		[commandMode add:@"sO" block:^{
-			[keys sendString:@"Up mRight Enter"];			
-			[self useInsert];
-		}];
-		
-		[commandMode add:@"U" send:@"mZ"];
-		[commandMode add:@"cR" send:@"smZ"];		
-		[commandMode add:@"P" send:@"mV"];
-		[commandMode add:@"sP" send:@"mV"];		// need to fix		
-		
-		
-//		[commandMode add:@"R" send:@""]; // don't know how to get back to command mode when finished
-
-		[commandMode add:@"sC" block:^{
-			[keys sendString:@"smRight Delete"];
-			[self useInsert];
-		}];
-		
-		[commandMode add:@"C C" block:^{
-			[keys sendString:@"smRight Delete"];
-			[self useInsert];
-		}];
-		
-		
-		[commandMode add:@"C E" block:^{
-			[keys sendString:@"saRight Delete"];
-			[self useInsert];
-		}];	
-		
-		[commandMode add:@"C W" block:^{
-			[keys sendString:@"saRight Delete"];
-			[self useInsert];
-		}];			
-		
-		[commandMode add:@"C $" block:^{
-			[keys sendString:@"smRight Delete"];
-			[self useInsert];
-		}];			
-		
-		[commandMode add:@"C B" block:^{
-			[keys sendString:@"amLeft Delete"];
-			[self useInsert];
-		}];				
-		
-
-		[commandMode add:@"C I W" block:^{
-			[keys sendString:@"aRight asLeft Delete"];
-			[self useInsert];
-		}];						
-		
-		[commandMode add:@"C O W" block:^{
-			[keys sendString:@"aRight Right asLeft sLeft Delete"];
-			[self useInsert];
-		}];								
-		
 		
 		// FIND
-		
-		[commandMode add:@"/" block:^{
-			[keys sendString:@"mF"];
-			[self useFind];
-		}];			
+
 		
 		// not exactly right, but it's better than nothing
 		// could store state, and reverse them. 
-		
-		[commandMode add:@"s/" block:^{
-			[keys sendString:@"mF"];
-			[self useFind];
-		}];					
 
-		[commandMode add:@"N" send:@"mG"];
-		[commandMode add:@"sN" send:@"smG"];
-		[commandMode add:@"sN" send:@"smG"];		
-		
-		[commandMode add:@"X" send:@"cD"];
+
 		
 		// Need these to dismiss dialogs, and interact with the system
         
@@ -223,49 +127,7 @@
 //            [self use
 //        }];
 		// [commandMode add:@"Enter" block:^{}];		
-		// [commandMode add:@"Tab" block:^{}];			
-        
-		[commandMode add:@"Delete" send:@"Left"];
-		
-		[commandMode stop:@"G"];				
-		[commandMode add:@"G G" send:@"mUp"];
-		[commandMode add:@"sG" send:@"mDown"];
-		
-		[commandMode stop:@"Y"];
-		[commandMode add:@"Y Y" send:@"mLeft sDown mC Left Right"];
-		
-		[commandMode add:@"V" block:^{
-			[self useVisual];
-		}];		
-		
-		[commandMode add:@"sV" block:^{
-			[keys sendString:@"mLeft sDown"];
-			[self useVisual];
-		}];
-		
-		
-		
-		[commandMode add:@"s," send:@"m["];	
-		[commandMode add:@"s." send:@"m]"];	
-		
-        
-		// DEAD KEYS
-		[commandMode stop:@"Q"];
-		[commandMode stop:@"R"];
-		[commandMode stop:@"T"];
-		[commandMode stop:@"S"];
-		[commandMode stop:@"F"];		
-		
-		[commandMode stop:@"G"];				
-		[commandMode stop:@";"];						
-		[commandMode stop:@"'"];								
-		
-		[commandMode stop:@"Z"];
-		[commandMode stop:@"C"];
-		[commandMode stop:@"M"];				
-		[commandMode stop:@","];						
-		[commandMode stop:@"."];
-        [commandMode stop:@"Escape"];								
+		// [commandMode add:@"Tab" block:^{}];										
 		
 		
 		// VISUAL MODE 

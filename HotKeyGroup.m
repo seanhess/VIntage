@@ -7,7 +7,7 @@
 //
 
 #import "HotKeyGroup.h"
-#import "KeyPress.h"
+#import "Command.h"
 #import "HotKey.h"
 #import "KeyInterceptor.h"
 
@@ -54,7 +54,7 @@
 	return key;
 }
 
--(BOOL)onKeyDown:(KeyPress*)info keys:(KeyInterceptor*)ki {
+-(BOOL)onKeyDown:(Command*)info keys:(KeyInterceptor*)ki {
 	
 //	NSLog(@"WOOT %@", [[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"]);
 	

@@ -10,7 +10,7 @@
 #import "KeyTypes.h"
 #import "ModeDelegate.h"
 
-@class HotKeyGroup, KeyPress;
+@class HotKeyGroup, Command;
 
 @interface KeyInterceptor : NSObject <KeySender> {
 	NSMutableSet * groups;
@@ -51,10 +51,10 @@
 - (KeyCode)codeForString:(NSString*)string;
 
 // Can also parse with spaces!
-- (KeyPress*)parseKeyId:(NSString*)keyId;
+- (Command*)parseKeyId:(NSString*)keyId;
 - (NSArray*)parseKeyIds:(NSString*)keyId;
 
-- (void)addKeyToHistory:(KeyPress*)key;
+- (void)addKeyToHistory:(Command*)key;
 - (void)resetHistory:(NSArray*)history;
 
 - (HotKeyGroup*)groupWithName:(NSString*)name;
