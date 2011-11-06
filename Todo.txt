@@ -2,7 +2,7 @@
 [√] Read all config from a text file
 [√] Override config from a file - /Library/Application Support/VIntage
 [ ] App-specific settings (to get find to work nicely in each app) -- then fix bugs
-[ ] UI to select applications (menu bar options)
+[ ] Read Active Applications from a file
 [ ] Icon
 [ ] Nicer-looking visual indicator
 
@@ -13,6 +13,7 @@ BUGS
 [√] App Switch - doesn't always show inactive
 [√] Visual mode Delete - Delete + Command 
 [√] dd, d deletes two lines, should be halfway through second dd
+[ ] Entering command mode should close any autocomplete box (issue an escape as well as moving command mode?) -- no (Command .)
 
 RESEARCH
 [ ] Magic Mac Keyboard stuff? 
@@ -22,6 +23,11 @@ OPTIONS
 [ ] Figure out how to do a "Stop All" so that we don't have to specify all the combos
 [ ] "." character for simple stuff - just log ALL the keystrokes when in insert mode? No, it's really about what was inserted. 
 
+CRAZY IDEAS
+[ ] Overwrite mode? -- doesn't look like it
+[ ] Put applications into a simple file, and read that (easy!) -- completely override with their apps? -- use simple names
+[ ] Manual Overwrite mode. Manua
+[ ] Incremental Search -- no luck
 
 
 
@@ -31,8 +37,7 @@ OPTIONS
 
 
 
-
-
+http://developer.apple.com/library/mac/#documentation/IDEs/Conceptual/xcode_help-command_shortcuts/TextCmdsByType/TextCmdsByType.html
 
 
 //	√	e - end of word
