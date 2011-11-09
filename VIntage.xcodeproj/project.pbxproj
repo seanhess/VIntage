@@ -16,7 +16,7 @@
 		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
 		7865F4521464E93000A19207 /* defaults.vintage in Resources */ = {isa = PBXBuildFile; fileRef = 7865F4511464E93000A19207 /* defaults.vintage */; };
 		7865F4551464EAC500A19207 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7865F4541464EAC500A19207 /* Parser.m */; };
-		787FE0F6146A02CD00C7A80D /* AccessText.m in Sources */ = {isa = PBXBuildFile; fileRef = 787FE0F5146A02CD00C7A80D /* AccessText.m */; };
+		787FE0F6146A02CD00C7A80D /* CarbonAccessText.m in Sources */ = {isa = PBXBuildFile; fileRef = 787FE0F5146A02CD00C7A80D /* CarbonAccessText.m */; };
 		787FE0F8146A0B0800C7A80D /* accessibilityConstants.txt in Resources */ = {isa = PBXBuildFile; fileRef = 787FE0F7146A0B0800C7A80D /* accessibilityConstants.txt */; };
 		78BFAD7D12E436DF00C1FA5C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* Command.m */; };
 		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
@@ -54,8 +54,8 @@
 		7865F4511464E93000A19207 /* defaults.vintage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = defaults.vintage; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		7865F4531464EAC500A19207 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		7865F4541464EAC500A19207 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
-		787FE0F4146A02CD00C7A80D /* AccessText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessText.h; sourceTree = "<group>"; };
-		787FE0F5146A02CD00C7A80D /* AccessText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessText.m; sourceTree = "<group>"; };
+		787FE0F4146A02CD00C7A80D /* CarbonAccessText.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CarbonAccessText.h; sourceTree = "<group>"; };
+		787FE0F5146A02CD00C7A80D /* CarbonAccessText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarbonAccessText.m; sourceTree = "<group>"; };
 		787FE0F7146A0B0800C7A80D /* accessibilityConstants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = accessibilityConstants.txt; sourceTree = "<group>"; };
 		78BFAD7B12E436DF00C1FA5C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
 		78BFAD7C12E436DF00C1FA5C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Command.m; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 		787FE0F3146A02CD00C7A80D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				787FE0F4146A02CD00C7A80D /* AccessText.h */,
-				787FE0F5146A02CD00C7A80D /* AccessText.m */,
+				787FE0F4146A02CD00C7A80D /* CarbonAccessText.h */,
+				787FE0F5146A02CD00C7A80D /* CarbonAccessText.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -268,7 +268,7 @@
 				78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */,
 				7865F4551464EAC500A19207 /* Parser.m in Sources */,
 				7847C62F1465A56C00B879C8 /* FocusObserver.m in Sources */,
-				787FE0F6146A02CD00C7A80D /* AccessText.m in Sources */,
+				787FE0F6146A02CD00C7A80D /* CarbonAccessText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

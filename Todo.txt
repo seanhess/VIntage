@@ -1,10 +1,15 @@
 [√] Deactivate when switching out of app (not the same as switching to a group)
 [√] Read all config from a text file
 [√] Override config from a file - /Library/Application Support/VIntage
-[ ] App-specific settings (to get find to work nicely in each app) -- then fix bugs
+[ ] App-specific settings (to get find to work nicely in each app) 
+    [ ] Then: better xcode find
+    
 [ ] Read Active Applications from a file
 [ ] Icon
 [ ] Nicer-looking visual indicator
+
+LATER
+[ ] Use acessibility to implement fX, better a, etc
 
 BUGS
 [ ] Escape should get you out of find mode - requires different settings for different apps! Oh no! - or just an override

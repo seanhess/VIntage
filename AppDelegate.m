@@ -14,7 +14,7 @@
 #import "FocusObserver.h"
 #import "Parser.h"
 #import "HotKeyGroup.h"
-#import "AccessText.h"
+#import "CarbonAccessText.h"
 
 @implementation AppDelegate
 
@@ -22,7 +22,7 @@
 
 - (void)testAccessText:(id)sender {
     NSLog(@"ACCESS");
-    [AccessText test];
+    [CarbonAccessText test];
 }
 
 

@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AccessText : NSObject
+@interface CarbonAccessText : NSObject
 +(void) test;
 @end
