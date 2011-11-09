@@ -26,8 +26,31 @@ OPTIONS
 CRAZY IDEAS
 [ ] Overwrite mode? -- doesn't look like it
 [ ] Put applications into a simple file, and read that (easy!) -- completely override with their apps? -- use simple names
-[ ] Manual Overwrite mode. Manua
+[ ] Manual Overwrite mode. Manual -- No, it'd kind lame because it moves your cursor to the beginning of the line
 [ ] Incremental Search -- no luck
+
+
+
+http://stackoverflow.com/questions/841024/cocoa-what-nstextview-the-insertion-point-is-currently-blinking-in
+
+
+http://stackoverflow.com/questions/6544311/how-to-show-nspanel-on-selected-text-on-hot-key-press-on-current-active-app
+--- can get bounds of current selection 
+--- services can grab current text selection
+
+
+http://stackoverflow.com/questions/6316921/xcode-4-plugin-development
+---- XCode 4 Plugin Development
+---- https://github.com/0xced/CLITool-InfoPlist -- working example
+---- but they are undocumented. Apple would certainly never let me use them :)
+
+
+
+http://developer.apple.com/library/mac/#documentation/Accessibility/Reference/AccessibilityCarbonRef/Reference/reference.html
+--- All your options for that carbon API
+
+
+
 
 
 

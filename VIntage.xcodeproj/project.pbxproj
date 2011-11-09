@@ -16,6 +16,8 @@
 		7861109A12E16D50009B30A4 /* HotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7861109912E16D50009B30A4 /* HotKey.m */; };
 		7865F4521464E93000A19207 /* defaults.vintage in Resources */ = {isa = PBXBuildFile; fileRef = 7865F4511464E93000A19207 /* defaults.vintage */; };
 		7865F4551464EAC500A19207 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7865F4541464EAC500A19207 /* Parser.m */; };
+		787FE0F6146A02CD00C7A80D /* AccessText.m in Sources */ = {isa = PBXBuildFile; fileRef = 787FE0F5146A02CD00C7A80D /* AccessText.m */; };
+		787FE0F8146A0B0800C7A80D /* accessibilityConstants.txt in Resources */ = {isa = PBXBuildFile; fileRef = 787FE0F7146A0B0800C7A80D /* accessibilityConstants.txt */; };
 		78BFAD7D12E436DF00C1FA5C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BFAD7C12E436DF00C1FA5C /* Command.m */; };
 		78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB70B12E45E7A00A08E29 /* RegexKitLite.m */; };
 		78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D47FF412E4E37E00BB510A /* Ninja-Small.png */; };
@@ -52,6 +54,9 @@
 		7865F4511464E93000A19207 /* defaults.vintage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = defaults.vintage; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		7865F4531464EAC500A19207 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		7865F4541464EAC500A19207 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		787FE0F4146A02CD00C7A80D /* AccessText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessText.h; sourceTree = "<group>"; };
+		787FE0F5146A02CD00C7A80D /* AccessText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessText.m; sourceTree = "<group>"; };
+		787FE0F7146A0B0800C7A80D /* accessibilityConstants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = accessibilityConstants.txt; sourceTree = "<group>"; };
 		78BFAD7B12E436DF00C1FA5C /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
 		78BFAD7C12E436DF00C1FA5C /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Command.m; sourceTree = "<group>"; };
 		78CCB70A12E45E7A00A08E29 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
@@ -79,6 +84,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				787FE0F3146A02CD00C7A80D /* Tests */,
 				256AC3D80F4B6AC300CF3369 /* AppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* AppDelegate.m */,
 				7847C62D1465A56C00B879C8 /* FocusObserver.h */,
@@ -134,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				78606D5B1464A8EA008A47FD /* Todo.txt */,
+				787FE0F7146A0B0800C7A80D /* accessibilityConstants.txt */,
 				7865F4511464E93000A19207 /* defaults.vintage */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -172,6 +179,15 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		787FE0F3146A02CD00C7A80D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				787FE0F4146A02CD00C7A80D /* AccessText.h */,
+				787FE0F5146A02CD00C7A80D /* AccessText.m */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +248,7 @@
 				78D47FF512E4E37E00BB510A /* Ninja-Small.png in Resources */,
 				78D4800912E4E3F700BB510A /* Ninja.icns in Resources */,
 				7865F4521464E93000A19207 /* defaults.vintage in Resources */,
+				787FE0F8146A0B0800C7A80D /* accessibilityConstants.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +268,7 @@
 				78CCB70C12E45E7A00A08E29 /* RegexKitLite.m in Sources */,
 				7865F4551464EAC500A19207 /* Parser.m in Sources */,
 				7847C62F1465A56C00B879C8 /* FocusObserver.m in Sources */,
+				787FE0F6146A02CD00C7A80D /* AccessText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

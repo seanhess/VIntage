@@ -14,10 +14,17 @@
 #import "FocusObserver.h"
 #import "Parser.h"
 #import "HotKeyGroup.h"
+#import "AccessText.h"
 
 @implementation AppDelegate
 
 @synthesize window, statusItem, modeWindow, focus;
+
+- (void)testAccessText:(id)sender {
+    NSLog(@"ACCESS");
+    [AccessText test];
+}
+
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
@@ -56,12 +63,8 @@
 
 //    [statusItem setAttributedTitle:blueTitle]; 
 //    [blueTitle release];    
-    
-//	NSMenu * menu = [[NSMenu alloc] initWithTitle:@""];
-//	[menu addItemWithTitle:@"Quit Input Ninja" action:@selector(quit:) keyEquivalent:@""];
-//	[statusItem setMenu:menu];
 
-//	[menu release];
+
     
     
 
@@ -93,7 +96,20 @@
     
     [keys activateGroupWithName:@"command"];
 
-    [keys listen];         
+    [keys listen];      
+    
+       
+          
+             
+                
+                   
+    // HACK AND SUCH
+    
+	NSMenu * menu = [[NSMenu alloc] initWithTitle:@""];
+	[menu addItemWithTitle:@"Access Text" action:@selector(testAccessText:) keyEquivalent:@""];
+	[statusItem setMenu:menu];
+
+	[menu release];                         
     
 }
 
