@@ -24,6 +24,8 @@ RESEARCH
 [ ] Magic Mac Keyboard stuff? 
 [ ] Can I put borders ALL around the screen (but make them smaller?)
 
+[ ] Can I get the CGPoint of the insertion point? Then I could draw a box
+
 OPTIONS
 [ ] Figure out how to do a "Stop All" so that we don't have to specify all the combos
 [ ] "." character for simple stuff - just log ALL the keystrokes when in insert mode? No, it's really about what was inserted. 

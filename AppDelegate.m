@@ -15,6 +15,7 @@
 #import "Parser.h"
 #import "HotKeyGroup.h"
 #import "CarbonAccessText.h"
+#import "CocoaAccessTest.h"
 
 @implementation AppDelegate
 
@@ -23,6 +24,11 @@
 - (void)testAccessText:(id)sender {
     NSLog(@"ACCESS");
     [CarbonAccessText test];
+    [CocoaAccessTest test];
+}
+
+- (void)quit:(id)sender {
+    [[NSApplication sharedApplication] terminate:nil];
 }
 
 
@@ -107,6 +113,7 @@
     
 	NSMenu * menu = [[NSMenu alloc] initWithTitle:@""];
 	[menu addItemWithTitle:@"Access Text" action:@selector(testAccessText:) keyEquivalent:@""];
+    [menu addItemWithTitle:@"Quit VIntage" action:@selector(quit:) keyEquivalent:@""];
 	[statusItem setMenu:menu];
 
 	[menu release];                         
